@@ -223,6 +223,7 @@ MonoBehaviour:
   acceleration: 100
   jumpVelocity: 15
   gravity: -50
+  cameraTransform: {fileID: 1896780985}
 --- !u!1 &688627599
 GameObject:
   m_ObjectHideFlags: 0
