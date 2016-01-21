@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour {
     public float jumpVelocity = 15.0f;
     public float gravity = -50.0f;
 
-    public Transform cameraTransform = null;
+    Transform cameraTransform = null;
 
     CharacterController controller = null;
     Vector3 movement = Vector3.zero;
@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         controller = GetComponent<CharacterController>();
+        cameraTransform = FindObjectOfType<Camera>().transform;
 	}
 	
 	// Update is called once per frame
@@ -44,5 +45,10 @@ public class PlayerMovement : MonoBehaviour {
 
         //Apply movement
         controller.Move(movement * Time.deltaTime);
+
+        //Die if below the map
+        if (transform.position.y < 0.0f) {
+            SendMessage("Damage", Time.deltaTime);
+        }
 	}
 }
