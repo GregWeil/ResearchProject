@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public float moveSpeed = 7.5f;
     public float acceleration = 100.0f;
+    public float rotationSpeed = 540.0f;
 
     public float jumpVelocity = 15.0f;
     public float gravity = -50.0f;
@@ -13,7 +14,6 @@ public class PlayerMovement : MonoBehaviour {
 
     CharacterController controller = null;
     Vector3 movement = Vector3.zero;
-    float rotVelocity = 0.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -35,6 +35,11 @@ public class PlayerMovement : MonoBehaviour {
         movement = new Vector3(currentMovement.x, movement.y, currentMovement.z);
         if (controller.isGrounded && Input.GetButton("Jump")) {
             movement.y += jumpVelocity;
+        }
+
+        //Rotate to face forward
+        if (goalMovement.sqrMagnitude > 0.1f) {
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(goalMovement, Vector3.up), (rotationSpeed * Time.deltaTime));
         }
 
         //Apply movement

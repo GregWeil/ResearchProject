@@ -221,6 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   acceleration: 100
+  rotationSpeed: 540
   jumpVelocity: 15
   gravity: -50
   cameraTransform: {fileID: 1896780985}
