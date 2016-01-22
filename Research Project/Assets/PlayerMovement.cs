@@ -51,4 +51,11 @@ public class PlayerMovement : MonoBehaviour {
             SendMessage("Damage", Time.deltaTime);
         }
 	}
+
+    void OnControllerColliderHit(ControllerColliderHit hit) {
+        Rigidbody body = hit.collider.attachedRigidbody;
+        if (body == null || body.isKinematic) return;
+        
+        body.AddForceAtPosition(-hit.normal * 2000.0f * Time.deltaTime, hit.point);
+    }
 }
