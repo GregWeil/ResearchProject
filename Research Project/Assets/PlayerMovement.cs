@@ -44,7 +44,11 @@ public class PlayerMovement : MonoBehaviour {
         }
 
         //Apply movement
-        controller.Move(movement * Time.deltaTime);
+		Vector3 groundMovement = Vector3.Scale(movement, new Vector3(1, 0, 1));
+		if (controller.isGrounded && movement.y <= 0) {
+			movement.y = Mathf.Min (-groundMovement.magnitude * Mathf.Tan(controller.slopeLimit), movement.y);
+		}
+		controller.Move(movement * Time.deltaTime);
 
         //Die if below the map
         if (transform.position.y < 0.0f) {
