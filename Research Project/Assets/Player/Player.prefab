@@ -172,7 +172,6 @@ MonoBehaviour:
   rotationSpeed: 540
   jumpVelocity: 15
   gravity: -50
-  cameraTransform: {fileID: 0}
 --- !u!114 &11454188
 MonoBehaviour:
   m_ObjectHideFlags: 1
