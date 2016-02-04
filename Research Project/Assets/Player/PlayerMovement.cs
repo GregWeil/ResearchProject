@@ -25,7 +25,9 @@ public class PlayerMovement : MonoBehaviour {
 
         //Update velocity
         Vector3 vel = new Vector3(body.velocity.x, 0.0f, body.velocity.z);
-        body.AddForce(15.0f * ((5.0f * movement) - vel));
+        Vector3 goalVel = (5.0f * movement * 1.0f * Mathf.Cos(groundAngle * Mathf.Deg2Rad));
+        float accel = grounded ? 15.0f : 10.0f;
+        body.AddForce(accel * (goalVel - vel));
 
         //Rotate to face forward
         if (movement.sqrMagnitude > 0.1f) {
@@ -36,14 +38,15 @@ public class PlayerMovement : MonoBehaviour {
         grounded = false;
         if (!grounded) {
             groundNormal = Vector3.up;
-            groundAngle = 180f;
+            groundAngle = 0f;
         }
     }
 
     void OnCollisionStay (Collision col) {
+        if (!grounded) groundAngle = 180f;
         foreach (var contact in col.contacts) {
             var angle = Vector3.Angle(contact.normal, Vector3.up);
-            if (angle < Mathf.Min(45f, groundAngle)) {
+            if (angle <= Mathf.Min(45f, groundAngle)) {
                 groundAngle = angle;
                 groundNormal = contact.normal;
                 grounded = true;
@@ -61,7 +64,7 @@ public class PlayerMovement : MonoBehaviour {
         if (movement.sqrMagnitude > 1.0f) movement.Normalize();
         
         if (Input.GetButtonDown("Jump") && grounded) {
-            body.velocity += (15.0f * groundNormal);
+            body.velocity += (15.0f * Vector3.up);
             grounded = false;
         }
 
