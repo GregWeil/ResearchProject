@@ -41,6 +41,7 @@ public class PlayerMovement : MonoBehaviour {
         if (groundBody != null) {
             goalVel += groundBody.GetPointVelocity(groundContact);
         }
+        goalVel.y = 0f;
         float accel = grounded ? 15.0f : 10.0f;
         body.AddForce(accel * (goalVel - vel));
 
