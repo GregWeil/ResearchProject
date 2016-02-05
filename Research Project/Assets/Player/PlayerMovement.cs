@@ -21,7 +21,13 @@ public class PlayerMovement : MonoBehaviour {
 	}
 	
     void FixedUpdate () {
-        body.AddForce(50.0f * -groundNormal);
+        if (!grounded) {
+            groundNormal = Vector3.up;
+            groundAngle = 0f;
+        }
+
+        //Apply gravity
+        body.AddForce(50f * -groundNormal);
 
         //Update velocity
         Vector3 vel = new Vector3(body.velocity.x, 0.0f, body.velocity.z);
@@ -36,19 +42,16 @@ public class PlayerMovement : MonoBehaviour {
 
         //Reset grounded
         grounded = false;
-        if (!grounded) {
-            groundNormal = Vector3.up;
-            groundAngle = 0f;
-        }
+        groundNormal = Vector3.up;
+        groundAngle = 180f;
     }
 
     void OnCollisionStay (Collision col) {
-        if (!grounded) groundAngle = 180f;
         foreach (var contact in col.contacts) {
             var angle = Vector3.Angle(contact.normal, Vector3.up);
             if (angle <= Mathf.Min(45f, groundAngle)) {
-                groundAngle = angle;
                 groundNormal = contact.normal;
+                groundAngle = angle;
                 grounded = true;
             }
         }
