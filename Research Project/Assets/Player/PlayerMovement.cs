@@ -8,8 +8,10 @@ public class PlayerMovement : MonoBehaviour {
 
     //Grounded
     bool grounded = false;
+    Vector3 groundContact = Vector3.zero;
     Vector3 groundNormal = Vector3.up;
     float groundAngle = 0f;
+    GameObject groundObject = null;
 
     Transform cameraTransform = null;
     Rigidbody body = null;
@@ -21,9 +23,13 @@ public class PlayerMovement : MonoBehaviour {
 	}
 	
     void FixedUpdate () {
+        Rigidbody groundBody = null;
         if (!grounded) {
+            groundContact = Vector3.zero;
             groundNormal = Vector3.up;
             groundAngle = 0f;
+        } else {
+            groundBody = groundObject.GetComponent<Rigidbody>();
         }
 
         //Apply gravity
@@ -32,27 +38,37 @@ public class PlayerMovement : MonoBehaviour {
         //Update velocity
         Vector3 vel = new Vector3(body.velocity.x, 0.0f, body.velocity.z);
         Vector3 goalVel = (5.0f * movement * 1.0f * Mathf.Cos(groundAngle * Mathf.Deg2Rad));
+        if (groundBody != null) {
+            goalVel += groundBody.GetPointVelocity(groundContact);
+        }
         float accel = grounded ? 15.0f : 10.0f;
         body.AddForce(accel * (goalVel - vel));
 
         //Rotate to face forward
-        if (movement.sqrMagnitude > 0.1f) {
+        if (groundBody != null) {
+            body.MoveRotation(body.rotation * Quaternion.Euler(groundBody.angularVelocity * Time.fixedDeltaTime * Mathf.Rad2Deg));
+        }
+        if (movement.magnitude > 0.1f) {
             body.MoveRotation(Quaternion.RotateTowards(body.rotation, Quaternion.LookRotation(movement, Vector3.up), (500.0f * Time.fixedDeltaTime)));
         }
 
         //Reset grounded
         grounded = false;
+        groundContact = Vector3.zero;
         groundNormal = Vector3.up;
         groundAngle = 180f;
+        groundObject = null;
     }
 
     void OnCollisionStay (Collision col) {
         foreach (var contact in col.contacts) {
             var angle = Vector3.Angle(contact.normal, Vector3.up);
             if (angle <= Mathf.Min(45f, groundAngle)) {
+                groundContact = contact.point;
                 groundNormal = contact.normal;
                 groundAngle = angle;
                 grounded = true;
+                groundObject = col.gameObject;
             }
         }
     }
