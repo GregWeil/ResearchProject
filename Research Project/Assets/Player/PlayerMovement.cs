@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour {
 
         //Rotate to face forward
         if (groundBody != null) {
-            body.MoveRotation(body.rotation * Quaternion.Euler(groundBody.angularVelocity * Time.fixedDeltaTime * Mathf.Rad2Deg));
+            body.MoveRotation(body.rotation * Quaternion.AngleAxis(groundBody.angularVelocity.y * Time.fixedDeltaTime * Mathf.Rad2Deg, Vector3.up));
         }
         if (movement.magnitude > 0.1f) {
             body.MoveRotation(Quaternion.RotateTowards(body.rotation, Quaternion.LookRotation(movement, Vector3.up), (500.0f * Time.fixedDeltaTime)));
