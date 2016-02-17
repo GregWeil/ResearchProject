@@ -15,11 +15,13 @@ public class PlayerMovement : MonoBehaviour {
 
     Transform cameraTransform = null;
     Rigidbody body = null;
+    Animator anim = null;
 
 	// Use this for initialization
 	void Start () {
         body = GetComponent<Rigidbody>();
         cameraTransform = FindObjectOfType<Camera>().transform;
+        anim = GetComponentInChildren<Animator>();
 	}
 	
     void FixedUpdate () {
@@ -52,6 +54,11 @@ public class PlayerMovement : MonoBehaviour {
         if (movement.magnitude > 0.1f) {
             body.MoveRotation(Quaternion.RotateTowards(body.rotation, Quaternion.LookRotation(movement, Vector3.up), (500.0f * Time.fixedDeltaTime)));
         }
+
+        //Update animation
+        anim.SetBool("Grounded", grounded);
+        anim.SetFloat("SpeedGround", vel.magnitude);
+        anim.SetFloat("SpeedVertical", body.velocity.y);
 
         //Reset grounded
         grounded = false;
