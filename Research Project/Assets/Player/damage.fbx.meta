@@ -114,11 +114,11 @@ ModelImporter:
     400104: wrist_L
     400106: wrist_R
     4300000: hoplite3:Mesh
-    7400000: Take 001
+    7400000: damage
     9500000: //RootNode
     13700000: hoplite3:Mesh
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
   animations:
@@ -137,7 +137,143 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: damage
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 18
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: hoplite
+        weight: 1
+      - path: hoplite/abdomen
+        weight: 1
+      - path: hoplite/abdomen/core
+        weight: 1
+      - path: hoplite/abdomen/core/neck
+        weight: 1
+      - path: hoplite/abdomen/core/neck/head
+        weight: 1
+      - path: hoplite/abdomen/core/shoulder_L
+        weight: 1
+      - path: hoplite/abdomen/core/shoulder_L/elbow_L
+        weight: 1
+      - path: hoplite/abdomen/core/shoulder_L/elbow_L/wrist_L
+        weight: 1
+      - path: hoplite/abdomen/core/shoulder_R
+        weight: 1
+      - path: hoplite/abdomen/core/shoulder_R/elbow_R
+        weight: 1
+      - path: hoplite/abdomen/core/shoulder_R/elbow_R/wrist_R
+        weight: 1
+      - path: hoplite/abdomen/hip_L
+        weight: 1
+      - path: hoplite/abdomen/hip_L/knee_L
+        weight: 1
+      - path: hoplite/abdomen/hip_L/knee_L/ankle_L
+        weight: 1
+      - path: hoplite/abdomen/hip_L/knee_L/ankle_L/foot_L
+        weight: 1
+      - path: hoplite/abdomen/hip_L/knee_L/ankle_L/foot_L/toe_L
+        weight: 1
+      - path: hoplite/abdomen/hip_R
+        weight: 1
+      - path: hoplite/abdomen/hip_R/knee_R
+        weight: 1
+      - path: hoplite/abdomen/hip_R/knee_R/ankle_R
+        weight: 1
+      - path: hoplite/abdomen/hip_R/knee_R/ankle_R/foot_R
+        weight: 1
+      - path: hoplite/abdomen/hip_R/knee_R/ankle_R/foot_R/toe_R
+        weight: 1
+      - path: hoplite/group5
+        weight: 1
+      - path: hoplite/group5/leftfootiks
+        weight: 1
+      - path: hoplite/group5/leftfootiks/group3
+        weight: 1
+      - path: hoplite/group5/leftfootiks/group3/leftankle_ik
+        weight: 1
+      - path: hoplite/group5/leftfootiks/group3/leftball_ik
+        weight: 1
+      - path: hoplite/group5/leftfootiks/group4
+        weight: 1
+      - path: hoplite/group5/leftfootiks/group4/leftleg_ik
+        weight: 1
+      - path: hoplite/group6
+        weight: 1
+      - path: hoplite/group6/rightfootiks
+        weight: 1
+      - path: hoplite/group6/rightfootiks/group1
+        weight: 1
+      - path: hoplite/group6/rightfootiks/group1/rightankle_ik
+        weight: 1
+      - path: hoplite/group6/rightfootiks/group1/rightball_ik
+        weight: 1
+      - path: hoplite/group6/rightfootiks/group2
+        weight: 1
+      - path: hoplite/group6/rightfootiks/group2/rightleg_ik
+        weight: 1
+      - path: hoplite/hoplite3:Mesh
+        weight: 1
+      - path: hoplite/leftarm_ik
+        weight: 1
+      - path: hoplite/rightarm_ik
+        weight: 1
+      - path: nurbsCircle1
+        weight: 1
+      - path: nurbsCircle2
+        weight: 1
+      - path: nurbsCircle3
+        weight: 1
+      - path: nurbsCircle4
+        weight: 1
+      - path: nurbsCircle5
+        weight: 1
+      - path: nurbsCircle6
+        weight: 1
+      - path: nurbsCircle7
+        weight: 1
+      - path: nurbsCircle8
+        weight: 1
+      - path: nurbsCircle9
+        weight: 1
+      - path: nurbsCircle10
+        weight: 1
+      - path: nurbsCircle11
+        weight: 1
+      - path: nurbsCircle12
+        weight: 1
+      - path: nurbsCircle13
+        weight: 1
+      - path: nurbsCircle14
+        weight: 1
+      - path: nurbsCircle15
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []

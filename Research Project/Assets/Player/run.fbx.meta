@@ -56,7 +56,7 @@ ModelImporter:
     400046: wrist_L
     400048: wrist_R
     4300000: hoplite3:Mesh
-    7400000: Take 001
+    7400000: run
     9500000: //RootNode
     13700000: hoplite3:Mesh
   materials:
@@ -81,7 +81,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Take 001
+      name: run
       takeName: Take 001
       firstFrame: 1
       lastFrame: 23
@@ -161,7 +161,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 42
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
