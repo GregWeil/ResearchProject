@@ -39,11 +39,13 @@ public class PlayerMovement : MonoBehaviour {
 
         //Update velocity
         Vector3 vel = new Vector3(body.velocity.x, 0.0f, body.velocity.z);
-        Vector3 goalVel = (5.0f * movement * 1.0f * Mathf.Cos(groundAngle * Mathf.Deg2Rad));
+        Vector3 goalVel = (5.0f * movement * Mathf.Cos(groundAngle * Mathf.Deg2Rad));
+        Vector3 groundVel = Vector3.zero;
         if (groundBody != null) {
-            goalVel += groundBody.GetPointVelocity(groundContact);
+            groundVel += groundBody.GetPointVelocity(groundContact);
+            groundVel.y = 0f;
         }
-        goalVel.y = 0f;
+        goalVel += groundVel;
         float accel = grounded ? 15.0f : 10.0f;
         body.AddForce(accel * (goalVel - vel));
 
@@ -57,7 +59,7 @@ public class PlayerMovement : MonoBehaviour {
 
         //Update animation
         anim.SetBool("Grounded", grounded);
-        anim.SetFloat("SpeedGround", vel.magnitude);
+        anim.SetFloat("SpeedGround", (vel - groundVel).magnitude);
         anim.SetFloat("SpeedVertical", body.velocity.y);
 
         //Reset grounded

@@ -14,7 +14,7 @@ public class MovingPlatform : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        body.MovePosition(basePos + 0.5f * Vector3.forward * Time.time);
+        body.MovePosition(basePos + 10f * Vector3.forward * Mathf.Sin(Time.time));
         body.MoveRotation(body.rotation * Quaternion.AngleAxis(10f * Time.fixedDeltaTime, Vector3.up));
     }
 }
