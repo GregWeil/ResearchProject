@@ -1,0 +1,186 @@
+fileFormatVersion: 2
+guid: 6e054ece1e23e26478186c4bd6a2d583
+timeCreated: 1455740657
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: abdomen
+    100002: ankle_L
+    100004: ankle_R
+    100006: bottom
+    100008: core
+    100010: elbow_L
+    100012: elbow_R
+    100014: foot_L
+    100016: foot_R
+    100018: group1
+    100020: group2
+    100022: group3
+    100024: group4
+    100026: group5
+    100028: group6
+    100030: head
+    100032: hip_L
+    100034: hip_R
+    100036: //RootNode
+    100038: hoplite
+    100040: hoplite3:Mesh
+    100042: knee_L
+    100044: knee_R
+    100046: left
+    100048: leftankle_ik
+    100050: leftarm_ik
+    100052: leftball_ik
+    100054: leftfootiks
+    100056: leftleg_ik
+    100058: neck
+    100060: nurbsCircle1
+    100062: nurbsCircle10
+    100064: nurbsCircle11
+    100066: nurbsCircle12
+    100068: nurbsCircle13
+    100070: nurbsCircle14
+    100072: nurbsCircle15
+    100074: nurbsCircle2
+    100076: nurbsCircle3
+    100078: nurbsCircle4
+    100080: nurbsCircle5
+    100082: nurbsCircle6
+    100084: nurbsCircle7
+    100086: nurbsCircle8
+    100088: nurbsCircle9
+    100090: rightankle_ik
+    100092: rightarm_ik
+    100094: rightball_ik
+    100096: rightfootiks
+    100098: rightleg_ik
+    100100: shoulder_L
+    100102: shoulder_R
+    100104: toe_L
+    100106: toe_R
+    100108: wrist_L
+    100110: wrist_R
+    400000: abdomen
+    400002: ankle_L
+    400004: ankle_R
+    400006: bottom
+    400008: core
+    400010: elbow_L
+    400012: elbow_R
+    400014: foot_L
+    400016: foot_R
+    400018: group1
+    400020: group2
+    400022: group3
+    400024: group4
+    400026: group5
+    400028: group6
+    400030: head
+    400032: hip_L
+    400034: hip_R
+    400036: //RootNode
+    400038: hoplite
+    400040: hoplite3:Mesh
+    400042: knee_L
+    400044: knee_R
+    400046: left
+    400048: leftankle_ik
+    400050: leftarm_ik
+    400052: leftball_ik
+    400054: leftfootiks
+    400056: leftleg_ik
+    400058: neck
+    400060: nurbsCircle1
+    400062: nurbsCircle10
+    400064: nurbsCircle11
+    400066: nurbsCircle12
+    400068: nurbsCircle13
+    400070: nurbsCircle14
+    400072: nurbsCircle15
+    400074: nurbsCircle2
+    400076: nurbsCircle3
+    400078: nurbsCircle4
+    400080: nurbsCircle5
+    400082: nurbsCircle6
+    400084: nurbsCircle7
+    400086: nurbsCircle8
+    400088: nurbsCircle9
+    400090: rightankle_ik
+    400092: rightarm_ik
+    400094: rightball_ik
+    400096: rightfootiks
+    400098: rightleg_ik
+    400100: shoulder_L
+    400102: shoulder_R
+    400104: toe_L
+    400106: toe_R
+    400108: wrist_L
+    400110: wrist_R
+    4300000: hoplite3:Mesh
+    9500000: //RootNode
+    13700000: hoplite3:Mesh
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
