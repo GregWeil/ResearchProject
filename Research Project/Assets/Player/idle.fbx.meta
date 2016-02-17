@@ -1,0 +1,203 @@
+fileFormatVersion: 2
+guid: 122c03d330e39f9489f3f67024a20b45
+timeCreated: 1455742481
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: abdomen
+    100002: ankle_L
+    100004: ankle_R
+    100006: bottom
+    100008: core
+    100010: elbow_L
+    100012: elbow_R
+    100014: foot_L
+    100016: foot_R
+    100018: head
+    100020: hip_L
+    100022: hip_R
+    100024: hoplite
+    100026: hoplite3:Mesh
+    100028: //RootNode
+    100030: knee_L
+    100032: knee_R
+    100034: left
+    100036: neck
+    100038: shoulder_L
+    100040: shoulder_R
+    100042: toe_L
+    100044: toe_R
+    100046: wrist_L
+    100048: wrist_R
+    400000: abdomen
+    400002: ankle_L
+    400004: ankle_R
+    400006: bottom
+    400008: core
+    400010: elbow_L
+    400012: elbow_R
+    400014: foot_L
+    400016: foot_R
+    400018: head
+    400020: hip_L
+    400022: hip_R
+    400024: hoplite
+    400026: hoplite3:Mesh
+    400028: //RootNode
+    400030: knee_L
+    400032: knee_R
+    400034: left
+    400036: neck
+    400038: shoulder_L
+    400040: shoulder_R
+    400042: toe_L
+    400044: toe_R
+    400046: wrist_L
+    400048: wrist_R
+    4300000: hoplite3:Mesh
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: hoplite3:Mesh
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: bottom
+        weight: 1
+      - path: hoplite
+        weight: 1
+      - path: hoplite/abdomen
+        weight: 1
+      - path: hoplite/abdomen/core
+        weight: 1
+      - path: hoplite/abdomen/core/neck
+        weight: 1
+      - path: hoplite/abdomen/core/neck/head
+        weight: 1
+      - path: hoplite/abdomen/core/shoulder_L
+        weight: 1
+      - path: hoplite/abdomen/core/shoulder_L/elbow_L
+        weight: 1
+      - path: hoplite/abdomen/core/shoulder_L/elbow_L/wrist_L
+        weight: 1
+      - path: hoplite/abdomen/core/shoulder_R
+        weight: 1
+      - path: hoplite/abdomen/core/shoulder_R/elbow_R
+        weight: 1
+      - path: hoplite/abdomen/core/shoulder_R/elbow_R/wrist_R
+        weight: 1
+      - path: hoplite/abdomen/hip_L
+        weight: 1
+      - path: hoplite/abdomen/hip_L/knee_L
+        weight: 1
+      - path: hoplite/abdomen/hip_L/knee_L/ankle_L
+        weight: 1
+      - path: hoplite/abdomen/hip_L/knee_L/ankle_L/foot_L
+        weight: 1
+      - path: hoplite/abdomen/hip_L/knee_L/ankle_L/foot_L/toe_L
+        weight: 1
+      - path: hoplite/abdomen/hip_R
+        weight: 1
+      - path: hoplite/abdomen/hip_R/knee_R
+        weight: 1
+      - path: hoplite/abdomen/hip_R/knee_R/ankle_R
+        weight: 1
+      - path: hoplite/abdomen/hip_R/knee_R/ankle_R/foot_R
+        weight: 1
+      - path: hoplite/abdomen/hip_R/knee_R/ankle_R/foot_R/toe_R
+        weight: 1
+      - path: hoplite/hoplite3:Mesh
+        weight: 1
+      - path: left
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
