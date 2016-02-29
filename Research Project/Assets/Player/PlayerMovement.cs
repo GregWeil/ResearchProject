@@ -35,9 +35,14 @@ public class PlayerMovement : MonoBehaviour {
         }
 
         //Apply gravity
-        body.AddForce(50f * -groundNormal);
+        body.AddForce(60f * -groundNormal);
 
-        //Update velocity
+        //Jump hover
+        if (Input.GetButton("Jump") && !grounded && (body.velocity.y > -2.5f)) {
+            body.AddForce(30.0f * Vector3.up);
+        }
+
+        //Movement velocity
         Vector3 vel = new Vector3(body.velocity.x, 0.0f, body.velocity.z);
         Vector3 goalVel = (5.0f * movement * Mathf.Cos(groundAngle * Mathf.Deg2Rad));
         Vector3 groundVel = Vector3.zero;
