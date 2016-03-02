@@ -56,10 +56,11 @@ public class PlayerMovement : MonoBehaviour {
             body.AddForce(accel * (goalVel - vel));
         } else {
             Vector3 flatSpeed = new Vector3(body.velocity.x, 0, body.velocity.z);
-            if ((flatSpeed.magnitude < 6.0f) || (Vector3.Angle(flatSpeed, movement) > 45f)) {
-                body.AddForce(40.0f * movement);
-            }
+            body.AddForce(40.0f * movement);
             body.AddForce(-0.5f * flatSpeed);
+            if (flatSpeed.magnitude > 5.5f) {
+                body.AddForce(-7.5f * flatSpeed);
+            }
         }
 
         //Rotate to face forward
