@@ -44,15 +44,23 @@ public class PlayerMovement : MonoBehaviour {
 
         //Movement velocity
         Vector3 vel = new Vector3(body.velocity.x, 0.0f, body.velocity.z);
-        Vector3 goalVel = (5.0f * movement * Mathf.Cos(groundAngle * Mathf.Deg2Rad));
         Vector3 groundVel = Vector3.zero;
         if (groundBody != null) {
             groundVel += groundBody.GetPointVelocity(groundContact);
             groundVel.y = 0f;
         }
-        goalVel += groundVel;
-        float accel = grounded ? 15.0f : 10.0f;
-        body.AddForce(accel * (goalVel - vel));
+        if (grounded) {
+            Vector3 goalVel = (5.5f * movement * Mathf.Cos(groundAngle * Mathf.Deg2Rad));
+            goalVel += groundVel;
+            float accel = grounded ? 15.0f : 10.0f;
+            body.AddForce(accel * (goalVel - vel));
+        } else {
+            Vector3 flatSpeed = new Vector3(body.velocity.x, 0, body.velocity.z);
+            if ((flatSpeed.magnitude < 6.0f) || (Vector3.Angle(flatSpeed, movement) > 45f)) {
+                body.AddForce(40.0f * movement);
+            }
+            body.AddForce(-0.5f * flatSpeed);
+        }
 
         //Rotate to face forward
         if (groundBody != null) {
@@ -105,6 +113,10 @@ public class PlayerMovement : MonoBehaviour {
         //Die if below the map
         if (transform.position.y < 0.0f) {
             SendMessage("Damage", Time.deltaTime);
+        }
+
+        if (grounded) {
+            anim.SetBool("Grounded", grounded);
         }
 	}
 }
