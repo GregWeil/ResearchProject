@@ -27,6 +27,33 @@ public class StateMachineEditor : EditorWindow {
     }
 
 
+    int stateCreate(Vector2 pos) {
+        var state = new StateMachine.State();
+        state.name = "New State " + machine.states.Count.ToString();
+        state.editorPosition = pos;
+        machine.states.Add(state);
+        return machine.states.Count;
+    }
+
+    void stateCreate(object pos) {
+        int state = stateCreate((Vector2)pos);
+        stateSelected = state;
+    }
+
+    void stateDelete(int index) {
+        machine.states.RemoveAt(index);
+        if (stateSelected == index) {
+            stateSelected = -1;
+        } else if (stateSelected > index) {
+            stateSelected -= 1;
+        }
+    }
+
+    void stateDelete(object index) {
+        stateDelete((int)index);
+    }
+
+
     void OnGUI() {
         if (machine == null) {
             GUILayout.Label("No state machine selected!");
@@ -34,6 +61,13 @@ public class StateMachineEditor : EditorWindow {
             if (Event.current.type == EventType.mouseDown) {
                 if (Event.current.mousePosition.x > panelWidth) {
                     stateSelected = -1;
+                    if (Event.current.button == 1) {
+                        Vector2 pos = Event.current.mousePosition - position.size / 2;
+                        pos.x -= panelWidth / 2;
+                        var menu = new GenericMenu();
+                        menu.AddItem(new GUIContent("New state"), false, stateCreate, pos);
+                        menu.ShowAsContext();
+                    }
                 }
             }
 
@@ -49,8 +83,16 @@ public class StateMachineEditor : EditorWindow {
     void DrawStateWindow(int id) {
         if (Event.current.type == EventType.mouseDown) {
             stateSelected = id;
+            if (Event.current.button == 1) {
+                var menu = new GenericMenu();
+                menu.AddItem(new GUIContent("Remove"), false, stateDelete, id);
+                menu.ShowAsContext();
+                Event.current.Use();
+            }
         }
+
         GUILayout.Label(machine.states[id].name);
+
         GUI.DragWindow();
     }
 
@@ -75,23 +117,10 @@ public class StateMachineEditor : EditorWindow {
 
         GUILayout.Space(16);
 
-        if (GUILayout.Button("Add State")) {
-            var state = new StateMachine.State();
-            state.name = machine.states.Count.ToString();
-            state.editorPosition = Vector2.zero;
-            machine.states.Add(state);
-        }
-
-        GUILayout.Space(16);
-
         if (stateSelected >= machine.states.Count) stateSelected = -1;
         if (stateSelected >= 0) {
             var state = machine.states[stateSelected];
             GUILayout.Label(state.name);
-            if (GUILayout.Button("Remove state")) {
-                machine.states.RemoveAt(stateSelected);
-                stateSelected = -1;
-            }
         }
     }
 
