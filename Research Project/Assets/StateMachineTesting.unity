@@ -112,6 +112,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7c13c3a26aab848867971803fa3c34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  states:
+  - name: 0
+    editorPosition: {x: 414, y: 165.5}
+  - name: 1
+    editorPosition: {x: 637, y: 182.5}
 --- !u!4 &285233807
 Transform:
   m_ObjectHideFlags: 0
@@ -237,6 +242,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7c13c3a26aab848867971803fa3c34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  states:
+  - name: 0
+    editorPosition: {x: 544, y: 296.5}
 --- !u!4 &1229214327
 Transform:
   m_ObjectHideFlags: 0
