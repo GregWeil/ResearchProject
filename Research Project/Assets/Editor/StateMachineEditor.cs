@@ -120,7 +120,7 @@ public class StateMachineEditor : EditorWindow {
         if (stateSelected >= machine.states.Count) stateSelected = -1;
         if (stateSelected >= 0) {
             var state = machine.states[stateSelected];
-            GUILayout.Label(state.name);
+            state.name = GUILayout.TextField(state.name);
         }
     }
 
