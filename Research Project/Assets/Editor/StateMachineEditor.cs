@@ -11,10 +11,11 @@ public class StateMachineEditor : EditorWindow {
     }
 
 
-    StateMachine machine = null;
-
     Vector2 stateSize = new Vector2(128, 64);
     float panelWidth = 250;
+
+    StateMachine machine = null;
+    int stateSelected = -1;
 
     public void ShowWithTarget(StateMachine target) {
         machine = target;
@@ -30,7 +31,14 @@ public class StateMachineEditor : EditorWindow {
         if (machine == null) {
             GUILayout.Label("No state machine selected!");
         } else {
+            if (Event.current.type == EventType.mouseDown) {
+                if (Event.current.mousePosition.x > panelWidth) {
+                    stateSelected = -1;
+                }
+            }
+
             DrawStateWindows();
+
             GUILayout.BeginArea(new Rect(0, 0, panelWidth, position.height), GUI.skin.box);
             DrawPanelContent();
             GUILayout.EndArea();
@@ -39,6 +47,9 @@ public class StateMachineEditor : EditorWindow {
 
 
     void DrawStateWindow(int id) {
+        if (Event.current.type == EventType.mouseDown) {
+            stateSelected = id;
+        }
         GUILayout.Label(machine.states[id].name);
         GUI.DragWindow();
     }
@@ -49,7 +60,7 @@ public class StateMachineEditor : EditorWindow {
         stateOffset.x += panelWidth / 2;
         for (var i = 0; i < machine.states.Count; ++i) {
             var rect = new Rect(machine.states[i].editorPosition + stateOffset, stateSize);
-            rect = GUI.Window(i, rect, DrawStateWindow, new GUIContent(), GUI.skin.box);
+            rect = GUI.Window(i, rect, DrawStateWindow, new GUIContent());
             machine.states[i].editorPosition = rect.position - stateOffset;
         }
         EndWindows();
@@ -69,6 +80,18 @@ public class StateMachineEditor : EditorWindow {
             state.name = machine.states.Count.ToString();
             state.editorPosition = Vector2.zero;
             machine.states.Add(state);
+        }
+
+        GUILayout.Space(16);
+
+        if (stateSelected >= machine.states.Count) stateSelected = -1;
+        if (stateSelected >= 0) {
+            var state = machine.states[stateSelected];
+            GUILayout.Label(state.name);
+            if (GUILayout.Button("Remove state")) {
+                machine.states.RemoveAt(stateSelected);
+                stateSelected = -1;
+            }
         }
     }
 
