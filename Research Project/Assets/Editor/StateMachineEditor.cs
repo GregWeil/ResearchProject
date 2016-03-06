@@ -17,7 +17,7 @@ public class StateMachineEditor : EditorWindow {
     StateMachine machine = null;
 
     Vector2 origin = Vector2.zero;
-    int stateSelected = -1;
+    StateMachine.State stateSelected = null;
 
 
     public void ShowWithTarget(StateMachine target) {
@@ -32,26 +32,20 @@ public class StateMachineEditor : EditorWindow {
 
     //State interaction
 
-    int stateCreate(Vector2 pos) {
+    StateMachine.State stateCreate(Vector2 pos) {
         var state = new StateMachine.State();
         state.name = "New State " + machine.states.Count.ToString();
         state.editorPosition = pos;
         machine.states.Add(state);
-        return (machine.states.Count - 1);
+        return state;
     }
 
     void stateDelete(int index) {
         machine.states.RemoveAt(index);
-        if (stateSelected == index) {
-            stateSelected = -1;
-        } else if (stateSelected > index) {
-            stateSelected -= 1;
-        }
     }
 
     void stateCreate(object pos) {
-        int state = stateCreate((Vector2)pos);
-        stateSelected = state;
+        stateSelected = stateCreate((Vector2)pos);
     }
 
     void stateDelete(object index) {
@@ -69,7 +63,7 @@ public class StateMachineEditor : EditorWindow {
         } else {
             if (Event.current.type == EventType.mouseDown) {
                 if (Event.current.mousePosition.x > panelWidth) {
-                    stateSelected = -1;
+                    stateSelected = null;
                     if (Event.current.button == 1) {
                         Vector2 pos = Event.current.mousePosition - origin;
                         var menu = new GenericMenu();
@@ -92,10 +86,12 @@ public class StateMachineEditor : EditorWindow {
 
     void DrawStateWindow(int id) {
         //Draw a single state, and handle interactions
+        var state = machine.states[id];
 
         if (Event.current.type == EventType.mouseDown) {
-            stateSelected = id;
-            if (Event.current.button == 1) {
+            if (Event.current.button == 0) {
+                stateSelected = state;
+            } else if (Event.current.button == 1) {
                 var menu = new GenericMenu();
                 menu.AddItem(new GUIContent("Remove"), false, stateDelete, id);
                 menu.ShowAsContext();
@@ -103,7 +99,7 @@ public class StateMachineEditor : EditorWindow {
             }
         }
 
-        GUILayout.Label(machine.states[id].name);
+        GUILayout.Label(state.name);
 
         GUI.DragWindow();
     }
@@ -111,7 +107,9 @@ public class StateMachineEditor : EditorWindow {
     void DrawStateWindows() {
         //Draw all states
 
-        GUI.FocusWindow(stateSelected);
+        if (stateSelected != null) {
+            GUI.FocusWindow(machine.states.IndexOf(stateSelected));
+        }
 
         BeginWindows();
         Vector2 stateOffset = origin - (stateSize / 2);
@@ -135,10 +133,8 @@ public class StateMachineEditor : EditorWindow {
         GUILayout.Space(EditorGUIUtility.standardVerticalSpacing);
 
         GUILayout.BeginVertical(GUI.skin.box);
-        if (stateSelected >= machine.states.Count) stateSelected = -1;
-        if (stateSelected >= 0) {
-            var state = machine.states[stateSelected];
-            state.name = GUILayout.TextField(state.name);
+        if (stateSelected != null) {
+            stateSelected.name = GUILayout.TextField(stateSelected.name);
         } else {
             GUILayout.Label("No state selected");
         }
