@@ -22,6 +22,7 @@ public class StateMachineEditor : EditorWindow {
 
     public void ShowWithTarget(StateMachine target) {
         machine = target;
+		stateSelected = null;
         Show();
     }
 
@@ -40,12 +41,12 @@ public class StateMachineEditor : EditorWindow {
         return state;
     }
 
-    void stateDelete(int index) {
-        machine.states.RemoveAt(index);
-    }
-
     void stateCreate(object pos) {
         stateSelected = stateCreate((Vector2)pos);
+    }
+
+    void stateDelete(int index) {
+        machine.states.RemoveAt(index);
     }
 
     void stateDelete(object index) {
