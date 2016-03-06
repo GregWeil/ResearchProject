@@ -37,7 +37,7 @@ public class StateMachineEditor : EditorWindow {
         state.name = "New State " + machine.states.Count.ToString();
         state.editorPosition = pos;
         machine.states.Add(state);
-        return machine.states.Count;
+        return (machine.states.Count - 1);
     }
 
     void stateDelete(int index) {
@@ -110,6 +110,8 @@ public class StateMachineEditor : EditorWindow {
 
     void DrawStateWindows() {
         //Draw all states
+
+        GUI.FocusWindow(stateSelected);
 
         BeginWindows();
         Vector2 stateOffset = origin - (stateSize / 2);
