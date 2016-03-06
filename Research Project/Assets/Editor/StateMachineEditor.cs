@@ -11,6 +11,7 @@ public class StateMachineEditor : EditorWindow {
     }
 
 
+    Vector2 origin = Vector2.zero;
     Vector2 stateSize = new Vector2(128, 64);
     float panelWidth = 250;
 
@@ -55,6 +56,8 @@ public class StateMachineEditor : EditorWindow {
 
 
     void OnGUI() {
+        origin = new Vector2((position.width + panelWidth) / 2, position.height / 2);
+
         if (machine == null) {
             GUILayout.Label("No state machine selected!");
         } else {
@@ -62,8 +65,7 @@ public class StateMachineEditor : EditorWindow {
                 if (Event.current.mousePosition.x > panelWidth) {
                     stateSelected = -1;
                     if (Event.current.button == 1) {
-                        Vector2 pos = Event.current.mousePosition - position.size / 2;
-                        pos.x -= panelWidth / 2;
+                        Vector2 pos = Event.current.mousePosition - origin;
                         var menu = new GenericMenu();
                         menu.AddItem(new GUIContent("New state"), false, stateCreate, pos);
                         menu.ShowAsContext();
@@ -98,8 +100,7 @@ public class StateMachineEditor : EditorWindow {
 
     void DrawStateWindows() {
         BeginWindows();
-        Vector2 stateOffset = (position.size / 2) - (stateSize / 2);
-        stateOffset.x += panelWidth / 2;
+        Vector2 stateOffset = origin - (stateSize / 2);
         for (var i = 0; i < machine.states.Count; ++i) {
             var rect = new Rect(machine.states[i].editorPosition + stateOffset, stateSize);
             rect = GUI.Window(i, rect, DrawStateWindow, new GUIContent());
