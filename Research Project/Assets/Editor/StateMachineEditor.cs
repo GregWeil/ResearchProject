@@ -11,12 +11,14 @@ public class StateMachineEditor : EditorWindow {
     }
 
 
-    Vector2 origin = Vector2.zero;
     Vector2 stateSize = new Vector2(128, 64);
     float panelWidth = 250;
 
     StateMachine machine = null;
+
+    Vector2 origin = Vector2.zero;
     int stateSelected = -1;
+
 
     public void ShowWithTarget(StateMachine target) {
         machine = target;
@@ -28,17 +30,14 @@ public class StateMachineEditor : EditorWindow {
     }
 
 
+    //State interaction
+
     int stateCreate(Vector2 pos) {
         var state = new StateMachine.State();
         state.name = "New State " + machine.states.Count.ToString();
         state.editorPosition = pos;
         machine.states.Add(state);
         return machine.states.Count;
-    }
-
-    void stateCreate(object pos) {
-        int state = stateCreate((Vector2)pos);
-        stateSelected = state;
     }
 
     void stateDelete(int index) {
@@ -50,10 +49,17 @@ public class StateMachineEditor : EditorWindow {
         }
     }
 
+    void stateCreate(object pos) {
+        int state = stateCreate((Vector2)pos);
+        stateSelected = state;
+    }
+
     void stateDelete(object index) {
         stateDelete((int)index);
     }
 
+
+    //Main GUI draw
 
     void OnGUI() {
         origin = new Vector2((position.width + panelWidth) / 2, position.height / 2);
@@ -82,7 +88,11 @@ public class StateMachineEditor : EditorWindow {
     }
 
 
+    //Area drawing
+
     void DrawStateWindow(int id) {
+        //Draw a single state, and handle interactions
+
         if (Event.current.type == EventType.mouseDown) {
             stateSelected = id;
             if (Event.current.button == 1) {
@@ -99,11 +109,13 @@ public class StateMachineEditor : EditorWindow {
     }
 
     void DrawStateWindows() {
+        //Draw all states
+
         BeginWindows();
         Vector2 stateOffset = origin - (stateSize / 2);
         for (var i = 0; i < machine.states.Count; ++i) {
             var rect = new Rect(machine.states[i].editorPosition + stateOffset, stateSize);
-            rect = GUI.Window(i, rect, DrawStateWindow, new GUIContent());
+            rect = GUI.Window(i, rect, DrawStateWindow, GUIContent.none);
             machine.states[i].editorPosition = rect.position - stateOffset;
         }
         EndWindows();
@@ -111,12 +123,14 @@ public class StateMachineEditor : EditorWindow {
 
 
     void DrawPanelContent() {
+        //Draw information on the currently selected state or transition
+
         GUILayout.Label(machine.gameObject.name);
         if (GUILayout.Button("Select Game Object")) {
             Selection.activeGameObject = machine.gameObject;
         }
 
-        GUILayout.Space(16);
+        GUILayout.Space(EditorGUIUtility.standardVerticalSpacing);
 
         GUILayout.BeginVertical(GUI.skin.box);
         if (stateSelected >= machine.states.Count) stateSelected = -1;
