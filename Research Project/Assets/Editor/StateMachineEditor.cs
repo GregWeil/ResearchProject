@@ -117,11 +117,15 @@ public class StateMachineEditor : EditorWindow {
 
         GUILayout.Space(16);
 
+        GUILayout.BeginVertical(GUI.skin.box);
         if (stateSelected >= machine.states.Count) stateSelected = -1;
         if (stateSelected >= 0) {
             var state = machine.states[stateSelected];
             state.name = GUILayout.TextField(state.name);
+        } else {
+            GUILayout.Label("No state selected");
         }
+        GUILayout.EndVertical();
     }
 
 }
