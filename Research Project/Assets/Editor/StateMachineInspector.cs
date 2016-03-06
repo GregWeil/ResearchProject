@@ -16,6 +16,9 @@ public class StateMachineInspector : Editor {
     }
 
     public override void OnInspectorGUI() {
+        //Uncomment for debugging
+        //base.OnInspectorGUI();
+
         var machine = (StateMachine)target;
 
         if (GUILayout.Button("Open Editor")) {

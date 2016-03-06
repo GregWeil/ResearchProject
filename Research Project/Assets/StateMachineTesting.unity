@@ -114,17 +114,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   states:
   - name: New State 2
-    editorPosition: {x: 41, y: -166}
-  - name: New State 3
-    editorPosition: {x: 277, y: -52}
+    editorPosition: {x: -61, y: -102}
+  - name: This is state 3
+    editorPosition: {x: 159, y: 11}
   - name: New State 5
-    editorPosition: {x: 311, y: 146.5}
-  - name: New State 6
-    editorPosition: {x: -133, y: 97.5}
-  - name: New State 6
-    editorPosition: {x: -157, y: -132.5}
+    editorPosition: {x: -4, y: 123.5}
+  - name: State 6
+    editorPosition: {x: -236, y: -96.5}
   - name: New State 7
-    editorPosition: {x: 72, y: 138.5}
+    editorPosition: {x: -266, y: 146.5}
+  - name: New State 5
+    editorPosition: {x: -149, y: 80}
 --- !u!4 &285233807
 Transform:
   m_ObjectHideFlags: 0
