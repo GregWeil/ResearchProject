@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System.Collections;
+using System.Collections.Generic;
 
 public class StateMachineEditor : EditorWindow {
 
@@ -35,7 +35,7 @@ public class StateMachineEditor : EditorWindow {
 
     StateMachine.State stateCreate(Vector2 pos) {
         var state = new StateMachine.State();
-        state.name = "New State " + machine.states.Count.ToString();
+        state.name = "New State";
         state.editorPosition = pos;
         machine.states.Add(state);
         return state;
@@ -53,8 +53,27 @@ public class StateMachineEditor : EditorWindow {
         stateDelete((int)index);
     }
 
+    struct TransitionInfo {
+        public StateMachine.State from, to;
+        public TransitionInfo(StateMachine.State f, StateMachine.State t) {
+            from = f; to = t;
+        }
+    }
 
-    //Main GUI draw
+    StateMachine.Transition transitionCreate(TransitionInfo data) {
+        var transition = new StateMachine.Transition();
+        transition.from = data.from;
+        transition.to = data.to;
+        machine.transitions.Add(transition);
+        return transition;
+    }
+
+    void transitionCreate(object data) {
+        transitionCreate((TransitionInfo)data);
+    }
+
+
+    //Main GUI event
 
     void OnGUI() {
         origin = new Vector2((position.width + panelWidth) / 2, position.height / 2);
@@ -64,8 +83,9 @@ public class StateMachineEditor : EditorWindow {
         } else {
             if (Event.current.type == EventType.mouseDown) {
                 if (Event.current.mousePosition.x > panelWidth) {
-                    stateSelected = null;
-                    if (Event.current.button == 1) {
+                    if (Event.current.button == 0) {
+                        stateSelected = null;
+                    } else if (Event.current.button == 1) {
                         Vector2 pos = Event.current.mousePosition - origin;
                         var menu = new GenericMenu();
                         menu.AddItem(new GUIContent("New state"), false, stateCreate, pos);
@@ -73,6 +93,8 @@ public class StateMachineEditor : EditorWindow {
                     }
                 }
             }
+
+            DrawTransitionLines();
 
             DrawStateWindows();
 
@@ -85,6 +107,20 @@ public class StateMachineEditor : EditorWindow {
 
     //Area drawing
 
+    void DrawTransitionLine(int id) {
+        StateMachine.Transition t = machine.transitions[id];
+
+        Handles.DrawLine(t.from.editorPosition + origin, t.to.editorPosition + origin);
+    }
+
+    void DrawTransitionLines() {
+        //Draw all transitions
+
+        for (var i = 0; i < machine.transitions.Count; ++i) {
+            DrawTransitionLine(i);
+        }
+    }
+
     void DrawStateWindow(int id) {
         //Draw a single state, and handle interactions
         var state = machine.states[id];
@@ -94,6 +130,9 @@ public class StateMachineEditor : EditorWindow {
                 stateSelected = state;
             } else if (Event.current.button == 1) {
                 var menu = new GenericMenu();
+                if ((stateSelected != state) && (stateSelected != null)) {
+                    menu.AddItem(new GUIContent("New transition"), false, transitionCreate, new TransitionInfo(stateSelected, state));
+                }
                 menu.AddItem(new GUIContent("Remove"), false, stateDelete, id);
                 menu.ShowAsContext();
                 Event.current.Use();
