@@ -114,18 +114,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   states:
   - name: how long can a name be?
-    editorPosition: {x: 72, y: -71}
+    editorPosition: {x: 57, y: -78}
   - name: This is state 4
-    editorPosition: {x: 109, y: 89}
+    editorPosition: {x: 119, y: 113}
   - name: New State 6
     editorPosition: {x: -183, y: 26}
   transitions:
-  - from:
-      name: how long can a name be?
-      editorPosition: {x: 72, y: -71}
-    to:
-      name: This is state 4
-      editorPosition: {x: 109, y: 89}
+  - fromIndex: 1
+    toIndex: 0
 --- !u!4 &285233807
 Transform:
   m_ObjectHideFlags: 0
