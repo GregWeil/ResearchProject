@@ -45,12 +45,12 @@ public class StateMachineEditor : EditorWindow {
         stateSelected = stateCreate((Vector2)pos);
     }
 
-    void stateDelete(int index) {
-        machine.states.RemoveAt(index);
+    void stateDelete(StateMachine.State state) {
+        machine.states.Remove(state);
     }
 
-    void stateDelete(object index) {
-        stateDelete((int)index);
+    void stateDelete(object state) {
+        stateDelete((StateMachine.State)state);
     }
 
     struct TransitionInfo {
@@ -73,6 +73,61 @@ public class StateMachineEditor : EditorWindow {
     }
 
 
+    //Event handling
+
+    void eventState(StateMachine.State state, Event e) {
+        //Handle events involving a state window
+
+        if (e.type == EventType.mouseDown) {
+            if (e.button == 0) {
+                stateSelected = state;
+            } else if (e.button == 1) {
+                var menu = new GenericMenu();
+                if ((stateSelected != state) && (stateSelected != null)) {
+                    menu.AddItem(new GUIContent("New transition"), false, transitionCreate, new TransitionInfo(stateSelected, state));
+                }
+                menu.AddItem(new GUIContent("Remove"), false, stateDelete, state);
+                menu.ShowAsContext();
+                e.Use();
+            }
+        }
+    }
+
+    void eventWindow(Event e) {
+        //Handle events involving the full editor window
+        bool handled = false;
+
+        if (!handled) {
+            if (e.mousePosition.x > panelWidth) {
+                foreach (var state in machine.states) {
+                    var rect = new Rect(origin + state.editorPosition - stateSize / 2, stateSize);
+                    if (rect.Contains(e.mousePosition)) {
+                        //Don't handle the event here
+                        //Do that in the window so layering works
+                        handled = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (!handled) {
+            if (e.type == EventType.mouseDown) {
+                if (e.mousePosition.x > panelWidth) {
+                    if (e.button == 0) {
+                        stateSelected = null;
+                    } else if (e.button == 1) {
+                        Vector2 pos = e.mousePosition - origin;
+                        var menu = new GenericMenu();
+                        menu.AddItem(new GUIContent("New state"), false, stateCreate, pos);
+                        menu.ShowAsContext();
+                    }
+                }
+            }
+        }
+    }
+
+
     //Main GUI event
 
     void OnGUI() {
@@ -81,21 +136,9 @@ public class StateMachineEditor : EditorWindow {
         if (machine == null) {
             GUILayout.Label("No state machine selected!");
         } else {
-            if (Event.current.type == EventType.mouseDown) {
-                if (Event.current.mousePosition.x > panelWidth) {
-                    if (Event.current.button == 0) {
-                        stateSelected = null;
-                    } else if (Event.current.button == 1) {
-                        Vector2 pos = Event.current.mousePosition - origin;
-                        var menu = new GenericMenu();
-                        menu.AddItem(new GUIContent("New state"), false, stateCreate, pos);
-                        menu.ShowAsContext();
-                    }
-                }
-            }
+            eventWindow(Event.current);
 
             DrawTransitionLines();
-
             DrawStateWindows();
 
             GUILayout.BeginArea(new Rect(0, 0, panelWidth, position.height), GUI.skin.box);
@@ -117,7 +160,8 @@ public class StateMachineEditor : EditorWindow {
         var side = (Vector2)(Quaternion.Euler(0, 0, 90f) * forward);
 
         Handles.DrawAAPolyLine(5f, from + origin, to + origin);
-        Handles.DrawAAConvexPolygon(center + forward + origin, center - forward + side + origin, center - forward - side + origin);
+        Handles.DrawAAConvexPolygon(center + forward + origin,
+            center - forward + side + origin, center - forward - side + origin);
     }
 
     void DrawTransitionLines() {
@@ -128,23 +172,12 @@ public class StateMachineEditor : EditorWindow {
         }
     }
 
+
     void DrawStateWindow(int id) {
         //Draw a single state, and handle interactions
         var state = machine.states[id];
 
-        if (Event.current.type == EventType.mouseDown) {
-            if (Event.current.button == 0) {
-                stateSelected = state;
-            } else if (Event.current.button == 1) {
-                var menu = new GenericMenu();
-                if ((stateSelected != state) && (stateSelected != null)) {
-                    menu.AddItem(new GUIContent("New transition"), false, transitionCreate, new TransitionInfo(stateSelected, state));
-                }
-                menu.AddItem(new GUIContent("Remove"), false, stateDelete, id);
-                menu.ShowAsContext();
-                Event.current.Use();
-            }
-        }
+        eventState(state, Event.current);
 
         GUILayout.Label(state.name);
 
@@ -167,7 +200,7 @@ public class StateMachineEditor : EditorWindow {
         }
         EndWindows();
     }
-
+    
 
     void DrawPanelContent() {
         //Draw information on the currently selected state or transition
