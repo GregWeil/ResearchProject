@@ -108,9 +108,16 @@ public class StateMachineEditor : EditorWindow {
     //Area drawing
 
     void DrawTransitionLine(int id) {
-        StateMachine.Transition t = machine.transitions[id];
+        var t = machine.transitions[id];
+        var from = t.from.editorPosition;
+        var to = t.to.editorPosition;
 
-        Handles.DrawLine(t.from.editorPosition + origin, t.to.editorPosition + origin);
+        var center = Vector2.Lerp(from, to, 0.5f);
+        var forward = (5f * (to - from).normalized);
+        var side = (Vector2)(Quaternion.Euler(0, 0, 90f) * forward);
+
+        Handles.DrawAAPolyLine(5f, from + origin, to + origin);
+        Handles.DrawAAConvexPolygon(center + forward + origin, center - forward + side + origin, center - forward - side + origin);
     }
 
     void DrawTransitionLines() {
