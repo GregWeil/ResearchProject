@@ -13,12 +13,27 @@ public class StateMachineEditor : EditorWindow {
 
     Vector2 stateSize = new Vector2(128, 64);
     float panelWidth = 250;
+    Vector2 origin = Vector2.zero;
 
     StateMachine machine = null;
 
-    Vector2 origin = Vector2.zero;
-    StateMachine.State stateSelected = null;
+    StateMachine.State _stateSelected = null;
+    StateMachine.Transition _transitionSelected = null;
 
+    StateMachine.State stateSelected {
+        get { return _stateSelected; }
+        set {
+            _stateSelected = value;
+            _transitionSelected = null;
+        }
+    }
+    StateMachine.Transition transitionSelected {
+        get { return _transitionSelected; }
+        set {
+            _stateSelected = null;
+            _transitionSelected = value;
+        }
+    }
 
     public void ShowWithTarget(StateMachine target) {
         machine = target;
@@ -69,7 +84,7 @@ public class StateMachineEditor : EditorWindow {
     }
 
     void transitionCreate(object data) {
-        transitionCreate((TransitionInfo)data);
+        transitionSelected = transitionCreate((TransitionInfo)data);
     }
 
 
@@ -93,35 +108,50 @@ public class StateMachineEditor : EditorWindow {
         }
     }
 
+    void eventTransition(StateMachine.Transition transition, Event e) {
+        //Handle events involving a transition
+
+        if (e.type == EventType.mouseDown) {
+            if (e.button == 0) {
+                transitionSelected = transition;
+            }
+        }
+    }
+
     void eventWindow(Event e) {
         //Handle events involving the full editor window
-        bool handled = false;
 
-        if (!handled) {
-            if (e.mousePosition.x > panelWidth) {
-                foreach (var state in machine.states) {
-                    var rect = new Rect(origin + state.editorPosition - stateSize / 2, stateSize);
-                    if (rect.Contains(e.mousePosition)) {
-                        //Don't handle the event here
-                        //Do that in the window so layering works
-                        handled = true;
-                        break;
-                    }
+        var pos = (e.mousePosition - origin);
+
+        if (e.mousePosition.x > panelWidth) {
+            foreach (var state in machine.states) {
+                var rect = new Rect(state.editorPosition - stateSize / 2, stateSize);
+                if (rect.Contains(pos)) {
+                    //Don't handle the event here
+                    //Do that in the window so layering works
+                    return;
+                }
+            }
+
+            foreach (var transition in machine.transitions) {
+                var from = transition.from.editorPosition;
+                var to = transition.to.editorPosition;
+                if (HandleUtility.DistancePointToLineSegment(pos, from, to) < 10f) {
+                    eventTransition(transition, e);
+                    return;
                 }
             }
         }
 
-        if (!handled) {
-            if (e.type == EventType.mouseDown) {
-                if (e.mousePosition.x > panelWidth) {
-                    if (e.button == 0) {
-                        stateSelected = null;
-                    } else if (e.button == 1) {
-                        Vector2 pos = e.mousePosition - origin;
-                        var menu = new GenericMenu();
-                        menu.AddItem(new GUIContent("New state"), false, stateCreate, pos);
-                        menu.ShowAsContext();
-                    }
+        if (e.type == EventType.mouseDown) {
+            if (e.mousePosition.x > panelWidth) {
+                if (e.button == 0) {
+                    stateSelected = null;
+                    transitionSelected = null;
+                } else if (e.button == 1) {
+                    var menu = new GenericMenu();
+                    menu.AddItem(new GUIContent("New state"), false, stateCreate, pos);
+                    menu.ShowAsContext();
                 }
             }
         }
@@ -158,6 +188,13 @@ public class StateMachineEditor : EditorWindow {
         var center = Vector2.Lerp(from, to, 0.5f);
         var forward = (5f * (to - from).normalized);
         var side = (Vector2)(Quaternion.Euler(0, 0, 90f) * forward);
+
+        if (t == transitionSelected) {
+            var color = Handles.color;
+            Handles.color = Color.black;
+            Handles.DrawAAPolyLine(7.5f, from + origin, to + origin);
+            Handles.color = color;
+        }
 
         Handles.DrawAAPolyLine(5f, from + origin, to + origin);
         Handles.DrawAAConvexPolygon(center + forward + origin,
