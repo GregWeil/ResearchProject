@@ -118,9 +118,9 @@ MonoBehaviour:
   - name: This is state 4
     editorPosition: {x: 194, y: 75}
   - name: New State 6
-    editorPosition: {x: -108, y: 0}
+    editorPosition: {x: -97, y: -1}
   - name: Entry point
-    editorPosition: {x: -289, y: -114}
+    editorPosition: {x: -288, y: -115}
   transitions:
   - fromIndex: 1
     toIndex: 0

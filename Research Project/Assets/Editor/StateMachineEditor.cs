@@ -264,8 +264,11 @@ public class StateMachineEditor : EditorWindow {
         GUILayout.BeginVertical(GUI.skin.box);
         if (stateSelected != null) {
             stateSelected.name = GUILayout.TextField(stateSelected.name);
+        } else if (transitionSelected != null) {
+            GUILayout.Label(transitionSelected.from.name);
+            GUILayout.Label(transitionSelected.to.name);
         } else {
-            GUILayout.Label("No state selected");
+            GUILayout.Label("Nothing selected");
         }
         GUILayout.EndVertical();
     }
