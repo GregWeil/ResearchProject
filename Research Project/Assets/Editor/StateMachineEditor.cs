@@ -87,6 +87,14 @@ public class StateMachineEditor : EditorWindow {
         transitionSelected = transitionCreate((TransitionInfo)data);
     }
 
+    void transitionDelete(StateMachine.Transition transition) {
+        machine.transitions.Remove(transition);
+    }
+
+    void transitionDelete(object transition) {
+        transitionDelete((StateMachine.Transition)transition);
+    }
+
 
     //Event handling
 
@@ -101,7 +109,7 @@ public class StateMachineEditor : EditorWindow {
                 if ((stateSelected != state) && (stateSelected != null)) {
                     menu.AddItem(new GUIContent("New transition"), false, transitionCreate, new TransitionInfo(stateSelected, state));
                 }
-                menu.AddItem(new GUIContent("Remove"), false, stateDelete, state);
+                menu.AddItem(new GUIContent("Remove state"), false, stateDelete, state);
                 menu.ShowAsContext();
                 e.Use();
             }
@@ -114,6 +122,10 @@ public class StateMachineEditor : EditorWindow {
         if (e.type == EventType.mouseDown) {
             if (e.button == 0) {
                 transitionSelected = transition;
+            } else if (e.button == 1) {
+                var menu = new GenericMenu();
+                menu.AddItem(new GUIContent("Remove transition"), false, transitionDelete, transition);
+                menu.ShowAsContext();
             }
         }
     }
