@@ -68,6 +68,10 @@ public class StateMachineEditor : EditorWindow {
         }
 
         machine.states.Remove(state);
+
+        if (stateSelected == state) {
+            stateSelected = null;
+        }
     }
 
     void stateDelete(object state) {
@@ -100,6 +104,10 @@ public class StateMachineEditor : EditorWindow {
 
     void transitionDelete(StateMachine.Transition transition) {
         machine.transitions.Remove(transition);
+
+        if (transitionSelected == transition) {
+            transitionSelected = null;
+        }
     }
 
     void transitionDelete(object transition) {
