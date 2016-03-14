@@ -283,23 +283,23 @@ public class StateMachineEditor : EditorWindow {
     void DrawPanelContent() {
         //Draw information on the currently selected state or transition
 
-        GUILayout.Label(machine.gameObject.name);
+        EditorGUILayout.LabelField(machine.gameObject.name);
         if (GUILayout.Button("Select Game Object")) {
             Selection.activeGameObject = machine.gameObject;
         }
 
-        GUILayout.Space(EditorGUIUtility.standardVerticalSpacing);
+        EditorGUILayout.Space();
 
-        GUILayout.BeginVertical(GUI.skin.box);
+        EditorGUILayout.BeginVertical(GUI.skin.box);
         if (stateSelected != null) {
-            stateSelected.name = GUILayout.TextField(stateSelected.name);
+            stateSelected.name = EditorGUILayout.DelayedTextField(stateSelected.name);
         } else if (transitionSelected != null) {
-            GUILayout.Label(transitionSelected.from.name);
-            GUILayout.Label(transitionSelected.to.name);
+            EditorGUILayout.LabelField(transitionSelected.from.name);
+            EditorGUILayout.LabelField(transitionSelected.to.name);
         } else {
-            GUILayout.Label("Nothing selected");
+            EditorGUILayout.LabelField("Nothing selected");
         }
-        GUILayout.EndVertical();
+        EditorGUILayout.EndVertical();
     }
 
 }
