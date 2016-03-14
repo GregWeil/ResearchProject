@@ -20,6 +20,7 @@ public class StateMachineEditor : EditorWindow {
 
     void OnEnable() {
         titleContent = new GUIContent("State Machine");
+        Undo.undoRedoPerformed += eventUndoRedo;
     }
 
 
@@ -42,13 +43,15 @@ public class StateMachineEditor : EditorWindow {
         set {
             _stateSelected = value;
             _transitionSelected = null;
+            EditorGUI.FocusTextInControl("");
         }
     }
     StateMachine.Transition transitionSelected {
         get { return _transitionSelected; }
         set {
-            _stateSelected = null;
             _transitionSelected = value;
+            _stateSelected = null;
+            EditorGUI.FocusTextInControl("");
         }
     }
 
@@ -134,6 +137,24 @@ public class StateMachineEditor : EditorWindow {
 
     //Event handling
 
+    void eventUndoRedo() {
+        if (machine != null) {
+            //Ensure selected state still exists
+            if (stateSelected != null) {
+                if (!machine.states.Contains(stateSelected)) {
+                    stateSelected = null;
+                }
+            }
+            //Ensure selected transition still exists
+            if (transitionSelected != null) {
+                if (!machine.transitions.Contains(transitionSelected)) {
+                    transitionSelected = null;
+                }
+            }
+        }
+        Repaint();
+    }
+
     void eventState(StateMachine.State state, Event e) {
         //Handle events involving a state window
 
@@ -209,7 +230,7 @@ public class StateMachineEditor : EditorWindow {
     //Main GUI event
 
     void OnGUI() {
-        origin = new Vector2((position.width + panelWidth) / 2, position.height / 2);
+        origin = new Vector2(Mathf.Round((position.width + panelWidth) / 2), Mathf.Round(position.height / 2));
 
         if (machine == null) {
             GUILayout.Label("No state machine selected!");
