@@ -61,6 +61,12 @@ public class StateMachineEditor : EditorWindow {
     }
 
     void stateDelete(StateMachine.State state) {
+        foreach (var transition in machine.transitions.ToArray()) {
+            if ((transition.from == state) || (transition.to == state)) {
+                transitionDelete(transition);
+            }
+        }
+
         machine.states.Remove(state);
     }
 
