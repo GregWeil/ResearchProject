@@ -71,7 +71,12 @@ public class StateMachineEditor : EditorWindow {
     }
 
     void stateDelete(object state) {
-        stateDelete((StateMachine.State)state);
+        var s = (StateMachine.State)state;
+        if (EditorUtility.DisplayDialog("Delete state?", "Do you want to remove state '"
+            + s.name + "' and its transitions?", "Ok", "Cancel"))
+        {
+            stateDelete(s);
+        }
     }
 
     struct TransitionInfo {
@@ -98,7 +103,12 @@ public class StateMachineEditor : EditorWindow {
     }
 
     void transitionDelete(object transition) {
-        transitionDelete((StateMachine.Transition)transition);
+        var t = (StateMachine.Transition)transition;
+        if (EditorUtility.DisplayDialog("Delete transition?",
+            "Are you sure you want to remove the transition from '" +
+            t.from.name + "' to '" + t.to.name + "'?", "Ok", "Cancel")) {
+            transitionDelete(t);
+        }
     }
 
 
