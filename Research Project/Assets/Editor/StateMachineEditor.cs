@@ -56,7 +56,8 @@ public class StateMachineEditor : EditorWindow {
         return state;
     }
 
-    void stateCreate(object pos) {
+    void stateCreateUser(object pos) {
+        Undo.RecordObject(machine, "Create State");
         stateSelected = stateCreate((Vector2)pos);
     }
 
@@ -74,11 +75,12 @@ public class StateMachineEditor : EditorWindow {
         }
     }
 
-    void stateDelete(object state) {
+    void stateDeleteUser(object state) {
         var s = (StateMachine.State)state;
         if (EditorUtility.DisplayDialog("Delete state?", "Do you want to remove state '"
             + s.name + "' and its transitions?", "Ok", "Cancel"))
         {
+            Undo.RecordObject(machine, "Delete State");
             stateDelete(s);
         }
     }
@@ -98,7 +100,8 @@ public class StateMachineEditor : EditorWindow {
         return transition;
     }
 
-    void transitionCreate(object data) {
+    void transitionCreateUser(object data) {
+        Undo.RecordObject(machine, "Create Transition");
         transitionSelected = transitionCreate((TransitionInfo)data);
     }
 
@@ -110,11 +113,13 @@ public class StateMachineEditor : EditorWindow {
         }
     }
 
-    void transitionDelete(object transition) {
+    void transitionDeleteUser(object transition) {
         var t = (StateMachine.Transition)transition;
         if (EditorUtility.DisplayDialog("Delete transition?",
             "Are you sure you want to remove the transition from '" +
-            t.from.name + "' to '" + t.to.name + "'?", "Ok", "Cancel")) {
+            t.from.name + "' to '" + t.to.name + "'?", "Ok", "Cancel"))
+        {
+            Undo.RecordObject(machine, "Delete Transition");
             transitionDelete(t);
         }
     }
@@ -131,9 +136,9 @@ public class StateMachineEditor : EditorWindow {
             } else if (e.button == 1) {
                 var menu = new GenericMenu();
                 if ((stateSelected != state) && (stateSelected != null)) {
-                    menu.AddItem(new GUIContent("New transition"), false, transitionCreate, new TransitionInfo(stateSelected, state));
+                    menu.AddItem(new GUIContent("New transition"), false, transitionCreateUser, new TransitionInfo(stateSelected, state));
                 }
-                menu.AddItem(new GUIContent("Remove state"), false, stateDelete, state);
+                menu.AddItem(new GUIContent("Remove state"), false, stateDeleteUser, state);
                 menu.ShowAsContext();
                 e.Use();
             }
@@ -148,7 +153,7 @@ public class StateMachineEditor : EditorWindow {
                 transitionSelected = transition;
             } else if (e.button == 1) {
                 var menu = new GenericMenu();
-                menu.AddItem(new GUIContent("Remove transition"), false, transitionDelete, transition);
+                menu.AddItem(new GUIContent("Remove transition"), false, transitionDeleteUser, transition);
                 menu.ShowAsContext();
             }
         }
@@ -186,7 +191,7 @@ public class StateMachineEditor : EditorWindow {
                     transitionSelected = null;
                 } else if (e.button == 1) {
                     var menu = new GenericMenu();
-                    menu.AddItem(new GUIContent("New state"), false, stateCreate, pos);
+                    menu.AddItem(new GUIContent("New state"), false, stateCreateUser, pos);
                     menu.ShowAsContext();
                 }
             }
