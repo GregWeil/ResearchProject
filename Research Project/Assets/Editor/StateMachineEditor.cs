@@ -24,7 +24,9 @@ public class StateMachineEditor : EditorWindow {
     }
 
 
+    //===========================================
     //Editor properties
+    //===========================================
 
     Vector2 stateSize = new Vector2(128, 64);
     float panelWidth = 250;
@@ -56,7 +58,9 @@ public class StateMachineEditor : EditorWindow {
     }
 
 
+    //===========================================
     //State interaction
+    //===========================================
 
     StateMachine.State stateCreate(Vector2 pos) {
         var state = new StateMachine.State();
@@ -94,6 +98,11 @@ public class StateMachineEditor : EditorWindow {
             stateDelete(s);
         }
     }
+
+
+    //===========================================
+    //Transition interaction
+    //===========================================
 
     struct TransitionInfo {
         public StateMachine.State from, to;
@@ -135,7 +144,9 @@ public class StateMachineEditor : EditorWindow {
     }
 
 
+    //===========================================
     //Event handling
+    //===========================================
 
     void eventUndoRedo() {
         if (machine != null) {
@@ -156,7 +167,7 @@ public class StateMachineEditor : EditorWindow {
     }
 
     void eventState(StateMachine.State state, Event e) {
-        //Handle events involving a state window
+        //Handle events involving a state
 
         if (e.type == EventType.mouseDown) {
             if (e.button == 0) {
@@ -168,7 +179,6 @@ public class StateMachineEditor : EditorWindow {
                 }
                 menu.AddItem(new GUIContent("Remove state"), false, stateDeleteUser, state);
                 menu.ShowAsContext();
-                e.Use();
             }
         }
     }
@@ -189,7 +199,6 @@ public class StateMachineEditor : EditorWindow {
 
     void eventWindow(Event e) {
         //Handle events involving the full editor window
-
         var pos = (e.mousePosition - origin);
 
         if (e.mousePosition.x > panelWidth) {
@@ -198,6 +207,7 @@ public class StateMachineEditor : EditorWindow {
                 if (rect.Contains(pos)) {
                     //Don't handle the event here
                     //Do that in the window so layering works
+                    //eventState(state, e);
                     return;
                 }
             }
@@ -227,7 +237,9 @@ public class StateMachineEditor : EditorWindow {
     }
 
 
+    //===========================================
     //Main GUI event
+    //===========================================
 
     void OnGUI() {
         origin = new Vector2(Mathf.Round((position.width + panelWidth) / 2), Mathf.Round(position.height / 2));
@@ -239,7 +251,7 @@ public class StateMachineEditor : EditorWindow {
 
             DrawTransitionLines();
             DrawStateWindows();
-
+            
             GUILayout.BeginArea(new Rect(0, 0, panelWidth, position.height), GUI.skin.box);
             DrawPanelContent();
             GUILayout.EndArea();
@@ -247,9 +259,12 @@ public class StateMachineEditor : EditorWindow {
     }
 
 
+    //===========================================
     //Area drawing
+    //===========================================
 
     void DrawTransitionLine(int id) {
+        //Draw a single transition, outlining it if selected
         var t = machine.transitions[id];
         var from = t.from.editorPosition;
         var to = t.to.editorPosition;
@@ -307,6 +322,10 @@ public class StateMachineEditor : EditorWindow {
         EndWindows();
     }
     
+
+    //===========================================
+    //Draw the side panel
+    //===========================================
 
     void DrawPanelContent() {
         //Draw information on the currently selected state or transition

@@ -114,13 +114,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   states:
   - name: how long can a name be?
-    editorPosition: {x: 107, y: -171}
+    editorPosition: {x: 118, y: -164}
   - name: This is state 4
-    editorPosition: {x: 194, y: 75}
+    editorPosition: {x: 192, y: 74}
   - name: New State 6
-    editorPosition: {x: -97, y: -1}
+    editorPosition: {x: -95, y: 24}
   - name: Entry point
-    editorPosition: {x: -288, y: -115}
+    editorPosition: {x: -279, y: -121}
   transitions:
   - fromIndex: 1
     toIndex: 0
@@ -255,8 +255,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7c13c3a26aab848867971803fa3c34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  states: []
-  transitions: []
+  states:
+  - name: New State testing
+    editorPosition: {x: -110, y: 67}
+  - name: New State
+    editorPosition: {x: 116, y: -86}
+  - name: New State 12
+    editorPosition: {x: -266, y: -124}
+  - name: New State 1
+    editorPosition: {x: -346, y: 19}
+  transitions:
+  - fromIndex: 0
+    toIndex: 1
+  - fromIndex: 0
+    toIndex: 2
+  - fromIndex: 2
+    toIndex: 1
 --- !u!4 &1229214327
 Transform:
   m_ObjectHideFlags: 0
