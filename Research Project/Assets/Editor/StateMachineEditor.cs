@@ -5,11 +5,25 @@ using System.Collections.Generic;
 public class StateMachineEditor : EditorWindow {
 
     [MenuItem("Window/State Machine")]
-    static void ShowEditor() {
+    public static void ShowEditor() {
         var editor = GetWindow<StateMachineEditor>();
         editor.Show();
     }
 
+    public static void ShowWithTarget(StateMachine target) {
+        var editor = GetWindow<StateMachineEditor>();
+        editor.machine = target;
+        editor.stateSelected = null;
+        editor.transitionSelected = null;
+        editor.Show();
+    }
+
+    void OnEnable() {
+        titleContent = new GUIContent("State Machine");
+    }
+
+
+    //Editor properties
 
     Vector2 stateSize = new Vector2(128, 64);
     float panelWidth = 250;
@@ -19,6 +33,9 @@ public class StateMachineEditor : EditorWindow {
 
     StateMachine.State _stateSelected = null;
     StateMachine.Transition _transitionSelected = null;
+
+    //External getter/setter for selection
+    //Make sure only one thing is ever selected
 
     StateMachine.State stateSelected {
         get { return _stateSelected; }
@@ -33,16 +50,6 @@ public class StateMachineEditor : EditorWindow {
             _stateSelected = null;
             _transitionSelected = value;
         }
-    }
-
-    public void ShowWithTarget(StateMachine target) {
-        machine = target;
-		stateSelected = null;
-        Show();
-    }
-
-    void OnEnable() {
-        titleContent = new GUIContent("State Machine");
     }
 
 
