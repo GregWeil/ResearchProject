@@ -1,104 +1,322 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public class StateMachineEditor : EditorWindow {
 
     [MenuItem("Window/State Machine")]
-    static void ShowEditor() {
+    public static void ShowEditor() {
         var editor = GetWindow<StateMachineEditor>();
         editor.Show();
     }
 
-
-    Vector2 stateSize = new Vector2(128, 64);
-    float panelWidth = 250;
-
-    StateMachine machine = null;
-
-    Vector2 origin = Vector2.zero;
-    StateMachine.State stateSelected = null;
-
-
-    public void ShowWithTarget(StateMachine target) {
-        machine = target;
-		stateSelected = null;
-        Show();
+    public static void ShowWithTarget(StateMachine target) {
+        var editor = GetWindow<StateMachineEditor>();
+        editor.machine = target;
+        editor.stateSelected = null;
+        editor.transitionSelected = null;
+        editor.Show();
     }
 
     void OnEnable() {
         titleContent = new GUIContent("State Machine");
+        Undo.undoRedoPerformed += eventUndoRedo;
     }
 
 
+    //===========================================
+    //Editor properties
+    //===========================================
+
+    Vector2 stateSize = new Vector2(128, 64);
+    float panelWidth = 250;
+    float transitionSpacing = 10;
+
+    StateMachine machine = null;
+    Vector2 origin = Vector2.zero;
+
+    StateMachine.State _stateSelected = null;
+    StateMachine.Transition _transitionSelected = null;
+
+    //External getter/setter for selection
+    //Make sure only one thing is ever selected
+
+    StateMachine.State stateSelected {
+        get { return _stateSelected; }
+        set {
+            _stateSelected = value;
+            _transitionSelected = null;
+            EditorGUI.FocusTextInControl("");
+        }
+    }
+    StateMachine.Transition transitionSelected {
+        get { return _transitionSelected; }
+        set {
+            _transitionSelected = value;
+            _stateSelected = null;
+            EditorGUI.FocusTextInControl("");
+        }
+    }
+
+
+    //===========================================
     //State interaction
+    //===========================================
 
     StateMachine.State stateCreate(Vector2 pos) {
         var state = new StateMachine.State();
-        state.name = "New State " + machine.states.Count.ToString();
+        state.name = "New State";
         state.editorPosition = pos;
         machine.states.Add(state);
         return state;
     }
 
-    void stateCreate(object pos) {
+    void stateCreateUser(object pos) {
+        Undo.RecordObject(machine, "Create State");
         stateSelected = stateCreate((Vector2)pos);
     }
 
-    void stateDelete(int index) {
-        machine.states.RemoveAt(index);
-    }
+    void stateDelete(StateMachine.State state) {
+        //Remove transitions from this state
+        foreach (var transition in state.transitions.ToArray()) {
+            transitionDelete(transition);
+        }
 
-    void stateDelete(object index) {
-        stateDelete((int)index);
-    }
-
-
-    //Main GUI draw
-
-    void OnGUI() {
-        origin = new Vector2((position.width + panelWidth) / 2, position.height / 2);
-
-        if (machine == null) {
-            GUILayout.Label("No state machine selected!");
-        } else {
-            if (Event.current.type == EventType.mouseDown) {
-                if (Event.current.mousePosition.x > panelWidth) {
-                    stateSelected = null;
-                    if (Event.current.button == 1) {
-                        Vector2 pos = Event.current.mousePosition - origin;
-                        var menu = new GenericMenu();
-                        menu.AddItem(new GUIContent("New state"), false, stateCreate, pos);
-                        menu.ShowAsContext();
-                    }
-                }
+        //Remove transitions to this state
+        foreach (var transition in machine.states.SelectMany(s => s.transitions).ToArray()) {
+            if (transition.to == state) {
+                transitionDelete(transition);
             }
+        }
 
-            DrawStateWindows();
+        machine.states.Remove(state);
 
-            GUILayout.BeginArea(new Rect(0, 0, panelWidth, position.height), GUI.skin.box);
-            DrawPanelContent();
-            GUILayout.EndArea();
+        if (stateSelected == state) {
+            stateSelected = null;
+        }
+    }
+
+    void stateDeleteUser(object state) {
+        var s = (StateMachine.State)state;
+        if (EditorUtility.DisplayDialog("Delete state?", "Do you want to remove state '"
+            + s.name + "' and its transitions?", "Ok", "Cancel"))
+        {
+            Undo.RecordObject(machine, "Delete State");
+            stateDelete(s);
         }
     }
 
 
+    //===========================================
+    //Transition interaction
+    //===========================================
+
+    struct TransitionInfo {
+        public StateMachine.State from, to;
+        public TransitionInfo(StateMachine.State f, StateMachine.State t) {
+            from = f; to = t;
+        }
+    }
+
+    StateMachine.Transition transitionCreate(TransitionInfo data) {
+        var transition = new StateMachine.Transition();
+        transition.from = data.from;
+        transition.to = data.to;
+        transition.from.transitions.Add(transition);
+        return transition;
+    }
+
+    void transitionCreateUser(object data) {
+        Undo.RecordObject(machine, "Create Transition");
+        transitionSelected = transitionCreate((TransitionInfo)data);
+    }
+
+    void transitionDelete(StateMachine.Transition transition) {
+        transition.from.transitions.Remove(transition);
+
+        if (transitionSelected == transition) {
+            transitionSelected = null;
+        }
+    }
+
+    void transitionDeleteUser(object transition) {
+        var t = (StateMachine.Transition)transition;
+        if (EditorUtility.DisplayDialog("Delete transition?",
+            "Are you sure you want to remove the transition from '" +
+            t.from.name + "' to '" + t.to.name + "'?", "Ok", "Cancel"))
+        {
+            Undo.RecordObject(machine, "Delete Transition");
+            transitionDelete(t);
+        }
+    }
+
+
+    //===========================================
+    //Event handling
+    //===========================================
+
+    void eventUndoRedo() {
+        if (machine != null) {
+            //Ensure selected state still exists
+            if (stateSelected != null) {
+                if (!machine.states.Contains(stateSelected)) {
+                    stateSelected = null;
+                }
+            }
+            //Ensure selected transition still exists
+            if (transitionSelected != null) {
+                if (!transitionSelected.from.transitions.Contains(transitionSelected)) {
+                    transitionSelected = null;
+                }
+            }
+        }
+        Repaint();
+    }
+
+    void eventState(StateMachine.State state, Event e) {
+        //Handle events involving a state
+
+        if (e.type == EventType.mouseDown) {
+            if (e.button == 0) {
+                stateSelected = state;
+            } else if (e.button == 1) {
+                var menu = new GenericMenu();
+                if ((stateSelected != state) && (stateSelected != null)) {
+                    menu.AddItem(new GUIContent("New transition"), false, transitionCreateUser, new TransitionInfo(stateSelected, state));
+                }
+                menu.AddItem(new GUIContent("Remove state"), false, stateDeleteUser, state);
+                menu.ShowAsContext();
+            }
+        }
+    }
+
+    void eventTransition(StateMachine.Transition transition, Event e) {
+        //Handle events involving a transition
+
+        if (e.type == EventType.mouseDown) {
+            if (e.button == 0) {
+                transitionSelected = transition;
+            } else if (e.button == 1) {
+                var menu = new GenericMenu();
+                menu.AddItem(new GUIContent("Remove transition"), false, transitionDeleteUser, transition);
+                menu.ShowAsContext();
+            }
+        }
+    }
+
+    void eventWindow(Event e) {
+        //Handle events involving the full editor window
+        var pos = (e.mousePosition - origin);
+
+        if (e.mousePosition.x > panelWidth) {
+            foreach (var state in machine.states) {
+                var rect = new Rect(state.editorPosition - stateSize / 2, stateSize);
+                if (rect.Contains(pos)) {
+                    //Don't handle the event here
+                    //Do that in the window so layering works
+                    //eventState(state, e);
+                    return;
+                }
+            }
+
+            foreach (var transition in machine.states.SelectMany(state => state.transitions)) {
+                var from = transition.from.editorPosition;
+                var to = transition.to.editorPosition;
+                var index = transition.from.transitions.Where(t => t.to == transition.to).ToList().IndexOf(transition) + 0.5f;
+                var offset = (index * transitionSpacing * (Vector2)(Quaternion.Euler(0, 0, 90f) * (to - from).normalized));
+
+                if (HandleUtility.DistancePointToLineSegment(pos, from + offset, to + offset) < (transitionSpacing / 2)) {
+                    eventTransition(transition, e);
+                    return;
+                }
+            }
+        }
+
+        if (e.type == EventType.mouseDown) {
+            if (e.mousePosition.x > panelWidth) {
+                if (e.button == 0) {
+                    stateSelected = null;
+                    transitionSelected = null;
+                } else if (e.button == 1) {
+                    var menu = new GenericMenu();
+                    menu.AddItem(new GUIContent("New state"), false, stateCreateUser, pos);
+                    menu.ShowAsContext();
+                }
+            }
+        }
+    }
+
+
+    //===========================================
+    //Main GUI event
+    //===========================================
+
+    void OnGUI() {
+        origin = new Vector2(Mathf.Round((position.width + panelWidth) / 2), Mathf.Round(position.height / 2));
+
+        if (machine == null) {
+            GUILayout.Label("No state machine selected!");
+        } else {
+            DrawTransitionLines();
+            DrawStateWindows();
+            
+            GUILayout.BeginArea(new Rect(0, 0, panelWidth, position.height), GUI.skin.box);
+            DrawPanelContent();
+            GUILayout.EndArea();
+
+            eventWindow(Event.current);
+        }
+    }
+
+
+    //===========================================
     //Area drawing
+    //===========================================
+
+    void DrawTransitionLine(StateMachine.Transition t) {
+        //Draw a single transition, outlining it if selected
+        var index = t.from.transitions.Where(transition => transition.to == t.to).ToList().IndexOf(t) + 0.5f;
+        var from = t.from.editorPosition;
+        var to = t.to.editorPosition;
+
+        var forward = (to - from).normalized;
+        var side = (Vector2)(Quaternion.Euler(0, 0, 90f) * forward);
+
+        var offset = (transitionSpacing * side * index);
+        from += offset;
+        to += offset;
+
+        var center = Vector2.Lerp(from, to, 0.5f);
+        forward *= 5f;
+        side *= 5f;
+
+        if (t == transitionSelected) {
+            var color = Handles.color;
+            Handles.color = Color.black;
+            Handles.DrawAAPolyLine(7.5f, from + origin, to + origin);
+            Handles.color = color;
+        }
+
+        Handles.DrawAAPolyLine(5f, from + origin, to + origin);
+        Handles.DrawAAConvexPolygon(center + forward + origin,
+            center - forward + side + origin, center - forward - side + origin);
+    }
+
+    void DrawTransitionLines() {
+        //Draw all transitions
+
+        foreach (var transition in machine.states.SelectMany(state => state.transitions)) {
+            DrawTransitionLine(transition);
+        }
+    }
+
 
     void DrawStateWindow(int id) {
         //Draw a single state, and handle interactions
         var state = machine.states[id];
 
-        if (Event.current.type == EventType.mouseDown) {
-            if (Event.current.button == 0) {
-                stateSelected = state;
-            } else if (Event.current.button == 1) {
-                var menu = new GenericMenu();
-                menu.AddItem(new GUIContent("Remove"), false, stateDelete, id);
-                menu.ShowAsContext();
-                Event.current.Use();
-            }
-        }
+        eventState(state, Event.current);
 
         GUILayout.Label(state.name);
 
@@ -121,25 +339,32 @@ public class StateMachineEditor : EditorWindow {
         }
         EndWindows();
     }
+    
 
+    //===========================================
+    //Draw the side panel
+    //===========================================
 
     void DrawPanelContent() {
         //Draw information on the currently selected state or transition
 
-        GUILayout.Label(machine.gameObject.name);
+        EditorGUILayout.LabelField(machine.gameObject.name);
         if (GUILayout.Button("Select Game Object")) {
             Selection.activeGameObject = machine.gameObject;
         }
 
-        GUILayout.Space(EditorGUIUtility.standardVerticalSpacing);
+        EditorGUILayout.Space();
 
-        GUILayout.BeginVertical(GUI.skin.box);
+        EditorGUILayout.BeginVertical(GUI.skin.box);
         if (stateSelected != null) {
-            stateSelected.name = GUILayout.TextField(stateSelected.name);
+            stateSelected.name = EditorGUILayout.DelayedTextField(stateSelected.name);
+        } else if (transitionSelected != null) {
+            EditorGUILayout.LabelField(transitionSelected.from.name);
+            EditorGUILayout.LabelField(transitionSelected.to.name);
         } else {
-            GUILayout.Label("No state selected");
+            EditorGUILayout.LabelField("Nothing selected");
         }
-        GUILayout.EndVertical();
+        EditorGUILayout.EndVertical();
     }
 
 }

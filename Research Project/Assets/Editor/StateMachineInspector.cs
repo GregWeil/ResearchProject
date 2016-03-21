@@ -22,8 +22,7 @@ public class StateMachineInspector : Editor {
         var machine = (StateMachine)target;
 
         if (GUILayout.Button("Open Editor")) {
-            var editor = EditorWindow.GetWindow<StateMachineEditor>();
-            editor.ShowWithTarget(machine);
+            StateMachineEditor.ShowWithTarget(machine);
         }
     }
 }

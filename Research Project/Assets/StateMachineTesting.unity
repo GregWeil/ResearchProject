@@ -113,18 +113,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   states:
-  - name: New State 2
-    editorPosition: {x: 55, y: -150}
-  - name: This is state 3
-    editorPosition: {x: 189, y: -29}
-  - name: New State 5
-    editorPosition: {x: 12, y: 106.5}
-  - name: State 6
-    editorPosition: {x: -265, y: -191.5}
-  - name: New State 5
-    editorPosition: {x: -263, y: -51}
+  - name: how long can a name be?
+    transitions:
+    - toIndex: 2
+    editorPosition: {x: 86, y: -89}
+  - name: This is state 4
+    transitions:
+    - toIndex: 0
+    editorPosition: {x: 192, y: 74}
   - name: New State 6
-    editorPosition: {x: -23, y: -26}
+    transitions:
+    - toIndex: 1
+    - toIndex: 3
+    editorPosition: {x: -91, y: 44}
+  - name: Entry point
+    transitions:
+    - toIndex: 2
+    editorPosition: {x: -282, y: -101}
 --- !u!4 &285233807
 Transform:
   m_ObjectHideFlags: 0
@@ -250,7 +255,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7c13c3a26aab848867971803fa3c34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  states: []
+  states:
+  - name: New State testing
+    transitions: []
+    editorPosition: {x: -110, y: 67}
+  - name: New State
+    transitions: []
+    editorPosition: {x: 116, y: -86}
+  - name: New State 12
+    transitions: []
+    editorPosition: {x: -266, y: -124}
+  - name: New State 1
+    transitions: []
+    editorPosition: {x: -346, y: 19}
 --- !u!4 &1229214327
 Transform:
   m_ObjectHideFlags: 0
