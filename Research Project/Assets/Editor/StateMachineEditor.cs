@@ -247,14 +247,14 @@ public class StateMachineEditor : EditorWindow {
         if (machine == null) {
             GUILayout.Label("No state machine selected!");
         } else {
-            eventWindow(Event.current);
-
             DrawTransitionLines();
             DrawStateWindows();
             
             GUILayout.BeginArea(new Rect(0, 0, panelWidth, position.height), GUI.skin.box);
             DrawPanelContent();
             GUILayout.EndArea();
+
+            eventWindow(Event.current);
         }
     }
 
