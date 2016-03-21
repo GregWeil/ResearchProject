@@ -31,9 +31,10 @@ public class StateMachineEditor : EditorWindow {
 
     Vector2 stateSize = new Vector2(128, 64);
     float panelWidth = 250;
-    Vector2 origin = Vector2.zero;
+    float transitionSpacing = 10;
 
     StateMachine machine = null;
+    Vector2 origin = Vector2.zero;
 
     StateMachine.State _stateSelected = null;
     StateMachine.Transition _transitionSelected = null;
@@ -222,7 +223,10 @@ public class StateMachineEditor : EditorWindow {
             foreach (var transition in machine.states.SelectMany(state => state.transitions)) {
                 var from = transition.from.editorPosition;
                 var to = transition.to.editorPosition;
-                if (HandleUtility.DistancePointToLineSegment(pos, from, to) < 10f) {
+                var index = transition.from.transitions.Where(t => t.to == transition.to).ToList().IndexOf(transition) + 0.5f;
+                var offset = (index * transitionSpacing * (Vector2)(Quaternion.Euler(0, 0, 90f) * (to - from).normalized));
+
+                if (HandleUtility.DistancePointToLineSegment(pos, from + offset, to + offset) < (transitionSpacing / 2)) {
                     eventTransition(transition, e);
                     return;
                 }
@@ -272,12 +276,20 @@ public class StateMachineEditor : EditorWindow {
 
     void DrawTransitionLine(StateMachine.Transition t) {
         //Draw a single transition, outlining it if selected
+        var index = t.from.transitions.Where(transition => transition.to == t.to).ToList().IndexOf(t) + 0.5f;
         var from = t.from.editorPosition;
         var to = t.to.editorPosition;
 
-        var center = Vector2.Lerp(from, to, 0.5f);
-        var forward = (5f * (to - from).normalized);
+        var forward = (to - from).normalized;
         var side = (Vector2)(Quaternion.Euler(0, 0, 90f) * forward);
+
+        var offset = (transitionSpacing * side * index);
+        from += offset;
+        to += offset;
+
+        var center = Vector2.Lerp(from, to, 0.5f);
+        forward *= 5f;
+        side *= 5f;
 
         if (t == transitionSelected) {
             var color = Handles.color;

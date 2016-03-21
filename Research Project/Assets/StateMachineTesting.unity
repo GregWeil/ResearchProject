@@ -116,7 +116,7 @@ MonoBehaviour:
   - name: how long can a name be?
     transitions:
     - toIndex: 2
-    editorPosition: {x: 109, y: -95}
+    editorPosition: {x: 86, y: -89}
   - name: This is state 4
     transitions:
     - toIndex: 0
@@ -124,11 +124,12 @@ MonoBehaviour:
   - name: New State 6
     transitions:
     - toIndex: 1
-    editorPosition: {x: -104, y: 48}
+    - toIndex: 3
+    editorPosition: {x: -91, y: 44}
   - name: Entry point
     transitions:
     - toIndex: 2
-    editorPosition: {x: -308, y: -99}
+    editorPosition: {x: -282, y: -101}
 --- !u!4 &285233807
 Transform:
   m_ObjectHideFlags: 0
