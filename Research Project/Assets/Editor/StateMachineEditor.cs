@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using System.Linq;
 
 public class StateMachineEditor : EditorWindow {
 
@@ -76,8 +77,14 @@ public class StateMachineEditor : EditorWindow {
     }
 
     void stateDelete(StateMachine.State state) {
-        foreach (var transition in machine.transitions.ToArray()) {
-            if ((transition.from == state) || (transition.to == state)) {
+        //Remove transitions from this state
+        foreach (var transition in state.transitions.ToArray()) {
+            transitionDelete(transition);
+        }
+
+        //Remove transitions to this state
+        foreach (var transition in machine.states.SelectMany(s => s.transitions).ToArray()) {
+            if (transition.to == state) {
                 transitionDelete(transition);
             }
         }
@@ -115,7 +122,7 @@ public class StateMachineEditor : EditorWindow {
         var transition = new StateMachine.Transition();
         transition.from = data.from;
         transition.to = data.to;
-        machine.transitions.Add(transition);
+        transition.from.transitions.Add(transition);
         return transition;
     }
 
@@ -125,7 +132,7 @@ public class StateMachineEditor : EditorWindow {
     }
 
     void transitionDelete(StateMachine.Transition transition) {
-        machine.transitions.Remove(transition);
+        transition.from.transitions.Remove(transition);
 
         if (transitionSelected == transition) {
             transitionSelected = null;
@@ -158,7 +165,7 @@ public class StateMachineEditor : EditorWindow {
             }
             //Ensure selected transition still exists
             if (transitionSelected != null) {
-                if (!machine.transitions.Contains(transitionSelected)) {
+                if (!transitionSelected.from.transitions.Contains(transitionSelected)) {
                     transitionSelected = null;
                 }
             }
@@ -212,7 +219,7 @@ public class StateMachineEditor : EditorWindow {
                 }
             }
 
-            foreach (var transition in machine.transitions) {
+            foreach (var transition in machine.states.SelectMany(state => state.transitions)) {
                 var from = transition.from.editorPosition;
                 var to = transition.to.editorPosition;
                 if (HandleUtility.DistancePointToLineSegment(pos, from, to) < 10f) {
@@ -263,9 +270,8 @@ public class StateMachineEditor : EditorWindow {
     //Area drawing
     //===========================================
 
-    void DrawTransitionLine(int id) {
+    void DrawTransitionLine(StateMachine.Transition t) {
         //Draw a single transition, outlining it if selected
-        var t = machine.transitions[id];
         var from = t.from.editorPosition;
         var to = t.to.editorPosition;
 
@@ -288,8 +294,8 @@ public class StateMachineEditor : EditorWindow {
     void DrawTransitionLines() {
         //Draw all transitions
 
-        for (var i = 0; i < machine.transitions.Count; ++i) {
-            DrawTransitionLine(i);
+        foreach (var transition in machine.states.SelectMany(state => state.transitions)) {
+            DrawTransitionLine(transition);
         }
     }
 
