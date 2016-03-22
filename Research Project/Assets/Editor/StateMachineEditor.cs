@@ -266,6 +266,9 @@ public class StateMachineEditor : EditorWindow {
             GUILayout.EndArea();
 
             eventWindow(Event.current);
+            if (Event.current.type == EventType.MouseDown) {
+                Repaint();
+            }
         }
     }
 
@@ -328,6 +331,8 @@ public class StateMachineEditor : EditorWindow {
 
         if (stateSelected != null) {
             GUI.FocusWindow(machine.states.IndexOf(stateSelected));
+        } else {
+            GUI.FocusWindow(-1);
         }
 
         BeginWindows();
