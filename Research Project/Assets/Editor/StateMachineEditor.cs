@@ -177,7 +177,7 @@ public class StateMachineEditor : EditorWindow {
     void eventState(StateMachine.State state, Event e) {
         //Handle events involving a state
 
-        if (e.type == EventType.mouseDown) {
+        if (e.type == EventType.MouseDown) {
             if (e.button == 0) {
                 stateSelected = state;
             } else if (e.button == 1) {
@@ -188,13 +188,15 @@ public class StateMachineEditor : EditorWindow {
                 menu.AddItem(new GUIContent("Remove state"), false, stateDeleteUser, state);
                 menu.ShowAsContext();
             }
+        } else if (e.type == EventType.MouseDrag) {
+            Undo.RecordObject(machine, "Move State");
         }
     }
 
     void eventTransition(StateMachine.Transition transition, Event e) {
         //Handle events involving a transition
 
-        if (e.type == EventType.mouseDown) {
+        if (e.type == EventType.MouseDown) {
             if (e.button == 0) {
                 transitionSelected = transition;
             } else if (e.button == 1) {
@@ -233,7 +235,7 @@ public class StateMachineEditor : EditorWindow {
             }
         }
 
-        if (e.type == EventType.mouseDown) {
+        if (e.type == EventType.MouseDown) {
             if (e.mousePosition.x > panelWidth) {
                 if (e.button == 0) {
                     stateSelected = null;
@@ -319,9 +321,9 @@ public class StateMachineEditor : EditorWindow {
         //Draw a single state, and handle interactions
         var state = machine.states[id];
 
-        eventState(state, Event.current);
-
         GUILayout.Label(state.name);
+
+        eventState(state, Event.current);
 
         GUI.DragWindow();
     }
@@ -362,8 +364,10 @@ public class StateMachineEditor : EditorWindow {
 
         EditorGUILayout.BeginVertical(GUI.skin.box);
         if (stateSelected != null) {
-            stateSelected.name = EditorGUILayout.DelayedTextField(stateSelected.name);
+            Undo.RecordObject(machine, "Modify State");
+            stateSelected.name = EditorGUILayout.TextField(stateSelected.name);
         } else if (transitionSelected != null) {
+            Undo.RecordObject(machine, "Modify Transition");
             EditorGUILayout.LabelField(transitionSelected.from.name);
             EditorGUILayout.LabelField(transitionSelected.to.name);
         } else {
@@ -371,6 +375,5 @@ public class StateMachineEditor : EditorWindow {
         }
         EditorGUILayout.EndVertical();
     }
-
 }
 
