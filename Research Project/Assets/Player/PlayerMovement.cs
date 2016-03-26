@@ -52,8 +52,8 @@ public class PlayerMovement : MonoBehaviour {
         if (grounded) {
             Vector3 goalVel = (5.5f * movement * Mathf.Cos(groundAngle * Mathf.Deg2Rad));
             goalVel += groundVel;
-            float accel = grounded ? 15.0f : 10.0f;
-            body.AddForce(accel * (goalVel - vel));
+            var accel = (0.5f * (goalVel - vel) / Time.fixedDeltaTime);
+            body.AddForce(accel);
         } else {
             Vector3 flatSpeed = new Vector3(body.velocity.x, 0, body.velocity.z);
             body.AddForce(40.0f * movement);
