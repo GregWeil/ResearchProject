@@ -75,6 +75,7 @@ public class StateMachineEditor : EditorWindow {
     void stateCreateUser(object pos) {
         Undo.RecordObject(machine, "Create State");
         stateSelected = stateCreate((Vector2)pos);
+        Undo.IncrementCurrentGroup();
     }
 
     void stateDelete(StateMachine.State state) {
@@ -104,6 +105,7 @@ public class StateMachineEditor : EditorWindow {
         {
             Undo.RecordObject(machine, "Delete State");
             stateDelete(s);
+            Undo.IncrementCurrentGroup();
         }
     }
 
@@ -130,6 +132,7 @@ public class StateMachineEditor : EditorWindow {
     void transitionCreateUser(object data) {
         Undo.RecordObject(machine, "Create Transition");
         transitionSelected = transitionCreate((TransitionInfo)data);
+        Undo.IncrementCurrentGroup();
     }
 
     void transitionDelete(StateMachine.Transition transition) {
@@ -148,6 +151,7 @@ public class StateMachineEditor : EditorWindow {
         {
             Undo.RecordObject(machine, "Delete Transition");
             transitionDelete(t);
+            Undo.IncrementCurrentGroup();
         }
     }
 
@@ -264,7 +268,9 @@ public class StateMachineEditor : EditorWindow {
             DrawStateWindows();
             
             GUILayout.BeginArea(new Rect(0, 0, panelWidth, position.height), GUI.skin.box);
-            DrawPanelContent();
+            if ((Event.current.type != EventType.Used) && (Event.current.type != EventType.Ignore)) {
+                DrawPanelContent();
+            }
             GUILayout.EndArea();
 
             eventWindow(Event.current);
@@ -364,10 +370,14 @@ public class StateMachineEditor : EditorWindow {
 
         EditorGUILayout.BeginVertical(GUI.skin.box);
         if (stateSelected != null) {
-            Undo.RecordObject(machine, "Modify State");
+            if ((Event.current.type != EventType.Layout) && (Event.current.type != EventType.Repaint)) {
+                Undo.RecordObject(machine, "Modify State");
+            }
             stateSelected.name = EditorGUILayout.TextField(stateSelected.name);
         } else if (transitionSelected != null) {
-            Undo.RecordObject(machine, "Modify Transition");
+            if ((Event.current.type != EventType.Layout) && (Event.current.type != EventType.Repaint)) {
+                Undo.RecordObject(machine, "Modify Transition");
+            }
             EditorGUILayout.LabelField(transitionSelected.from.name);
             EditorGUILayout.LabelField(transitionSelected.to.name);
         } else {
