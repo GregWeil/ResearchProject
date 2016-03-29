@@ -7,7 +7,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
     public class State {
         public string name = string.Empty;
         public List<Transition> transitions = new List<Transition>();
-        public Vector2 editorPosition = Vector2.zero;
+        public Vector2 position = Vector2.zero;
     }
 
     [System.Serializable]
@@ -17,7 +17,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
         [System.NonSerialized]
         public State to = null;
 
-        public int toIndex = -1;
+        public int serializedTo;
     }
 
     public List<State> states = new List<State>();
@@ -35,7 +35,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
     public void OnBeforeSerialize() {
         foreach (var state in states) {
             foreach (var transition in state.transitions) {
-                transition.toIndex = states.IndexOf(transition.to);
+                transition.serializedTo = states.IndexOf(transition.to);
             }
         }
     }
@@ -43,7 +43,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
     public void OnAfterDeserialize() {
         foreach (var state in states) {
             foreach (var transition in state.transitions) {
-                transition.to = states[transition.toIndex];
+                transition.to = states[transition.serializedTo];
                 transition.from = state;
             }
         }

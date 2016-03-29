@@ -67,7 +67,7 @@ public class StateMachineEditor : EditorWindow {
     StateMachine.State stateCreate(Vector2 pos) {
         var state = new StateMachine.State();
         state.name = "New State";
-        state.editorPosition = pos;
+        state.position = pos;
         machine.states.Add(state);
         return state;
     }
@@ -217,7 +217,7 @@ public class StateMachineEditor : EditorWindow {
 
         if (e.mousePosition.x > panelWidth) {
             foreach (var state in machine.states) {
-                var rect = new Rect(state.editorPosition - stateSize / 2, stateSize);
+                var rect = new Rect(state.position - stateSize / 2, stateSize);
                 if (rect.Contains(pos)) {
                     //Don't handle the event here
                     //Do that in the window so layering works
@@ -227,8 +227,8 @@ public class StateMachineEditor : EditorWindow {
             }
 
             foreach (var transition in machine.states.SelectMany(state => state.transitions)) {
-                var from = transition.from.editorPosition;
-                var to = transition.to.editorPosition;
+                var from = transition.from.position;
+                var to = transition.to.position;
                 var index = transition.from.transitions.Where(t => t.to == transition.to).ToList().IndexOf(transition) + 0.5f;
                 var offset = (index * transitionSpacing * (Vector2)(Quaternion.Euler(0, 0, 90f) * (to - from).normalized));
 
@@ -288,8 +288,8 @@ public class StateMachineEditor : EditorWindow {
     void DrawTransitionLine(StateMachine.Transition t) {
         //Draw a single transition, outlining it if selected
         var index = t.from.transitions.Where(transition => transition.to == t.to).ToList().IndexOf(t) + 0.5f;
-        var from = t.from.editorPosition;
-        var to = t.to.editorPosition;
+        var from = t.from.position;
+        var to = t.to.position;
 
         var forward = (to - from).normalized;
         var side = (Vector2)(Quaternion.Euler(0, 0, 90f) * forward);
@@ -346,9 +346,9 @@ public class StateMachineEditor : EditorWindow {
         BeginWindows();
         Vector2 stateOffset = origin - (stateSize / 2);
         for (var i = 0; i < machine.states.Count; ++i) {
-            var rect = new Rect(machine.states[i].editorPosition + stateOffset, stateSize);
+            var rect = new Rect(machine.states[i].position + stateOffset, stateSize);
             rect = GUI.Window(i, rect, DrawStateWindow, GUIContent.none);
-            machine.states[i].editorPosition = rect.position - stateOffset;
+            machine.states[i].position = rect.position - stateOffset;
         }
         EndWindows();
     }

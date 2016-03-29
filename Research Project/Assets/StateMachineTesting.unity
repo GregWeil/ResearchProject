@@ -115,25 +115,24 @@ MonoBehaviour:
   states:
   - name: how long can a name be?
     transitions:
-    - toIndex: 2
-    editorPosition: {x: 60, y: -94}
+    - serializedTo: 2
+    position: {x: 62, y: -133}
   - name: This is state 4
     transitions:
-    - toIndex: 0
-    - toIndex: 2
-    editorPosition: {x: 141, y: 68}
+    - serializedTo: 0
+    position: {x: 245, y: 11}
   - name: New State 6
     transitions:
-    - toIndex: 1
-    editorPosition: {x: -91, y: 44}
+    - serializedTo: 1
+    position: {x: 5, y: 86}
   - name: Entry point
     transitions:
-    - toIndex: 2
-    - toIndex: 4
-    editorPosition: {x: -253, y: -109}
+    - serializedTo: 2
+    - serializedTo: 4
+    position: {x: -202, y: -114}
   - name: New State, Right?
     transitions: []
-    editorPosition: {x: -374, y: 15}
+    position: {x: -268, y: 85}
 --- !u!4 &285233807
 Transform:
   m_ObjectHideFlags: 0
@@ -262,16 +261,16 @@ MonoBehaviour:
   states:
   - name: New State testing
     transitions: []
-    editorPosition: {x: -110, y: 67}
+    position: {x: -164, y: -76}
   - name: New State
     transitions: []
-    editorPosition: {x: 116, y: -86}
+    position: {x: -136, y: 115}
   - name: New State 12
     transitions: []
-    editorPosition: {x: -266, y: -124}
+    position: {x: 134, y: 79}
   - name: New State 1
     transitions: []
-    editorPosition: {x: -346, y: 19}
+    position: {x: 78, y: -102}
 --- !u!4 &1229214327
 Transform:
   m_ObjectHideFlags: 0
