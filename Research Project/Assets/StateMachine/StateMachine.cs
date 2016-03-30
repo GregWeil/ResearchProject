@@ -4,6 +4,34 @@ using System.Collections.Generic;
 public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
 
     [System.Serializable]
+    public class Parameter {
+        public string name = string.Empty;
+        [System.NonSerialized]
+        public System.Type type = typeof(float);
+        public object value {
+            get {
+                if ((internalValue == null) || (internalValue.GetType() != type)) {
+                    internalValue = System.Activator.CreateInstance(type);
+                }
+                return internalValue;
+            }
+            set {
+                if (value.GetType() == type) {
+                    internalValue = value;
+                } else {
+                    throw new System.Exception();
+                }
+            }
+        }
+
+        [System.NonSerialized]
+        private object internalValue = null;
+
+        public string serializedType;
+        public string serializedValue;
+    }
+
+    [System.Serializable]
     public class State {
         public string name = string.Empty;
         public List<Transition> transitions = new List<Transition>();
@@ -20,6 +48,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
         public int serializedTo;
     }
 
+    public List<Parameter> parameters = new List<Parameter>();
     public List<State> states = new List<State>();
 
 	// Use this for initialization
@@ -33,6 +62,13 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
 	}
 
     public void OnBeforeSerialize() {
+        foreach (var param in parameters) {
+            param.serializedType = param.type.AssemblyQualifiedName;
+            var serializer = new System.Xml.Serialization.XmlSerializer(param.type);
+            var writer = new System.IO.StringWriter();
+            serializer.Serialize(writer, System.Convert.ChangeType(param.value, param.type));
+            param.serializedValue = writer.ToString();
+        }
         foreach (var state in states) {
             foreach (var transition in state.transitions) {
                 transition.serializedTo = states.IndexOf(transition.to);
@@ -41,6 +77,12 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
     }
 
     public void OnAfterDeserialize() {
+        foreach (var param in parameters) {
+            param.type = System.Type.GetType(param.serializedType);
+            var serializer = new System.Xml.Serialization.XmlSerializer(param.type);
+            var reader = new System.IO.StringReader(param.serializedValue);
+            param.value = serializer.Deserialize(reader);
+        }
         foreach (var state in states) {
             foreach (var transition in state.transitions) {
                 transition.to = states[transition.serializedTo];

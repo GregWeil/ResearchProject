@@ -112,6 +112,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7c13c3a26aab848867971803fa3c34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parameters:
+  - name: 
+    serializedType: System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+    serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<boolean>true</boolean>"
+  - name: 
+    serializedType: System.Single, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+    serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>0.5</float>"
   states:
   - name: how long can a name be?
     transitions:
@@ -132,7 +139,7 @@ MonoBehaviour:
     position: {x: -202, y: -114}
   - name: New State, Right?
     transitions: []
-    position: {x: -268, y: 85}
+    position: {x: -275, y: 80}
 --- !u!4 &285233807
 Transform:
   m_ObjectHideFlags: 0
@@ -258,6 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7c13c3a26aab848867971803fa3c34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parameters: []
   states:
   - name: New State testing
     transitions: []
