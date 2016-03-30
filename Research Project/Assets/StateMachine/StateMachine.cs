@@ -19,7 +19,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
                 if (value.GetType() == type) {
                     internalValue = value;
                 } else {
-                    throw new System.Exception();
+                    throw new System.Exception("Invalid type for parameter");
                 }
             }
         }

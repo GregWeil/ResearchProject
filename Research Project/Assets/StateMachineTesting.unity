@@ -113,12 +113,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parameters:
-  - name: 
+  - name: Bool Value
     serializedType: System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-    serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<boolean>true</boolean>"
-  - name: 
+    serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<boolean>false</boolean>"
+  - name: Float Parameter
     serializedType: System.Single, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
     serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>0.5</float>"
+  - name: Int Parameter
+    serializedType: System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+    serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<int>1</int>"
   states:
   - name: how long can a name be?
     transitions:
@@ -139,7 +142,7 @@ MonoBehaviour:
     position: {x: -202, y: -114}
   - name: New State, Right?
     transitions: []
-    position: {x: -275, y: 80}
+    position: {x: -278, y: 80}
 --- !u!4 &285233807
 Transform:
   m_ObjectHideFlags: 0
