@@ -22,19 +22,24 @@ public class StateMachineInspector : Editor {
 
         parameterGUI.drawElementCallback = (Rect rect, int index, bool active, bool focused) => {
             var parameter = (StateMachine.Parameter)parameterGUI.list[index];
+            
             Rect rLabel = new Rect(rect.x, rect.y, rect.width / 2, rect.height);
+            Rect rValue = new Rect(rLabel.xMax, rect.y, rect.xMax - rLabel.xMax, rect.height);
+            rLabel.width -= 8;
+
             if (active) {
                 parameter.name = EditorGUI.TextField(rLabel, parameter.name);
             } else {
                 EditorGUI.LabelField(rLabel, parameter.name);
             }
-            Rect rValue = new Rect(rLabel.xMax, rect.y, rect.xMax - rLabel.xMax, rect.height);
+
+            EditorGUIUtility.labelWidth = 36;
             if (parameter.type == typeof(bool)) {
-                parameter.value = EditorGUI.Toggle(rValue, (bool)parameter.value);
+                parameter.value = EditorGUI.Toggle(rValue, "Bool", (bool)parameter.value);
             } else if (parameter.type == typeof(float)) {
-                parameter.value = EditorGUI.FloatField(rValue, (float)parameter.value);
+                parameter.value = EditorGUI.FloatField(rValue, "Float", (float)parameter.value);
             } else if (parameter.type == typeof(int)) {
-                parameter.value = EditorGUI.IntField(rValue, (int)parameter.value);
+                parameter.value = EditorGUI.IntField(rValue, "Int", (int)parameter.value);
             } else if (parameter.type == typeof(Vector2)) {
                 GUILayout.Space(EditorGUIUtility.labelWidth);
                 parameter.value = EditorGUI.Vector2Field(rValue, GUIContent.none, (Vector2)parameter.value);
@@ -44,6 +49,7 @@ public class StateMachineInspector : Editor {
             } else if (parameter.type == typeof(GameObject)) {
                 parameter.value = EditorGUI.ObjectField(rValue, (GameObject)parameter.value, typeof(GameObject), true);
             }
+            EditorGUIUtility.labelWidth = 0;
         };
 
         parameterGUI.onAddDropdownCallback = (Rect rect, ReorderableList list) => {
