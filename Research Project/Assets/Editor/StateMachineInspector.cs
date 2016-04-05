@@ -6,7 +6,6 @@ using System.Collections;
 [CustomEditor(typeof(StateMachine))]
 public class StateMachineInspector : Editor {
     
-    int typeSelected = 0;
     string[] typeNames = { "Bool", "Float", "Integer", "Vector2", "Vector3" };
     System.Type[] typeTypes = { typeof(bool), typeof(float), typeof(int), typeof(Vector2), typeof(Vector3) };
     
@@ -20,6 +19,7 @@ public class StateMachineInspector : Editor {
         parameterGUI.drawHeaderCallback = (Rect rect) => {
             EditorGUI.LabelField(rect, "Parameters");
         };
+
         parameterGUI.drawElementCallback = (Rect rect, int index, bool active, bool focused) => {
             var parameter = (StateMachine.Parameter)parameterGUI.list[index];
             Rect rLabel = new Rect(rect.x, rect.y, rect.width / 2, rect.height);
@@ -45,6 +45,20 @@ public class StateMachineInspector : Editor {
                 parameter.value = EditorGUI.ObjectField(rValue, (GameObject)parameter.value, typeof(GameObject), true);
             }
         };
+
+        parameterGUI.onAddDropdownCallback = (Rect rect, ReorderableList list) => {
+            var menu = new GenericMenu();
+            for (var i = 0; i < typeTypes.Length; ++i) {
+                var type = typeTypes[i];
+                menu.AddItem(new GUIContent(typeNames[i]), false, () => {
+                    var param = new StateMachine.Parameter();
+                    param.name = "New Parameter";
+                    param.type = type;
+                    list.list.Add(param);
+                });
+            }
+            menu.ShowAsContext();
+        };
     }
 
     public override void OnInspectorGUI() {
@@ -56,22 +70,6 @@ public class StateMachineInspector : Editor {
         if (GUILayout.Button("Open Editor")) {
             StateMachineEditor.ShowWithTarget(machine);
         }
-
-        EditorGUILayout.Space();
-
-        EditorGUILayout.BeginHorizontal();
-        typeSelected = EditorGUILayout.Popup(typeSelected, typeNames, GUILayout.Width(64));
-        if (GUILayout.Button("Add")) {
-            var param = new StateMachine.Parameter();
-            param.name = "New Parameter";
-            param.type = typeTypes[typeSelected];
-            machine.parameters.Add(param);
-        }
-        EditorGUILayout.Space();
-        if (GUILayout.Button("Remove")) {
-            machine.parameters.RemoveAt(machine.parameters.Count-1);
-        }
-        EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.Space();
         
