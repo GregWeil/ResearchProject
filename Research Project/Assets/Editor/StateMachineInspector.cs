@@ -22,6 +22,7 @@ public class StateMachineInspector : Editor {
 
         parameterGUI.drawElementCallback = (Rect rect, int index, bool active, bool focused) => {
             var parameter = (StateMachine.Parameter)parameterGUI.list[index];
+            Undo.RecordObject(machine, "Modify Parameter");
             
             Rect rLabel = new Rect(rect.x, rect.y, rect.width / 2, rect.height);
             Rect rValue = new Rect(rLabel.xMax, rect.y, rect.xMax - rLabel.xMax, rect.height);
@@ -57,13 +58,20 @@ public class StateMachineInspector : Editor {
             for (var i = 0; i < typeTypes.Length; ++i) {
                 var type = typeTypes[i];
                 menu.AddItem(new GUIContent(typeNames[i]), false, () => {
+                    Undo.RecordObject(machine, "Add Parameter");
                     var param = new StateMachine.Parameter();
                     param.name = "New Parameter";
                     param.type = type;
                     list.list.Add(param);
+                    Undo.IncrementCurrentGroup();
                 });
             }
             menu.ShowAsContext();
+        };
+        parameterGUI.onRemoveCallback = (ReorderableList list) => {
+            Undo.RecordObject(machine, "Remove Parameter");
+            ReorderableList.defaultBehaviours.DoRemoveButton(list);
+            Undo.IncrementCurrentGroup();
         };
     }
 
