@@ -64,12 +64,18 @@ public class PlayerMovement : MonoBehaviour {
         }
 
         //Rotate to face forward
+        var rotGoal = body.rotation;
         if (groundBody != null) {
-            body.MoveRotation(body.rotation * Quaternion.AngleAxis(groundBody.angularVelocity.y * Time.fixedDeltaTime * Mathf.Rad2Deg, Vector3.up));
+            rotGoal = (body.rotation * Quaternion.AngleAxis(groundBody.angularVelocity.y * Time.fixedDeltaTime * Mathf.Rad2Deg, Vector3.up));
         }
         if (movement.magnitude > 0.1f) {
-            body.MoveRotation(Quaternion.RotateTowards(body.rotation, Quaternion.LookRotation(movement, Vector3.up), (500.0f * Time.fixedDeltaTime)));
+            rotGoal = (Quaternion.RotateTowards(body.rotation, Quaternion.LookRotation(movement, Vector3.up), (500.0f * Time.fixedDeltaTime)));
         }
+        Vector3 rotDelta = (rotGoal * Quaternion.Inverse(body.rotation)).eulerAngles;
+        if (rotDelta.x > 180f) rotDelta.x -= 360f;
+        if (rotDelta.y > 180f) rotDelta.y -= 360f;
+        if (rotDelta.z > 180f) rotDelta.z -= 360f;
+        body.angularVelocity = rotDelta;
 
         //Update animation
         anim.SetBool("Grounded", grounded);
