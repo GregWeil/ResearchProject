@@ -407,6 +407,7 @@ public class StateMachineEditor : EditorWindow {
 
         conditionGUI.drawElementCallback = (Rect rect, int index, bool active, bool focused) => {
             var cond = (StateMachine.Filter)conditionGUI.list[index];
+            Undo.RecordObject(machine, "Modify Condition");
             foreach (StateMachineMethod attr in cond.method.GetCustomAttributes(true)
                     .Where(attr => attr is StateMachineMethod)) {
                 EditorGUI.LabelField(rect, attr.name);
@@ -426,6 +427,12 @@ public class StateMachineEditor : EditorWindow {
                         Undo.RecordObject(machine, "Add Condition");
                         var cond = new StateMachine.Filter();
                         cond.method = theMethod;
+                        var methodArguments = theMethod.GetParameters();
+                        cond.arguments = new StateMachine.Argument[methodArguments.Length];
+                        for (var i = 0; i < methodArguments.Length; ++i) {
+                            cond.arguments[i] = new StateMachine.Argument();
+                            cond.arguments[i].type = methodArguments[i].ParameterType;
+                        }
                         list.list.Add(cond);
                         Undo.IncrementCurrentGroup();
                     });

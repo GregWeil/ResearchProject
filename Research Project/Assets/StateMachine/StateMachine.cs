@@ -54,9 +54,47 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
     public class Filter {
         [System.NonSerialized]
         public System.Reflection.MethodInfo method = null;
+        public Argument[] arguments = null;
 
         public string serializedMethodType;
         public string serializedMethodName;
+    }
+
+    [System.Serializable]
+    public class Argument {
+        public enum Style {
+            Constant, Parameter, Filter
+        }
+
+        public Style style = Style.Constant;
+        [System.NonSerialized]
+        public System.Type type = null;
+        public object value {
+            get {
+                if (((internalValue == null) || (internalValue.GetType() != type)) && (style == Style.Constant)) {
+                    internalValue = System.Activator.CreateInstance(type);
+                }
+                return internalValue;
+            }
+            set {
+                System.Type reqType = type;
+                if (style == Style.Filter) {
+                    type = typeof(Filter);
+                } else if (style == Style.Parameter) {
+                    type = typeof(Parameter);
+                }
+                if (value.GetType() == reqType) {
+                    internalValue = value;
+                } else {
+                    throw new System.Exception("Invalid type for argument");
+                }
+            }
+        }
+
+        [System.NonSerialized]
+        private object internalValue = null;
+
+        public string serializedValue;
     }
 
     public List<Parameter> parameters = new List<Parameter>();

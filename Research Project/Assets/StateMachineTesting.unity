@@ -154,10 +154,42 @@ MonoBehaviour:
     - conditions: []
       serializedTo: 2
     - conditions:
-      - serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      - arguments:
+        - style: 0
+          serializedValue: 
+        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isTrue
-      - serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      - arguments:
+        - style: 0
+          serializedValue: 
+        - style: 0
+          serializedValue: 
+        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isGreaterThan
+      - arguments:
+        - style: 0
+          serializedValue: 
+        - style: 0
+          serializedValue: 
+        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isGreaterThan
+      - arguments:
+        - style: 0
+          serializedValue: 
+        - style: 0
+          serializedValue: 
+        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isGreaterThan
+      - arguments:
+        - style: 0
+          serializedValue: 
+        - style: 0
+          serializedValue: 
+        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isGreaterThan
       serializedTo: 4
