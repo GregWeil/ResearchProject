@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using UnityEditorInternal;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,6 +23,7 @@ public class StateMachineEditor : EditorWindow {
     void OnEnable() {
         titleContent = new GUIContent("State Machine");
         Undo.undoRedoPerformed += eventUndoRedo;
+        initConditionGUI();
     }
 
 
@@ -38,6 +40,8 @@ public class StateMachineEditor : EditorWindow {
 
     StateMachine.State _stateSelected = null;
     StateMachine.Transition _transitionSelected = null;
+
+    ReorderableList conditionGUI = null;
 
     //External getter/setter for selection
     //Make sure only one thing is ever selected
@@ -56,6 +60,10 @@ public class StateMachineEditor : EditorWindow {
             _transitionSelected = value;
             _stateSelected = null;
             EditorGUI.FocusTextInControl("");
+
+            if (_transitionSelected != null) {
+                conditionGUI.list = _transitionSelected.conditions;
+            }
         }
     }
 
@@ -374,16 +382,50 @@ public class StateMachineEditor : EditorWindow {
                 Undo.RecordObject(machine, "Modify State");
             }
             stateSelected.name = EditorGUILayout.TextField(stateSelected.name);
+            EditorGUILayout.Space();
         } else if (transitionSelected != null) {
             if ((Event.current.type != EventType.Layout) && (Event.current.type != EventType.Repaint)) {
                 Undo.RecordObject(machine, "Modify Transition");
             }
             EditorGUILayout.LabelField(transitionSelected.from.name);
             EditorGUILayout.LabelField(transitionSelected.to.name);
+            EditorGUILayout.Space();
+            conditionGUI.DoLayoutList();
         } else {
             EditorGUILayout.LabelField("Nothing selected");
         }
         EditorGUILayout.EndVertical();
+    }
+
+    //Transition conditions
+
+    void initConditionGUI() {
+        conditionGUI = new ReorderableList(null, typeof(StateMachine.Filter));
+        conditionGUI.drawHeaderCallback = (Rect rect) => {
+            EditorGUI.LabelField(rect, "Conditions");
+        };
+
+        conditionGUI.drawElementCallback = (Rect rect, int index, bool active, bool focused) => {
+            var cond = (StateMachine.Filter)conditionGUI.list[index];
+            EditorGUI.LabelField(rect, cond.method.Name);
+        };
+
+        conditionGUI.onAddDropdownCallback = (Rect rect, ReorderableList list) => {
+            var menu = new GenericMenu();
+            menu.AddItem(new GUIContent("isTrue"), false, () => {
+                Undo.RecordObject(machine, "Add Condition");
+                var cond = new StateMachine.Filter();
+                cond.method = typeof(GenericFilters).GetMethod("isTrue");
+                list.list.Add(cond);
+                Undo.IncrementCurrentGroup();
+            });
+            menu.ShowAsContext();
+        };
+        conditionGUI.onRemoveCallback = (ReorderableList list) => {
+            Undo.RecordObject(machine, "Remove Condition");
+            ReorderableList.defaultBehaviours.DoRemoveButton(list);
+            Undo.IncrementCurrentGroup();
+        };
     }
 }
 

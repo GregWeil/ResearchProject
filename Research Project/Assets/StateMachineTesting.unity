@@ -136,20 +136,28 @@ MonoBehaviour:
   states:
   - name: how long can a name be?
     transitions:
-    - serializedTo: 2
+    - conditions: []
+      serializedTo: 2
     position: {x: 62, y: -133}
   - name: This is state 4
     transitions:
-    - serializedTo: 0
+    - conditions: []
+      serializedTo: 0
     position: {x: 245, y: 11}
   - name: New State 6
     transitions:
-    - serializedTo: 1
+    - conditions: []
+      serializedTo: 1
     position: {x: 5, y: 86}
   - name: Entry point
     transitions:
-    - serializedTo: 2
-    - serializedTo: 4
+    - conditions: []
+      serializedTo: 2
+    - conditions:
+      - serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isTrue
+      serializedTo: 4
     position: {x: -202, y: -114}
   - name: New State, Right?
     transitions: []
@@ -279,20 +287,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7c13c3a26aab848867971803fa3c34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parameters: []
+  parameters:
+  - name: Postion
+    serializedType: UnityEngine.Vector2, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Vector2 xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
+      xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <x>-2.77</x>\r\n  <y>60.2</y>\r\n</Vector2>"
+  - name: Look at me!
+    serializedType: System.Single, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+    serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>4.47</float>"
+  - name: This is a parameter
+    serializedType: System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+    serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<boolean>true</boolean>"
   states:
   - name: New State testing
     transitions: []
-    position: {x: -166, y: -76}
+    position: {x: -240, y: -1}
   - name: New State
     transitions: []
-    position: {x: -138, y: 115}
+    position: {x: -43, y: 133}
   - name: New State 12
     transitions: []
-    position: {x: 134, y: 79}
+    position: {x: 257, y: 75}
   - name: New State 1
-    transitions: []
-    position: {x: 78, y: -102}
+    transitions:
+    - conditions: []
+      serializedTo: 2
+    position: {x: 75, y: -66}
+  - name: New State
+    transitions:
+    - conditions: []
+      serializedTo: 3
+    position: {x: -196, y: -160}
 --- !u!4 &1229214327
 Transform:
   m_ObjectHideFlags: 0

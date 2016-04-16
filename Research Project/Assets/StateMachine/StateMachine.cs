@@ -44,8 +44,19 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
         public State from = null;
         [System.NonSerialized]
         public State to = null;
+        
+        public List<Filter> conditions = new List<Filter>();
 
         public int serializedTo;
+    }
+
+    [System.Serializable]
+    public class Filter {
+        [System.NonSerialized]
+        public System.Reflection.MethodInfo method = null;
+
+        public string serializedMethodType;
+        public string serializedMethodName;
     }
 
     public List<Parameter> parameters = new List<Parameter>();
@@ -58,8 +69,10 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    
 	}
+
+    // Serialization
 
     public void OnBeforeSerialize() {
         foreach (var param in parameters) {
@@ -72,6 +85,10 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
         foreach (var state in states) {
             foreach (var transition in state.transitions) {
                 transition.serializedTo = states.IndexOf(transition.to);
+                foreach (var condition in transition.conditions) {
+                    condition.serializedMethodType = condition.method.ReflectedType.AssemblyQualifiedName;
+                    condition.serializedMethodName = condition.method.Name;
+                }
             }
         }
     }
@@ -87,6 +104,9 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
             foreach (var transition in state.transitions) {
                 transition.to = states[transition.serializedTo];
                 transition.from = state;
+                foreach (var condition in transition.conditions) {
+                    condition.method = System.Type.GetType(condition.serializedMethodType).GetMethod(condition.serializedMethodName);
+                }
             }
         }
     }
