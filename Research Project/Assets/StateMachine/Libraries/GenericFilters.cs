@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GenericFilters {
+public class GenericFilters : StateMachineModule {
 
+    [StateMachineMethod("is true")]
     public static bool isTrue(bool value) {
         return value;
     }
 
-    [UnityEditor.Callbacks.DidReloadScripts()]
-    public static void InstallLibrary() {
-        Debug.Log("Reload");
+    [StateMachineMethod("greater than")]
+    public static bool isGreaterThan(float a, float b) {
+        return (a > b);
     }
 }

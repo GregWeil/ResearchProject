@@ -407,18 +407,30 @@ public class StateMachineEditor : EditorWindow {
 
         conditionGUI.drawElementCallback = (Rect rect, int index, bool active, bool focused) => {
             var cond = (StateMachine.Filter)conditionGUI.list[index];
-            EditorGUI.LabelField(rect, cond.method.Name);
+            foreach (StateMachineMethod attr in cond.method.GetCustomAttributes(true)
+                    .Where(attr => attr is StateMachineMethod)) {
+                EditorGUI.LabelField(rect, attr.name);
+            }
         };
 
         conditionGUI.onAddDropdownCallback = (Rect rect, ReorderableList list) => {
             var menu = new GenericMenu();
-            menu.AddItem(new GUIContent("isTrue"), false, () => {
-                Undo.RecordObject(machine, "Add Condition");
-                var cond = new StateMachine.Filter();
-                cond.method = typeof(GenericFilters).GetMethod("isTrue");
-                list.list.Add(cond);
-                Undo.IncrementCurrentGroup();
-            });
+            foreach (System.Reflection.MethodInfo method in
+                    System.Reflection.Assembly.GetAssembly(typeof(StateMachineModule)).GetTypes()
+                    .Where(type => type.IsSubclassOf(typeof(StateMachineModule)))
+                    .SelectMany(type => type.GetMethods())) {
+                foreach (StateMachineMethod attr in method.GetCustomAttributes(true)
+                        .Where(attr => attr is StateMachineMethod)) {
+                    var theMethod = method; //Use the right thing for the inline function when iterating
+                    menu.AddItem(new GUIContent(attr.name), false, () => {
+                        Undo.RecordObject(machine, "Add Condition");
+                        var cond = new StateMachine.Filter();
+                        cond.method = theMethod;
+                        list.list.Add(cond);
+                        Undo.IncrementCurrentGroup();
+                    });
+                }
+            }
             menu.ShowAsContext();
         };
         conditionGUI.onRemoveCallback = (ReorderableList list) => {

@@ -157,6 +157,9 @@ MonoBehaviour:
       - serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isTrue
+      - serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isGreaterThan
       serializedTo: 4
     position: {x: -202, y: -114}
   - name: New State, Right?
