@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using UnityEditorInternal;
-using System.Collections.Generic;
 using System.Linq;
+
+using StateMachineUtilities;
 
 public class StateMachineEditor : EditorWindow {
 
@@ -38,15 +38,15 @@ public class StateMachineEditor : EditorWindow {
     StateMachine machine = null;
     Vector2 origin = Vector2.zero;
 
-    StateMachine.State _stateSelected = null;
-    StateMachine.Transition _transitionSelected = null;
+    State _stateSelected = null;
+    Transition _transitionSelected = null;
 
-    ReorderableList conditionGUI = null;
+    UnityEditorInternal.ReorderableList conditionGUI = null;
 
     //External getter/setter for selection
     //Make sure only one thing is ever selected
 
-    StateMachine.State stateSelected {
+    State stateSelected {
         get { return _stateSelected; }
         set {
             _stateSelected = value;
@@ -54,7 +54,7 @@ public class StateMachineEditor : EditorWindow {
             EditorGUI.FocusTextInControl("");
         }
     }
-    StateMachine.Transition transitionSelected {
+    Transition transitionSelected {
         get { return _transitionSelected; }
         set {
             _transitionSelected = value;
@@ -72,8 +72,8 @@ public class StateMachineEditor : EditorWindow {
     //State interaction
     //===========================================
 
-    StateMachine.State stateCreate(Vector2 pos) {
-        var state = new StateMachine.State();
+    State stateCreate(Vector2 pos) {
+        var state = new State();
         state.name = "New State";
         state.position = pos;
         machine.states.Add(state);
@@ -86,7 +86,7 @@ public class StateMachineEditor : EditorWindow {
         Undo.IncrementCurrentGroup();
     }
 
-    void stateDelete(StateMachine.State state) {
+    void stateDelete(State state) {
         //Remove transitions from this state
         foreach (var transition in state.transitions.ToArray()) {
             transitionDelete(transition);
@@ -107,7 +107,7 @@ public class StateMachineEditor : EditorWindow {
     }
 
     void stateDeleteUser(object state) {
-        var s = (StateMachine.State)state;
+        var s = (State)state;
         if (EditorUtility.DisplayDialog("Delete state?", "Do you want to remove state '"
             + s.name + "' and its transitions?", "Ok", "Cancel"))
         {
@@ -123,14 +123,14 @@ public class StateMachineEditor : EditorWindow {
     //===========================================
 
     struct TransitionInfo {
-        public StateMachine.State from, to;
-        public TransitionInfo(StateMachine.State f, StateMachine.State t) {
+        public State from, to;
+        public TransitionInfo(State f, State t) {
             from = f; to = t;
         }
     }
 
-    StateMachine.Transition transitionCreate(TransitionInfo data) {
-        var transition = new StateMachine.Transition();
+    Transition transitionCreate(TransitionInfo data) {
+        var transition = new Transition();
         transition.from = data.from;
         transition.to = data.to;
         transition.from.transitions.Add(transition);
@@ -143,7 +143,7 @@ public class StateMachineEditor : EditorWindow {
         Undo.IncrementCurrentGroup();
     }
 
-    void transitionDelete(StateMachine.Transition transition) {
+    void transitionDelete(Transition transition) {
         transition.from.transitions.Remove(transition);
 
         if (transitionSelected == transition) {
@@ -152,7 +152,7 @@ public class StateMachineEditor : EditorWindow {
     }
 
     void transitionDeleteUser(object transition) {
-        var t = (StateMachine.Transition)transition;
+        var t = (Transition)transition;
         if (EditorUtility.DisplayDialog("Delete transition?",
             "Are you sure you want to remove the transition from '" +
             t.from.name + "' to '" + t.to.name + "'?", "Ok", "Cancel"))
@@ -186,7 +186,7 @@ public class StateMachineEditor : EditorWindow {
         Repaint();
     }
 
-    void eventState(StateMachine.State state, Event e) {
+    void eventState(State state, Event e) {
         //Handle events involving a state
 
         if (e.type == EventType.MouseDown) {
@@ -205,7 +205,7 @@ public class StateMachineEditor : EditorWindow {
         }
     }
 
-    void eventTransition(StateMachine.Transition transition, Event e) {
+    void eventTransition(Transition transition, Event e) {
         //Handle events involving a transition
 
         if (e.type == EventType.MouseDown) {
@@ -293,7 +293,7 @@ public class StateMachineEditor : EditorWindow {
     //Area drawing
     //===========================================
 
-    void DrawTransitionLine(StateMachine.Transition t) {
+    void DrawTransitionLine(Transition t) {
         //Draw a single transition, outlining it if selected
         var index = t.from.transitions.Where(transition => transition.to == t.to).ToList().IndexOf(t) + 0.5f;
         var from = t.from.position;
@@ -400,37 +400,37 @@ public class StateMachineEditor : EditorWindow {
     //Transition conditions
 
     void initConditionGUI() {
-        conditionGUI = new ReorderableList(null, typeof(StateMachine.Filter));
+        conditionGUI = new UnityEditorInternal.ReorderableList(null, typeof(Filter));
         conditionGUI.drawHeaderCallback = (Rect rect) => {
             EditorGUI.LabelField(rect, "Conditions");
         };
 
         conditionGUI.drawElementCallback = (Rect rect, int index, bool active, bool focused) => {
-            var cond = (StateMachine.Filter)conditionGUI.list[index];
+            var cond = (Filter)conditionGUI.list[index];
             Undo.RecordObject(machine, "Modify Condition");
-            foreach (StateMachineMethod attr in cond.method.GetCustomAttributes(true)
-                    .Where(attr => attr is StateMachineMethod)) {
+            foreach (Method attr in cond.method.GetCustomAttributes(true)
+                    .Where(attr => attr is Method)) {
                 EditorGUI.LabelField(rect, attr.name);
             }
         };
 
-        conditionGUI.onAddDropdownCallback = (Rect rect, ReorderableList list) => {
+        conditionGUI.onAddDropdownCallback = (Rect rect, UnityEditorInternal.ReorderableList list) => {
             var menu = new GenericMenu();
             foreach (System.Reflection.MethodInfo method in
-                    System.Reflection.Assembly.GetAssembly(typeof(StateMachineModule)).GetTypes()
-                    .Where(type => type.IsSubclassOf(typeof(StateMachineModule)))
+                    System.Reflection.Assembly.GetAssembly(typeof(Module)).GetTypes()
+                    .Where(type => type.IsSubclassOf(typeof(Module)))
                     .SelectMany(type => type.GetMethods())) {
-                foreach (StateMachineMethod attr in method.GetCustomAttributes(true)
-                        .Where(attr => attr is StateMachineMethod)) {
+                foreach (Method attr in method.GetCustomAttributes(true)
+                        .Where(attr => attr is Method)) {
                     var theMethod = method; //Use the right thing for the inline function when iterating
                     menu.AddItem(new GUIContent(attr.name), false, () => {
                         Undo.RecordObject(machine, "Add Condition");
-                        var cond = new StateMachine.Filter();
+                        var cond = new Filter();
                         cond.method = theMethod;
                         var methodArguments = theMethod.GetParameters();
-                        cond.arguments = new StateMachine.Argument[methodArguments.Length];
+                        cond.arguments = new Argument[methodArguments.Length];
                         for (var i = 0; i < methodArguments.Length; ++i) {
-                            cond.arguments[i] = new StateMachine.Argument();
+                            cond.arguments[i] = new Argument();
                             cond.arguments[i].type = methodArguments[i].ParameterType;
                         }
                         list.list.Add(cond);
@@ -440,9 +440,9 @@ public class StateMachineEditor : EditorWindow {
             }
             menu.ShowAsContext();
         };
-        conditionGUI.onRemoveCallback = (ReorderableList list) => {
+        conditionGUI.onRemoveCallback = (UnityEditorInternal.ReorderableList list) => {
             Undo.RecordObject(machine, "Remove Condition");
-            ReorderableList.defaultBehaviours.DoRemoveButton(list);
+            UnityEditorInternal.ReorderableList.defaultBehaviours.DoRemoveButton(list);
             Undo.IncrementCurrentGroup();
         };
     }

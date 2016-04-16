@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using UnityEditorInternal;
-using System.Collections;
+
+using StateMachineUtilities;
 
 [CustomEditor(typeof(StateMachine))]
 public class StateMachineInspector : Editor {
@@ -9,19 +9,19 @@ public class StateMachineInspector : Editor {
     string[] typeNames = { "Bool", "Float", "Integer", "Vector2", "Vector3" };
     System.Type[] typeTypes = { typeof(bool), typeof(float), typeof(int), typeof(Vector2), typeof(Vector3) };
     
-    ReorderableList parameterGUI;
+    UnityEditorInternal.ReorderableList parameterGUI;
     
 	// Use this for initialization
 	void OnEnable() {
         var machine = (StateMachine)target;
 
-        parameterGUI = new ReorderableList(machine.parameters, typeof(StateMachine.Parameter));
+        parameterGUI = new UnityEditorInternal.ReorderableList(machine.parameters, typeof(Parameter));
         parameterGUI.drawHeaderCallback = (Rect rect) => {
             EditorGUI.LabelField(rect, "Parameters");
         };
 
         parameterGUI.drawElementCallback = (Rect rect, int index, bool active, bool focused) => {
-            var parameter = (StateMachine.Parameter)parameterGUI.list[index];
+            var parameter = (Parameter)parameterGUI.list[index];
             Undo.RecordObject(machine, "Modify Parameter");
             
             Rect rLabel = new Rect(rect.x, rect.y, rect.width / 2, rect.height);
@@ -53,13 +53,13 @@ public class StateMachineInspector : Editor {
             EditorGUIUtility.labelWidth = 0;
         };
 
-        parameterGUI.onAddDropdownCallback = (Rect rect, ReorderableList list) => {
+        parameterGUI.onAddDropdownCallback = (Rect rect, UnityEditorInternal.ReorderableList list) => {
             var menu = new GenericMenu();
             for (var i = 0; i < typeTypes.Length; ++i) {
                 var type = typeTypes[i];
                 menu.AddItem(new GUIContent(typeNames[i]), false, () => {
                     Undo.RecordObject(machine, "Add Parameter");
-                    var param = new StateMachine.Parameter();
+                    var param = new Parameter();
                     param.name = "New Parameter";
                     param.type = type;
                     list.list.Add(param);
@@ -68,9 +68,9 @@ public class StateMachineInspector : Editor {
             }
             menu.ShowAsContext();
         };
-        parameterGUI.onRemoveCallback = (ReorderableList list) => {
+        parameterGUI.onRemoveCallback = (UnityEditorInternal.ReorderableList list) => {
             Undo.RecordObject(machine, "Remove Parameter");
-            ReorderableList.defaultBehaviours.DoRemoveButton(list);
+            UnityEditorInternal.ReorderableList.defaultBehaviours.DoRemoveButton(list);
             Undo.IncrementCurrentGroup();
         };
     }
