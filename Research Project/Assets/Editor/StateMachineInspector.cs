@@ -42,13 +42,11 @@ public class StateMachineInspector : Editor {
             } else if (parameter.type == typeof(int)) {
                 parameter.value = EditorGUI.IntField(rValue, "Int", (int)parameter.value);
             } else if (parameter.type == typeof(Vector2)) {
-                GUILayout.Space(EditorGUIUtility.labelWidth);
                 parameter.value = EditorGUI.Vector2Field(rValue, GUIContent.none, (Vector2)parameter.value);
             } else if (parameter.type == typeof(Vector3)) {
-                GUILayout.Space(EditorGUIUtility.labelWidth);
                 parameter.value = EditorGUI.Vector3Field(rValue, GUIContent.none, (Vector3)parameter.value);
             } else if (parameter.type == typeof(GameObject)) {
-                parameter.value = EditorGUI.ObjectField(rValue, (GameObject)parameter.value, typeof(GameObject), true);
+                parameter.value = EditorGUI.ObjectField(rValue, GUIContent.none, (GameObject)parameter.value, typeof(GameObject), true);
             }
             EditorGUIUtility.labelWidth = 0;
         };

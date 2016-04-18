@@ -407,11 +407,36 @@ public class StateMachineEditor : EditorWindow {
 
         conditionGUI.drawElementCallback = (Rect rect, int index, bool active, bool focused) => {
             var cond = (Filter)conditionGUI.list[index];
+            const float indent = 16;
             Undo.RecordObject(machine, "Modify Condition");
             foreach (Method attr in cond.method.GetCustomAttributes(true)
                     .Where(attr => attr is Method)) {
                 EditorGUI.LabelField(rect, attr.name);
+                var argRect = new Rect(rect.x + indent, rect.y, rect.width - indent, rect.height);
+                foreach (var arg in cond.arguments) {
+                    argRect.y += argRect.height;
+                    //EditorGUI.LabelField(argRect, arg.param.Name);
+                    if (arg.style == Argument.Style.Constant) {
+                        if (arg.param.ParameterType == typeof(bool)) {
+                            arg.value = EditorGUI.Toggle(argRect, arg.param.Name, (bool)arg.value);
+                        } else if (arg.param.ParameterType == typeof(float)) {
+                            arg.value = EditorGUI.FloatField(argRect, arg.param.Name, (float)arg.value);
+                        } else if (arg.param.ParameterType == typeof(int)) {
+                            arg.value = EditorGUI.IntField(argRect, arg.param.Name, (int)arg.value);
+                        } else if (arg.param.ParameterType == typeof(Vector2)) {
+                            arg.value = EditorGUI.Vector2Field(argRect, arg.param.Name, (Vector2)arg.value);
+                        } else if (arg.param.ParameterType == typeof(Vector3)) {
+                            arg.value = EditorGUI.Vector3Field(argRect, arg.param.Name, (Vector3)arg.value);
+                        } else if (arg.param.ParameterType == typeof(GameObject)) {
+                            arg.value = EditorGUI.ObjectField(argRect, arg.param.Name, (GameObject)arg.value, typeof(GameObject), true);
+                        }
+                    }
+                }
             }
+        };
+        conditionGUI.elementHeightCallback = (index) => {
+            var cond = (Filter)conditionGUI.list[index];
+            return (1 + cond.arguments.Length) * conditionGUI.elementHeight;
         };
 
         conditionGUI.onAddDropdownCallback = (Rect rect, UnityEditorInternal.ReorderableList list) => {

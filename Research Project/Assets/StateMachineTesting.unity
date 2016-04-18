@@ -156,44 +156,20 @@ MonoBehaviour:
     - conditions:
       - arguments:
         - style: 0
-          serializedValue: 
+          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<boolean>false</boolean>"
         serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isTrue
       - arguments:
         - style: 0
-          serializedValue: 
+          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>12.67</float>"
         - style: 0
-          serializedValue: 
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
-        serializedMethodName: isGreaterThan
-      - arguments:
-        - style: 0
-          serializedValue: 
-        - style: 0
-          serializedValue: 
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
-        serializedMethodName: isGreaterThan
-      - arguments:
-        - style: 0
-          serializedValue: 
-        - style: 0
-          serializedValue: 
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
-        serializedMethodName: isGreaterThan
-      - arguments:
-        - style: 0
-          serializedValue: 
-        - style: 0
-          serializedValue: 
+          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>-7.53</float>"
         serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isGreaterThan
       serializedTo: 4
-    position: {x: -202, y: -114}
+    position: {x: -201, y: -114}
   - name: New State, Right?
     transitions: []
     position: {x: -281, y: 81}
