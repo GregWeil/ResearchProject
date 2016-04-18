@@ -431,7 +431,7 @@ public class StateMachineEditor : EditorWindow {
                         cond.arguments = new Argument[methodArguments.Length];
                         for (var i = 0; i < methodArguments.Length; ++i) {
                             cond.arguments[i] = new Argument();
-                            cond.arguments[i].type = methodArguments[i].ParameterType;
+                            cond.arguments[i].param = methodArguments[i];
                         }
                         list.list.Add(cond);
                         Undo.IncrementCurrentGroup();

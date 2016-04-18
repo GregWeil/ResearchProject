@@ -23,10 +23,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
     public void OnBeforeSerialize() {
         foreach (var param in parameters) {
             param.serializedType = param.type.AssemblyQualifiedName;
-            var serializer = new System.Xml.Serialization.XmlSerializer(param.type);
-            var writer = new System.IO.StringWriter();
-            serializer.Serialize(writer, System.Convert.ChangeType(param.value, param.type));
-            param.serializedValue = writer.ToString();
+            param.serializedValue = Serialization.serializeObject(param.value, param.type);
         }
         foreach (var state in states) {
             foreach (var transition in state.transitions) {
@@ -34,6 +31,11 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
                 foreach (var condition in transition.conditions) {
                     condition.serializedMethodType = condition.method.ReflectedType.AssemblyQualifiedName;
                     condition.serializedMethodName = condition.method.Name;
+                    foreach (var argument in condition.arguments) {
+                        if (argument.style == Argument.Style.Constant) {
+                            argument.serializedValue = Serialization.serializeObject(argument.value, argument.param.ParameterType);
+                        }
+                    }
                 }
             }
         }
@@ -42,9 +44,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
     public void OnAfterDeserialize() {
         foreach (var param in parameters) {
             param.type = System.Type.GetType(param.serializedType);
-            var serializer = new System.Xml.Serialization.XmlSerializer(param.type);
-            var reader = new System.IO.StringReader(param.serializedValue);
-            param.value = serializer.Deserialize(reader);
+            param.value = Serialization.deserializeObject(param.serializedValue, param.type);
         }
         foreach (var state in states) {
             foreach (var transition in state.transitions) {
@@ -52,6 +52,15 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
                 transition.from = state;
                 foreach (var condition in transition.conditions) {
                     condition.method = System.Type.GetType(condition.serializedMethodType).GetMethod(condition.serializedMethodName);
+                    var methodArguments = condition.method.GetParameters();
+                    for (var i = 0; i < methodArguments.Length; ++i) {
+                        condition.arguments[i].param = methodArguments[i];
+                    }
+                    foreach (var argument in condition.arguments) {
+                        if (argument.style == Argument.Style.Constant) {
+                            argument.value = Serialization.deserializeObject(argument.serializedValue, argument.param.ParameterType);
+                        }
+                    }
                 }
             }
         }
