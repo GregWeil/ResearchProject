@@ -34,6 +34,8 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
                     foreach (var argument in condition.arguments) {
                         if (argument.style == Argument.Style.Constant) {
                             argument.serializedValue = Serialization.serializeObject(argument.value, argument.param.ParameterType);
+                        } else if (argument.style == Argument.Style.Parameter) {
+                            argument.serializedValue = parameters.IndexOf((Parameter)argument.value).ToString();
                         }
                     }
                 }
@@ -59,6 +61,8 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
                     foreach (var argument in condition.arguments) {
                         if (argument.style == Argument.Style.Constant) {
                             argument.value = Serialization.deserializeObject(argument.serializedValue, argument.param.ParameterType);
+                        } else if (argument.style == Argument.Style.Parameter) {
+                            argument.value = parameters[int.Parse(argument.serializedValue)];
                         }
                     }
                 }

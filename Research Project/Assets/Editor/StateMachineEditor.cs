@@ -415,20 +415,52 @@ public class StateMachineEditor : EditorWindow {
                 var argRect = new Rect(rect.x + indent, rect.y, rect.width - indent, rect.height);
                 foreach (var arg in cond.arguments) {
                     argRect.y += argRect.height;
-                    //EditorGUI.LabelField(argRect, arg.param.Name);
+                    var argNameRect = new Rect(argRect.x, argRect.y, argRect.width * 0.5f, argRect.height * 0.75f);
+                    var argTypeRect = new Rect(argNameRect.xMax, argRect.y, argRect.xMax - argNameRect.xMax, argNameRect.height);
                     if (arg.style == Argument.Style.Constant) {
+                        argNameRect = new Rect(argRect.x, argNameRect.y, argRect.width * 0.75f, argNameRect.height);
+                        argTypeRect = new Rect(argNameRect.xMax, argTypeRect.y, argRect.xMax - argNameRect.xMax, argTypeRect.height);
+                        EditorGUIUtility.labelWidth = argNameRect.width * 2/3;
                         if (arg.param.ParameterType == typeof(bool)) {
-                            arg.value = EditorGUI.Toggle(argRect, arg.param.Name, (bool)arg.value);
+                            arg.value = EditorGUI.Toggle(argNameRect, arg.param.Name, (bool)arg.value);
                         } else if (arg.param.ParameterType == typeof(float)) {
-                            arg.value = EditorGUI.FloatField(argRect, arg.param.Name, (float)arg.value);
+                            arg.value = EditorGUI.FloatField(argNameRect, arg.param.Name, (float)arg.value);
                         } else if (arg.param.ParameterType == typeof(int)) {
-                            arg.value = EditorGUI.IntField(argRect, arg.param.Name, (int)arg.value);
+                            arg.value = EditorGUI.IntField(argNameRect, arg.param.Name, (int)arg.value);
                         } else if (arg.param.ParameterType == typeof(Vector2)) {
-                            arg.value = EditorGUI.Vector2Field(argRect, arg.param.Name, (Vector2)arg.value);
+                            arg.value = EditorGUI.Vector2Field(argNameRect, arg.param.Name, (Vector2)arg.value);
                         } else if (arg.param.ParameterType == typeof(Vector3)) {
-                            arg.value = EditorGUI.Vector3Field(argRect, arg.param.Name, (Vector3)arg.value);
+                            arg.value = EditorGUI.Vector3Field(argNameRect, arg.param.Name, (Vector3)arg.value);
                         } else if (arg.param.ParameterType == typeof(GameObject)) {
-                            arg.value = EditorGUI.ObjectField(argRect, arg.param.Name, (GameObject)arg.value, typeof(GameObject), true);
+                            arg.value = EditorGUI.ObjectField(argNameRect, arg.param.Name, (GameObject)arg.value, typeof(GameObject), true);
+                        }
+                        EditorGUIUtility.labelWidth = 0;
+                    } else {
+                        EditorGUI.LabelField(argNameRect, arg.param.Name);
+                    }
+                    int currentValue = -1;
+                    var values = new System.Collections.Generic.List<object>();
+                    var names = new System.Collections.Generic.List<string>();
+                    if (arg.style == Argument.Style.Constant) currentValue = values.Count;
+                    values.Add(null); names.Add("Value");
+                    foreach (var param in machine.parameters) {
+                        try {
+                            System.Convert.ChangeType(param.value, arg.param.ParameterType);
+                        } catch (System.InvalidCastException) {
+                            continue;
+                        }
+                        if ((arg.style == Argument.Style.Parameter) && (arg.value == param)) {
+                            currentValue = values.Count;
+                        }
+                        values.Add(param); names.Add("Param/"+param.name);
+                    }
+                    int newValue = EditorGUI.Popup(argTypeRect, currentValue, names.ToArray());
+                    if (newValue != currentValue) {
+                        if (values[newValue] == null) {
+                            arg.style = Argument.Style.Constant;
+                        } else if (values[newValue] is Parameter) {
+                            arg.style = Argument.Style.Parameter;
+                            arg.value = values[newValue];
                         }
                     }
                 }

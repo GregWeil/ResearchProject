@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System;
 using System.Collections.Generic;
 
 namespace StateMachineUtilities {
@@ -8,7 +7,7 @@ namespace StateMachineUtilities {
     public class Parameter {
         public string name = string.Empty;
         [System.NonSerialized]
-        public Type type = typeof(float);
+        public System.Type type = typeof(float);
         public object value {
             get {
                 if ((internalValue == null) || (internalValue.GetType() != type)) {
@@ -72,8 +71,18 @@ namespace StateMachineUtilities {
         public System.Reflection.ParameterInfo param = null;
         public object value {
             get {
-                if (((internalValue == null) || (internalValue.GetType() != param.ParameterType)) && (style == Style.Constant)) {
-                    internalValue = System.Activator.CreateInstance(param.ParameterType);
+                System.Type reqType = param.ParameterType;
+                if (style == Style.Filter) {
+                    reqType = typeof(Filter);
+                } else if (style == Style.Parameter) {
+                    reqType = typeof(Parameter);
+                }
+                if ((internalValue == null) || (internalValue.GetType() != reqType)) {
+                    if (style == Style.Constant) {
+                        internalValue = System.Activator.CreateInstance(reqType);
+                    } else {
+                        internalValue = null;
+                    }
                 }
                 return internalValue;
             }
@@ -103,14 +112,14 @@ namespace StateMachineUtilities {
 
     public class Serialization {
 
-        public static string serializeObject(object value, Type type) {
+        public static string serializeObject(object value, System.Type type) {
             var serializer = new System.Xml.Serialization.XmlSerializer(type);
             var writer = new System.IO.StringWriter();
             serializer.Serialize(writer, System.Convert.ChangeType(value, type));
             return writer.ToString();
         }
 
-        public static object deserializeObject(string value, Type type) {
+        public static object deserializeObject(string value, System.Type type) {
             var serializer = new System.Xml.Serialization.XmlSerializer(type);
             var reader = new System.IO.StringReader(value);
             return serializer.Deserialize(reader);
@@ -124,8 +133,8 @@ namespace StateMachineUtilities {
     //Inherit from this when defining conditions and actions
     public class Module { }
 
-    [AttributeUsage(AttributeTargets.Method)]
-    public class Method : Attribute {
+    [System.AttributeUsage(System.AttributeTargets.Method)]
+    public class Method : System.Attribute {
         public readonly string name = string.Empty;
 
         public Method(string name) {

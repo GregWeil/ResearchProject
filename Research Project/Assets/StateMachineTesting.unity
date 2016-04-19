@@ -143,7 +143,7 @@ MonoBehaviour:
     transitions:
     - conditions: []
       serializedTo: 0
-    position: {x: 245, y: 11}
+    position: {x: 281, y: -10}
   - name: New State 6
     transitions:
     - conditions: []
@@ -151,28 +151,34 @@ MonoBehaviour:
     position: {x: 5, y: 86}
   - name: Entry point
     transitions:
-    - conditions: []
+    - conditions:
+      - arguments:
+        - style: 1
+          serializedValue: 0
+        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isTrue
       serializedTo: 2
     - conditions:
       - arguments:
         - style: 0
-          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<boolean>false</boolean>"
+          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<boolean>true</boolean>"
         serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isTrue
       - arguments:
+        - style: 1
+          serializedValue: 1
         - style: 0
-          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>12.67</float>"
-        - style: 0
-          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>-7.53</float>"
+          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>5</float>"
         serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isGreaterThan
       serializedTo: 4
-    position: {x: -201, y: -114}
+    position: {x: -215, y: -110}
   - name: New State, Right?
     transitions: []
-    position: {x: -281, y: 81}
+    position: {x: -371, y: 70}
 --- !u!4 &285233807
 Transform:
   m_ObjectHideFlags: 0
