@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System.Linq;
 
 using StateMachineUtilities;
 
@@ -84,6 +85,10 @@ public class StateMachineInspector : Editor {
         }
 
         EditorGUILayout.Space();
+
+        var oldIndex = machine.states.IndexOf(machine.initialState);
+        var newIndex = EditorGUILayout.Popup("Initial state", oldIndex, machine.states.Select(state => state.name).ToArray());
+        machine.initialState = machine.states[newIndex];
         
         parameterGUI.DoLayoutList();
     }

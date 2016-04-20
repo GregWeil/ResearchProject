@@ -8,6 +8,10 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
     public List<Parameter> parameters = new List<Parameter>();
     public List<State> states = new List<State>();
 
+    [System.NonSerialized]
+    public State initialState = null;
+    public int serializedInitialState;
+
 	// Use this for initialization
 	void Start () {
 
@@ -41,6 +45,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
                 }
             }
         }
+        serializedInitialState = states.IndexOf(initialState);
     }
 
     public void OnAfterDeserialize() {
@@ -67,6 +72,9 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
                     }
                 }
             }
+        }
+        if (serializedInitialState >= 0) {
+            initialState = states[serializedInitialState];
         }
     }
 }
