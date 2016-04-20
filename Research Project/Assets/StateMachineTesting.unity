@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parameters:
-  - name: Bool Value
+  - name: Boolean Value
     serializedType: System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
     serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<boolean>false</boolean>"
   - name: Float Parameter
@@ -136,12 +136,24 @@ MonoBehaviour:
   states:
   - name: how long can a name be?
     transitions:
-    - conditions: []
+    - conditions:
+      - arguments:
+        - style: 1
+          serializedValue: 0
+        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isTrue
       serializedTo: 2
     position: {x: 62, y: -133}
   - name: This is state 4
     transitions:
-    - conditions: []
+    - conditions:
+      - arguments:
+        - style: 1
+          serializedValue: 0
+        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isTrue
       serializedTo: 0
     position: {x: 281, y: -10}
   - name: New State 6
@@ -153,6 +165,14 @@ MonoBehaviour:
         serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isTrue
+      - arguments:
+        - style: 1
+          serializedValue: 1
+        - style: 1
+          serializedValue: 2
+        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isGreaterThan
       - arguments:
         - style: 1
           serializedValue: 4
