@@ -415,12 +415,12 @@ public class StateMachineEditor : EditorWindow {
                 var argRect = new Rect(rect.x + indent, rect.y, rect.width - indent, rect.height);
                 foreach (var arg in cond.arguments) {
                     argRect.y += argRect.height;
-                    var argNameRect = new Rect(argRect.x, argRect.y, argRect.width * 0.5f, argRect.height * 0.75f);
+                    var argNameRect = new Rect(argRect.x, argRect.y, argRect.width * 1f/3f, argRect.height * 0.75f);
                     var argTypeRect = new Rect(argNameRect.xMax, argRect.y, argRect.xMax - argNameRect.xMax, argNameRect.height);
                     if (arg.style == Argument.Style.Constant) {
-                        argNameRect = new Rect(argRect.x, argNameRect.y, argRect.width * 0.75f, argNameRect.height);
+                        argNameRect = new Rect(argRect.x, argNameRect.y, argRect.width * 3f/4f, argNameRect.height);
                         argTypeRect = new Rect(argNameRect.xMax, argTypeRect.y, argRect.xMax - argNameRect.xMax, argTypeRect.height);
-                        EditorGUIUtility.labelWidth = argNameRect.width * 2/3;
+                        EditorGUIUtility.labelWidth = argNameRect.width * (1f/3f)/(3f/4f);
                         if (arg.param.ParameterType == typeof(bool)) {
                             arg.value = EditorGUI.Toggle(argNameRect, arg.param.Name, (bool)arg.value);
                         } else if (arg.param.ParameterType == typeof(float)) {

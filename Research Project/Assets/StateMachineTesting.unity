@@ -146,7 +146,21 @@ MonoBehaviour:
     position: {x: 281, y: -10}
   - name: New State 6
     transitions:
-    - conditions: []
+    - conditions:
+      - arguments:
+        - style: 1
+          serializedValue: 0
+        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isTrue
+      - arguments:
+        - style: 1
+          serializedValue: 4
+        - style: 1
+          serializedValue: 1
+        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isLongerThan
       serializedTo: 1
     position: {x: 5, y: 86}
   - name: Entry point
@@ -329,12 +343,26 @@ MonoBehaviour:
     position: {x: 257, y: 75}
   - name: New State 1
     transitions:
-    - conditions: []
+    - conditions:
+      - arguments:
+        - style: 1
+          serializedValue: 1
+        - style: 0
+          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>5</float>"
+        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isGreaterThan
       serializedTo: 2
     position: {x: 75, y: -66}
   - name: New State
     transitions:
-    - conditions: []
+    - conditions:
+      - arguments:
+        - style: 1
+          serializedValue: 2
+        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isTrue
       serializedTo: 3
     position: {x: -196, y: -160}
   serializedInitialState: 1

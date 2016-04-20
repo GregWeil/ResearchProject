@@ -1,4 +1,5 @@
-﻿using StateMachineUtilities;
+﻿using UnityEngine;
+using StateMachineUtilities;
 
 public class GenericFilters : Module {
 
@@ -10,6 +11,11 @@ public class GenericFilters : Module {
     [Method("greater than")]
     public static bool isGreaterThan(float a, float b) {
         return (a > b);
+    }
+
+    [Method("longer than")]
+    public static bool isLongerThan(Vector3 vector, float length) {
+        return (vector.magnitude > length);
     }
 
 }
