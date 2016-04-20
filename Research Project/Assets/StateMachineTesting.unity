@@ -126,12 +126,12 @@ MonoBehaviour:
     serializedType: UnityEngine.Vector2, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Vector2 xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
-      xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <x>0</x>\r\n  <y>0.99</y>\r\n</Vector2>"
+      xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <x>0</x>\r\n  <y>1</y>\r\n</Vector2>"
   - name: Vec3 Parameter
     serializedType: UnityEngine.Vector3, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Vector3 xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
-      xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <x>3.89</x>\r\n  <y>0</y>\r\n
+      xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <x>0</x>\r\n  <y>0</y>\r\n
       \ <z>0</z>\r\n</Vector3>"
   states:
   - name: how long can a name be?
