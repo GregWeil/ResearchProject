@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 using StateMachineUtilities;
 
@@ -12,15 +13,45 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
     public State initialState = null;
     public int serializedInitialState;
 
+    [System.NonSerialized]
+    private State state = null;
+
+
 	// Use this for initialization
 	void Start () {
-
+        state = initialState;
 	}
 	
+
+    private object evaluateArgument(Argument argument) {
+        if (argument.style == Argument.Style.Constant) {
+            return argument.value;
+        } else if (argument.style == Argument.Style.Parameter) {
+            return ((Parameter)argument.value).value;
+        } else if (argument.style == Argument.Style.Filter) {
+            return evaluateFilter((Filter)argument.value);
+        }
+        return null;
+    }
+
+    private object evaluateFilter(Filter filter) {
+        var arguments = filter.arguments.Select(arg => evaluateArgument(arg)).ToArray();
+        return filter.method.Invoke(null, arguments);
+    }
+
 	// Update is called once per frame
-	void Update () {
-	    
+	void FixedUpdate () {
+        if (state != null) {
+            Debug.Log(state.name);
+            foreach (var transition in state.transitions) {
+                if (transition.conditions.Aggregate(true, (accumulate, cond) => (bool)evaluateFilter(cond) && accumulate)) {
+                    state = transition.to;
+                    break;
+                }
+            }
+        }
 	}
+
 
     // Serialization
 
