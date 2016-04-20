@@ -175,10 +175,11 @@ MonoBehaviour:
           PublicKeyToken=null
         serializedMethodName: isGreaterThan
       serializedTo: 4
-    position: {x: -215, y: -110}
+    position: {x: -183, y: -124}
   - name: New State, Right?
     transitions: []
-    position: {x: -371, y: 70}
+    position: {x: -289, y: 64}
+  serializedInitialState: 3
 --- !u!4 &285233807
 Transform:
   m_ObjectHideFlags: 0
@@ -336,6 +337,7 @@ MonoBehaviour:
     - conditions: []
       serializedTo: 3
     position: {x: -196, y: -160}
+  serializedInitialState: 1
 --- !u!4 &1229214327
 Transform:
   m_ObjectHideFlags: 0
