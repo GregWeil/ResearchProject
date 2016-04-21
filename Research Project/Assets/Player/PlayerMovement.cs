@@ -93,7 +93,7 @@ public class PlayerMovement : MonoBehaviour {
     void OnCollisionStay (Collision col) {
         foreach (var contact in col.contacts) {
             var angle = Vector3.Angle(contact.normal, Vector3.up);
-            if (angle <= Mathf.Min(45f, groundAngle)) {
+            if (angle <= Mathf.Min(46f, groundAngle)) {
                 groundContact = contact.point;
                 groundNormal = contact.normal;
                 groundAngle = angle;
