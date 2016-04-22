@@ -16,6 +16,8 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
     [System.NonSerialized]
     private State state = null;
 
+    public List<Filter> serializedFilters = new List<Filter>();
+
 
 	// Use this for initialization
 	void Start () {
@@ -55,7 +57,42 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
 
     // Serialization
 
+    private void OnBeforeSerializeFilter(Filter filter) {
+        filter.serializedMethodType = filter.method.ReflectedType.AssemblyQualifiedName;
+        filter.serializedMethodName = filter.method.Name;
+        foreach (var argument in filter.arguments) {
+            if (argument.style == Argument.Style.Constant) {
+                argument.serializedValue = Serialization.serializeObject(argument.value, argument.param.ParameterType);
+            } else if (argument.style == Argument.Style.Parameter) {
+                argument.serializedValue = parameters.IndexOf((Parameter)argument.value).ToString();
+            } else if (argument.style == Argument.Style.Filter) {
+                argument.serializedValue = serializedFilters.Count.ToString();
+                serializedFilters.Add((Filter)argument.value);
+                OnBeforeSerializeFilter((Filter)argument.value);
+            }
+        }
+    }
+
+    private void OnAfterDeserializeFilter(Filter filter) {
+        filter.method = System.Type.GetType(filter.serializedMethodType).GetMethod(filter.serializedMethodName);
+        var methodArguments = filter.method.GetParameters();
+        for (var i = 0; i < methodArguments.Length; ++i) {
+            filter.arguments[i].param = methodArguments[i];
+        }
+        foreach (var argument in filter.arguments) {
+            if (argument.style == Argument.Style.Constant) {
+                argument.value = Serialization.deserializeObject(argument.serializedValue, argument.param.ParameterType);
+            } else if (argument.style == Argument.Style.Parameter) {
+                argument.value = parameters[int.Parse(argument.serializedValue)];
+            } else if (argument.style == Argument.Style.Filter) {
+                argument.value = serializedFilters[int.Parse(argument.serializedValue)];
+                OnAfterDeserializeFilter((Filter)argument.value);
+            }
+        }
+    }
+
     public void OnBeforeSerialize() {
+        serializedFilters.Clear();
         foreach (var param in parameters) {
             param.serializedType = param.type.AssemblyQualifiedName;
             param.serializedValue = Serialization.serializeObject(param.value, param.type);
@@ -64,15 +101,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
             foreach (var transition in state.transitions) {
                 transition.serializedTo = states.IndexOf(transition.to);
                 foreach (var condition in transition.conditions) {
-                    condition.serializedMethodType = condition.method.ReflectedType.AssemblyQualifiedName;
-                    condition.serializedMethodName = condition.method.Name;
-                    foreach (var argument in condition.arguments) {
-                        if (argument.style == Argument.Style.Constant) {
-                            argument.serializedValue = Serialization.serializeObject(argument.value, argument.param.ParameterType);
-                        } else if (argument.style == Argument.Style.Parameter) {
-                            argument.serializedValue = parameters.IndexOf((Parameter)argument.value).ToString();
-                        }
-                    }
+                    OnBeforeSerializeFilter(condition);
                 }
             }
         }
@@ -89,18 +118,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
                 transition.to = states[transition.serializedTo];
                 transition.from = state;
                 foreach (var condition in transition.conditions) {
-                    condition.method = System.Type.GetType(condition.serializedMethodType).GetMethod(condition.serializedMethodName);
-                    var methodArguments = condition.method.GetParameters();
-                    for (var i = 0; i < methodArguments.Length; ++i) {
-                        condition.arguments[i].param = methodArguments[i];
-                    }
-                    foreach (var argument in condition.arguments) {
-                        if (argument.style == Argument.Style.Constant) {
-                            argument.value = Serialization.deserializeObject(argument.serializedValue, argument.param.ParameterType);
-                        } else if (argument.style == Argument.Style.Parameter) {
-                            argument.value = parameters[int.Parse(argument.serializedValue)];
-                        }
-                    }
+                    OnAfterDeserializeFilter(condition);
                 }
             }
         }

@@ -18,4 +18,9 @@ public class GenericFilters : Module {
         return (vector.magnitude > length);
     }
 
+    [Method("vec3 magnitude")]
+    public static float vec3Magnitude(Vector3 vector) {
+        return vector.magnitude;
+    }
+
 }
