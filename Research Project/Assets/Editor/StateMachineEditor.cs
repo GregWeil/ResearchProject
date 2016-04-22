@@ -476,21 +476,14 @@ public class StateMachineEditor : EditorWindow {
             foreach (System.Reflection.MethodInfo method in
                     System.Reflection.Assembly.GetAssembly(typeof(Module)).GetTypes()
                     .Where(type => type.IsSubclassOf(typeof(Module)))
-                    .SelectMany(type => type.GetMethods())) {
+                    .SelectMany(type => type.GetMethods())
+                    .Where(method => method.ReturnType == typeof(bool))) {
                 foreach (Method attr in method.GetCustomAttributes(true)
                         .Where(attr => attr is Method)) {
                     var theMethod = method; //Use the right thing for the inline function when iterating
                     menu.AddItem(new GUIContent(attr.name), false, () => {
                         Undo.RecordObject(machine, "Add Condition");
-                        var cond = new Filter();
-                        cond.method = theMethod;
-                        var methodArguments = theMethod.GetParameters();
-                        cond.arguments = new Argument[methodArguments.Length];
-                        for (var i = 0; i < methodArguments.Length; ++i) {
-                            cond.arguments[i] = new Argument();
-                            cond.arguments[i].param = methodArguments[i];
-                        }
-                        list.list.Add(cond);
+                        list.list.Add(new Filter(theMethod));
                         Undo.IncrementCurrentGroup();
                     });
                 }

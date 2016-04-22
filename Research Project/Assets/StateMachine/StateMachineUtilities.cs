@@ -52,6 +52,16 @@ namespace StateMachineUtilities {
 
     [System.Serializable]
     public class Filter {
+        public Filter(System.Reflection.MethodInfo theMethod) {
+            method = theMethod;
+            var methodArguments = method.GetParameters();
+            arguments = new Argument[methodArguments.Length];
+            for (var i = 0; i < methodArguments.Length; ++i) {
+                arguments[i] = new Argument();
+                arguments[i].param = methodArguments[i];
+            }
+        }
+
         [System.NonSerialized]
         public System.Reflection.MethodInfo method = null;
         public Argument[] arguments = null;
