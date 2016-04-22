@@ -442,7 +442,7 @@ public class StateMachineEditor : EditorWindow {
         var names = new System.Collections.Generic.List<string>();
 
         if (arg.style == Argument.Style.Constant) currentValue = values.Count;
-        values.Add(null); names.Add("Value");
+        values.Add(null); names.Add(arg.param.ParameterType.Name);
 
         foreach (var param in machine.parameters) {
             try {
@@ -459,8 +459,12 @@ public class StateMachineEditor : EditorWindow {
         foreach (System.Reflection.MethodInfo method in
                 System.Reflection.Assembly.GetAssembly(typeof(Module)).GetTypes()
                 .Where(type => type.IsSubclassOf(typeof(Module)))
-                .SelectMany(type => type.GetMethods())
-                .Where(method => method.ReturnType == arg.param.ParameterType)) {
+                .SelectMany(type => type.GetMethods())) {
+            try {
+                System.Convert.ChangeType(System.Activator.CreateInstance(method.ReturnType), arg.param.ParameterType);
+            } catch {
+                continue;
+            }
             foreach (Method attribute in method.GetCustomAttributes(true)
                     .Where(attribute => attribute is Method)) {
                 if ((arg.style == Argument.Style.Filter) && (((Filter)arg.value).method == method)) {
