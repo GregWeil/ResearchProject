@@ -34,6 +34,7 @@ public class StateMachineEditor : EditorWindow {
     Vector2 stateSize = new Vector2(128, 64);
     float panelWidth = 250;
     float transitionSpacing = 10;
+    float argumentIndent = 16;
 
     StateMachine machine = null;
     Vector2 origin = Vector2.zero;
@@ -399,6 +400,102 @@ public class StateMachineEditor : EditorWindow {
 
     //Transition conditions
 
+    int guiArgumentHeight(Argument argument) {
+        int rows = 1;
+        if (argument.style == Argument.Style.Filter) {
+            foreach (var arg in ((Filter)argument.value).arguments) {
+                rows += guiArgumentHeight(arg);
+            }
+        }
+        return rows;
+    }
+
+    int guiArgumentDraw(Rect rect, Argument arg) {
+        int rows = 1;
+
+        var nameRect = new Rect(rect.x, rect.y, rect.width * 1f / 3f, rect.height * 0.75f);
+        var typeRect = new Rect(nameRect.xMax, rect.y, rect.xMax - nameRect.xMax, nameRect.height);
+        if (arg.style == Argument.Style.Constant) {
+            nameRect = new Rect(rect.x, nameRect.y, rect.width * 3f / 4f, nameRect.height);
+            typeRect = new Rect(nameRect.xMax, typeRect.y, rect.xMax - nameRect.xMax, typeRect.height);
+            EditorGUIUtility.labelWidth = nameRect.width * (1f / 3f) / (3f / 4f);
+            if (arg.param.ParameterType == typeof(bool)) {
+                arg.value = EditorGUI.Toggle(nameRect, arg.param.Name, (bool)arg.value);
+            } else if (arg.param.ParameterType == typeof(float)) {
+                arg.value = EditorGUI.FloatField(nameRect, arg.param.Name, (float)arg.value);
+            } else if (arg.param.ParameterType == typeof(int)) {
+                arg.value = EditorGUI.IntField(nameRect, arg.param.Name, (int)arg.value);
+            } else if (arg.param.ParameterType == typeof(Vector2)) {
+                arg.value = EditorGUI.Vector2Field(nameRect, arg.param.Name, (Vector2)arg.value);
+            } else if (arg.param.ParameterType == typeof(Vector3)) {
+                arg.value = EditorGUI.Vector3Field(nameRect, arg.param.Name, (Vector3)arg.value);
+            } else if (arg.param.ParameterType == typeof(GameObject)) {
+                arg.value = EditorGUI.ObjectField(nameRect, arg.param.Name, (GameObject)arg.value, typeof(GameObject), true);
+            }
+            EditorGUIUtility.labelWidth = 0;
+        } else {
+            EditorGUI.LabelField(nameRect, arg.param.Name);
+        }
+
+        int currentValue = -1;
+        var values = new System.Collections.Generic.List<object>();
+        var names = new System.Collections.Generic.List<string>();
+
+        if (arg.style == Argument.Style.Constant) currentValue = values.Count;
+        values.Add(null); names.Add("Value");
+
+        foreach (var param in machine.parameters) {
+            try {
+                System.Convert.ChangeType(param.value, arg.param.ParameterType);
+            } catch (System.InvalidCastException) {
+                continue;
+            }
+            if ((arg.style == Argument.Style.Parameter) && (arg.value == param)) {
+                currentValue = values.Count;
+            }
+            values.Add(param); names.Add("Param/" + param.name);
+        }
+
+        foreach (System.Reflection.MethodInfo method in
+                System.Reflection.Assembly.GetAssembly(typeof(Module)).GetTypes()
+                .Where(type => type.IsSubclassOf(typeof(Module)))
+                .SelectMany(type => type.GetMethods())
+                .Where(method => method.ReturnType == arg.param.ParameterType)) {
+            foreach (Method attribute in method.GetCustomAttributes(true)
+                    .Where(attribute => attribute is Method)) {
+                if ((arg.style == Argument.Style.Filter) && (((Filter)arg.value).method == method)) {
+                    currentValue = values.Count;
+                }
+                values.Add(method); names.Add(attribute.name);
+            }
+        }
+
+        int newValue = EditorGUI.Popup(typeRect, currentValue, names.ToArray());
+        if (newValue != currentValue) {
+            if (values[newValue] == null) {
+                arg.style = Argument.Style.Constant;
+            } else if (values[newValue] is Parameter) {
+                arg.style = Argument.Style.Parameter;
+                arg.value = values[newValue];
+            } else if (values[newValue] is System.Reflection.MethodInfo) {
+                arg.style = Argument.Style.Filter;
+                arg.value = new Filter((System.Reflection.MethodInfo)values[newValue]);
+
+            }
+        }
+
+        if (arg.style == Argument.Style.Filter) {
+            var argRect = new Rect(rect.x + argumentIndent, rect.y + rect.height, rect.width - argumentIndent, rect.height);
+            foreach (var argument in ((Filter)arg.value).arguments) {
+                var argRows = guiArgumentDraw(argRect, argument);
+                argRect.y += argRows * argRect.height;
+                rows += argRows;
+            }
+        }
+
+        return rows;
+    }
+
     void initConditionGUI() {
         conditionGUI = new UnityEditorInternal.ReorderableList(null, typeof(Filter));
         conditionGUI.drawHeaderCallback = (Rect rect) => {
@@ -407,68 +504,23 @@ public class StateMachineEditor : EditorWindow {
 
         conditionGUI.drawElementCallback = (Rect rect, int index, bool active, bool focused) => {
             var cond = (Filter)conditionGUI.list[index];
-            const float indent = 16;
             Undo.RecordObject(machine, "Modify Condition");
             foreach (Method attr in cond.method.GetCustomAttributes(true)
                     .Where(attr => attr is Method)) {
                 EditorGUI.LabelField(rect, attr.name);
-                var argRect = new Rect(rect.x + indent, rect.y, rect.width - indent, rect.height);
+                var argRect = new Rect(rect.x + argumentIndent, rect.y + rect.height, rect.width - argumentIndent, rect.height);
                 foreach (var arg in cond.arguments) {
-                    argRect.y += argRect.height;
-                    var argNameRect = new Rect(argRect.x, argRect.y, argRect.width * 1f/3f, argRect.height * 0.75f);
-                    var argTypeRect = new Rect(argNameRect.xMax, argRect.y, argRect.xMax - argNameRect.xMax, argNameRect.height);
-                    if (arg.style == Argument.Style.Constant) {
-                        argNameRect = new Rect(argRect.x, argNameRect.y, argRect.width * 3f/4f, argNameRect.height);
-                        argTypeRect = new Rect(argNameRect.xMax, argTypeRect.y, argRect.xMax - argNameRect.xMax, argTypeRect.height);
-                        EditorGUIUtility.labelWidth = argNameRect.width * (1f/3f)/(3f/4f);
-                        if (arg.param.ParameterType == typeof(bool)) {
-                            arg.value = EditorGUI.Toggle(argNameRect, arg.param.Name, (bool)arg.value);
-                        } else if (arg.param.ParameterType == typeof(float)) {
-                            arg.value = EditorGUI.FloatField(argNameRect, arg.param.Name, (float)arg.value);
-                        } else if (arg.param.ParameterType == typeof(int)) {
-                            arg.value = EditorGUI.IntField(argNameRect, arg.param.Name, (int)arg.value);
-                        } else if (arg.param.ParameterType == typeof(Vector2)) {
-                            arg.value = EditorGUI.Vector2Field(argNameRect, arg.param.Name, (Vector2)arg.value);
-                        } else if (arg.param.ParameterType == typeof(Vector3)) {
-                            arg.value = EditorGUI.Vector3Field(argNameRect, arg.param.Name, (Vector3)arg.value);
-                        } else if (arg.param.ParameterType == typeof(GameObject)) {
-                            arg.value = EditorGUI.ObjectField(argNameRect, arg.param.Name, (GameObject)arg.value, typeof(GameObject), true);
-                        }
-                        EditorGUIUtility.labelWidth = 0;
-                    } else {
-                        EditorGUI.LabelField(argNameRect, arg.param.Name);
-                    }
-                    int currentValue = -1;
-                    var values = new System.Collections.Generic.List<object>();
-                    var names = new System.Collections.Generic.List<string>();
-                    if (arg.style == Argument.Style.Constant) currentValue = values.Count;
-                    values.Add(null); names.Add("Value");
-                    foreach (var param in machine.parameters) {
-                        try {
-                            System.Convert.ChangeType(param.value, arg.param.ParameterType);
-                        } catch (System.InvalidCastException) {
-                            continue;
-                        }
-                        if ((arg.style == Argument.Style.Parameter) && (arg.value == param)) {
-                            currentValue = values.Count;
-                        }
-                        values.Add(param); names.Add("Param/"+param.name);
-                    }
-                    int newValue = EditorGUI.Popup(argTypeRect, currentValue, names.ToArray());
-                    if (newValue != currentValue) {
-                        if (values[newValue] == null) {
-                            arg.style = Argument.Style.Constant;
-                        } else if (values[newValue] is Parameter) {
-                            arg.style = Argument.Style.Parameter;
-                            arg.value = values[newValue];
-                        }
-                    }
+                    var rows = guiArgumentDraw(argRect, arg);
+                    argRect.y += rows * argRect.height;
                 }
             }
         };
         conditionGUI.elementHeightCallback = (index) => {
-            var cond = (Filter)conditionGUI.list[index];
-            return (1 + cond.arguments.Length) * conditionGUI.elementHeight;
+            int rows = 1;
+            foreach (var arg in ((Filter)conditionGUI.list[index]).arguments) {
+                rows += guiArgumentHeight(arg);
+            }
+            return rows * conditionGUI.elementHeight;
         };
 
         conditionGUI.onAddDropdownCallback = (Rect rect, UnityEditorInternal.ReorderableList list) => {
