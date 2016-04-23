@@ -444,24 +444,14 @@ public class StateMachineEditor : EditorWindow {
         if (arg.style == Argument.Style.Constant) currentValue = values.Count;
         values.Add(null); names.Add(arg.param.ParameterType.Name);
 
-        foreach (var param in machine.parameters) {
-            try {
-                System.Convert.ChangeType(param.value, arg.param.ParameterType);
-            } catch (System.InvalidCastException) {
-                continue;
-            }
+        foreach (var param in machine.parameters.Where(param => Conversion.canConvert(param.value.GetType(), arg.param.ParameterType))) {
             if ((arg.style == Argument.Style.Parameter) && (arg.value == param)) {
                 currentValue = values.Count;
             }
             values.Add(param); names.Add("Param/" + param.name);
         }
 
-        foreach (var method in Modules.getMethods()) {
-            try {
-                System.Convert.ChangeType(System.Activator.CreateInstance(method.ReturnType), arg.param.ParameterType);
-            } catch (System.InvalidCastException) {
-                continue;
-            }
+        foreach (var method in Modules.getFilters(arg.param.ParameterType)) {
             if ((arg.style == Argument.Style.Filter) && (((Method)arg.value).method == method)) {
                 currentValue = values.Count;
             }
@@ -520,7 +510,7 @@ public class StateMachineEditor : EditorWindow {
 
         conditionGUI.onAddDropdownCallback = (Rect rect, UnityEditorInternal.ReorderableList list) => {
             var menu = new GenericMenu();
-            foreach (var method in Modules.getMethods().Where(method => (method.ReturnType == typeof(bool)))) {
+            foreach (var method in Modules.getFilters(typeof(bool))) {
                 var theMethod = method; //Use the right thing for the inline function when iterating
                 menu.AddItem(new GUIContent(Modules.getMethodName(theMethod)), false, () => {
                     Undo.RecordObject(machine, "Add Condition");

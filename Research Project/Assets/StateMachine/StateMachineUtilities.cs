@@ -139,6 +139,47 @@ namespace StateMachineUtilities {
     }
 
 
+    //Type conversion methods
+
+    public class Conversion {
+
+        private static Dictionary<System.Type, Dictionary<System.Type, bool>> cache = new Dictionary<System.Type, Dictionary<System.Type, bool>>();
+
+        public static bool canConvert(System.Type from, System.Type to) {
+            if (cache.ContainsKey(from)) {
+                if (cache[from].ContainsKey(to)) {
+                    return cache[from][to];
+                }
+            }
+
+            bool result = true;
+
+            if (from != to) {
+                if ((from == typeof(bool)) || (to == typeof(bool))) {
+                    result = false;
+                }
+            }
+
+            try {
+                System.Convert.ChangeType(System.Activator.CreateInstance(from), to);
+            } catch {
+                result = false;
+            }
+
+            if (!cache.ContainsKey(from))
+                cache.Add(from, new Dictionary<System.Type, bool>());
+            cache[from].Add(to, result);
+
+            return result;
+        }
+
+        public static object convert(object value, System.Type type) {
+            return System.Convert.ChangeType(value, type);
+        }
+
+    }
+
+
     //Module definitions
 
     public class Modules {
@@ -148,6 +189,10 @@ namespace StateMachineUtilities {
                 .Where(type => type.IsSubclassOf(typeof(Module)))
                 .SelectMany(type => type.GetMethods())
                 .Where(method => (method.GetCustomAttributes(typeof(Method), true).Length > 0));
+        }
+
+        public static IEnumerable<System.Reflection.MethodInfo> getFilters(System.Type type) {
+            return getMethods().Where(method => Conversion.canConvert(method.ReturnType, type));
         }
 
         private static Method getMethodAttributes(System.Reflection.MethodInfo method) {
