@@ -209,6 +209,16 @@ MonoBehaviour:
           PublicKeyToken=null
         serializedMethodName: isGreaterThan
       serializedTo: 4
+    - conditions:
+      - arguments:
+        - style: 0
+          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>-5</float>"
+        - style: 1
+          serializedValue: 1
+        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isGreaterThan
+      serializedTo: 2
     position: {x: -183, y: -124}
   - name: New State, Right?
     transitions: []

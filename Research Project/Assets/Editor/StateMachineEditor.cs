@@ -23,7 +23,7 @@ public class StateMachineEditor : EditorWindow {
     void OnEnable() {
         titleContent = new GUIContent("State Machine");
         Undo.undoRedoPerformed += eventUndoRedo;
-        initConditionGUI();
+        conditionGUI = initConditionGUI();
     }
 
 
@@ -398,7 +398,10 @@ public class StateMachineEditor : EditorWindow {
         EditorGUILayout.EndVertical();
     }
 
-    //Transition conditions
+
+    //===========================================
+    //Drawing conditions
+    //===========================================
 
     int guiArgumentHeight(Argument argument) {
         int rows = 1;
@@ -484,14 +487,14 @@ public class StateMachineEditor : EditorWindow {
         return rows;
     }
 
-    void initConditionGUI() {
-        conditionGUI = new UnityEditorInternal.ReorderableList(null, typeof(Method));
-        conditionGUI.drawHeaderCallback = (Rect rect) => {
+    UnityEditorInternal.ReorderableList initConditionGUI() {
+        var gui = new UnityEditorInternal.ReorderableList(null, typeof(Method));
+        gui.drawHeaderCallback = (Rect rect) => {
             EditorGUI.LabelField(rect, "Conditions");
         };
 
-        conditionGUI.drawElementCallback = (Rect rect, int index, bool active, bool focused) => {
-            var cond = (Method)conditionGUI.list[index];
+        gui.drawElementCallback = (Rect rect, int index, bool active, bool focused) => {
+            var cond = (Method)gui.list[index];
             Undo.RecordObject(machine, "Modify Condition");
             EditorGUI.LabelField(rect, Modules.getMethodName(cond.method));
             var argRect = new Rect(rect.x + argumentIndent, rect.y + rect.height, rect.width - argumentIndent, rect.height);
@@ -500,15 +503,15 @@ public class StateMachineEditor : EditorWindow {
                 argRect.y += rows * argRect.height;
             }
         };
-        conditionGUI.elementHeightCallback = (index) => {
+        gui.elementHeightCallback = (index) => {
             int rows = 1;
-            foreach (var arg in ((Method)conditionGUI.list[index]).arguments) {
+            foreach (var arg in ((Method)gui.list[index]).arguments) {
                 rows += guiArgumentHeight(arg);
             }
-            return rows * conditionGUI.elementHeight;
+            return rows * gui.elementHeight;
         };
 
-        conditionGUI.onAddDropdownCallback = (Rect rect, UnityEditorInternal.ReorderableList list) => {
+        gui.onAddDropdownCallback = (Rect rect, UnityEditorInternal.ReorderableList list) => {
             var menu = new GenericMenu();
             foreach (var method in Modules.getFilters(typeof(bool))) {
                 var theMethod = method; //Use the right thing for the inline function when iterating
@@ -520,11 +523,13 @@ public class StateMachineEditor : EditorWindow {
             }
             menu.ShowAsContext();
         };
-        conditionGUI.onRemoveCallback = (UnityEditorInternal.ReorderableList list) => {
+        gui.onRemoveCallback = (UnityEditorInternal.ReorderableList list) => {
             Undo.RecordObject(machine, "Remove Condition");
             UnityEditorInternal.ReorderableList.defaultBehaviours.DoRemoveButton(list);
             Undo.IncrementCurrentGroup();
         };
+
+        return gui;
     }
 }
 
