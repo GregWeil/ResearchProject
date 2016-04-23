@@ -46,14 +46,14 @@ namespace StateMachineUtilities {
         [System.NonSerialized]
         public State to = null;
 
-        public List<Filter> conditions = new List<Filter>();
+        public List<Method> conditions = new List<Method>();
 
         public int serializedTo;
     }
 
     [System.Serializable]
-    public class Filter {
-        public Filter(System.Reflection.MethodInfo theMethod) {
+    public class Method {
+        public Method(System.Reflection.MethodInfo theMethod) {
             method = theMethod;
             var methodArguments = method.GetParameters();
             arguments = new Argument[methodArguments.Length];
@@ -84,7 +84,7 @@ namespace StateMachineUtilities {
             get {
                 System.Type reqType = param.ParameterType;
                 if (style == Style.Filter) {
-                    reqType = typeof(Filter);
+                    reqType = typeof(Method);
                 } else if (style == Style.Parameter) {
                     reqType = typeof(Parameter);
                 }
@@ -100,7 +100,7 @@ namespace StateMachineUtilities {
             set {
                 System.Type reqType = param.ParameterType;
                 if (style == Style.Filter) {
-                    reqType = typeof(Filter);
+                    reqType = typeof(Method);
                 } else if (style == Style.Parameter) {
                     reqType = typeof(Parameter);
                 }
@@ -157,17 +157,17 @@ namespace StateMachineUtilities {
         public static string getMethodName(System.Reflection.MethodInfo method) {
             return getMethodAttributes(method).name;
         }
-    }
 
-    //Inherit from this when defining conditions and actions
-    public class Module { }
+        //Inherit from this when defining conditions and actions
+        public class Module { }
 
-    [System.AttributeUsage(System.AttributeTargets.Method)]
-    public class Method : System.Attribute {
-        public readonly string name = string.Empty;
+        [System.AttributeUsage(System.AttributeTargets.Method)]
+        public class Method : System.Attribute {
+            public readonly string name = string.Empty;
 
-        public Method(string name) {
-            this.name = name;
+            public Method(string name) {
+                this.name = name;
+            }
         }
 
     }

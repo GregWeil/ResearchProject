@@ -403,7 +403,7 @@ public class StateMachineEditor : EditorWindow {
     int guiArgumentHeight(Argument argument) {
         int rows = 1;
         if (argument.style == Argument.Style.Filter) {
-            foreach (var arg in ((Filter)argument.value).arguments) {
+            foreach (var arg in ((Method)argument.value).arguments) {
                 rows += guiArgumentHeight(arg);
             }
         }
@@ -462,7 +462,7 @@ public class StateMachineEditor : EditorWindow {
             } catch (System.InvalidCastException) {
                 continue;
             }
-            if ((arg.style == Argument.Style.Filter) && (((Filter)arg.value).method == method)) {
+            if ((arg.style == Argument.Style.Filter) && (((Method)arg.value).method == method)) {
                 currentValue = values.Count;
             }
             values.Add(method); names.Add(Modules.getMethodName(method));
@@ -477,14 +477,14 @@ public class StateMachineEditor : EditorWindow {
                 arg.value = values[newValue];
             } else if (values[newValue] is System.Reflection.MethodInfo) {
                 arg.style = Argument.Style.Filter;
-                arg.value = new Filter((System.Reflection.MethodInfo)values[newValue]);
+                arg.value = new Method((System.Reflection.MethodInfo)values[newValue]);
 
             }
         }
 
         if (arg.style == Argument.Style.Filter) {
             var argRect = new Rect(rect.x + argumentIndent, rect.y + rect.height, rect.width - argumentIndent, rect.height);
-            foreach (var argument in ((Filter)arg.value).arguments) {
+            foreach (var argument in ((Method)arg.value).arguments) {
                 var argRows = guiArgumentDraw(argRect, argument);
                 argRect.y += argRows * argRect.height;
                 rows += argRows;
@@ -495,13 +495,13 @@ public class StateMachineEditor : EditorWindow {
     }
 
     void initConditionGUI() {
-        conditionGUI = new UnityEditorInternal.ReorderableList(null, typeof(Filter));
+        conditionGUI = new UnityEditorInternal.ReorderableList(null, typeof(Method));
         conditionGUI.drawHeaderCallback = (Rect rect) => {
             EditorGUI.LabelField(rect, "Conditions");
         };
 
         conditionGUI.drawElementCallback = (Rect rect, int index, bool active, bool focused) => {
-            var cond = (Filter)conditionGUI.list[index];
+            var cond = (Method)conditionGUI.list[index];
             Undo.RecordObject(machine, "Modify Condition");
             EditorGUI.LabelField(rect, Modules.getMethodName(cond.method));
             var argRect = new Rect(rect.x + argumentIndent, rect.y + rect.height, rect.width - argumentIndent, rect.height);
@@ -512,7 +512,7 @@ public class StateMachineEditor : EditorWindow {
         };
         conditionGUI.elementHeightCallback = (index) => {
             int rows = 1;
-            foreach (var arg in ((Filter)conditionGUI.list[index]).arguments) {
+            foreach (var arg in ((Method)conditionGUI.list[index]).arguments) {
                 rows += guiArgumentHeight(arg);
             }
             return rows * conditionGUI.elementHeight;
@@ -524,7 +524,7 @@ public class StateMachineEditor : EditorWindow {
                 var theMethod = method; //Use the right thing for the inline function when iterating
                 menu.AddItem(new GUIContent(Modules.getMethodName(theMethod)), false, () => {
                     Undo.RecordObject(machine, "Add Condition");
-                    list.list.Add(new Filter(theMethod));
+                    list.list.Add(new Method(theMethod));
                     Undo.IncrementCurrentGroup();
                 });
             }

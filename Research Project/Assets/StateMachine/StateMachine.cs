@@ -16,7 +16,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
     [System.NonSerialized]
     private State state = null;
 
-    public List<Filter> serializedFilters = new List<Filter>();
+    public List<Method> serializedFilters = new List<Method>();
 
 
 	// Use this for initialization
@@ -31,12 +31,12 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
         } else if (argument.style == Argument.Style.Parameter) {
             return ((Parameter)argument.value).value;
         } else if (argument.style == Argument.Style.Filter) {
-            return evaluateFilter((Filter)argument.value);
+            return evaluateFilter((Method)argument.value);
         }
         return null;
     }
 
-    private object evaluateFilter(Filter filter) {
+    private object evaluateFilter(Method filter) {
         var arguments = filter.arguments.Select(arg => evaluateArgument(arg)).ToArray();
         return filter.method.Invoke(null, arguments);
     }
@@ -46,7 +46,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
         if (state != null) {
             Debug.Log(state.name);
             foreach (var transition in state.transitions) {
-                if (transition.conditions.Aggregate(true, (accumulate, cond) => (bool)evaluateFilter(cond) && accumulate)) {
+                if (transition.conditions.Aggregate(true, (accumulate, cond) => ((bool)evaluateFilter(cond) && accumulate))) {
                     state = transition.to;
                     break;
                 }
@@ -57,7 +57,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
 
     // Serialization
 
-    private void OnBeforeSerializeFilter(Filter filter) {
+    private void OnBeforeSerializeFilter(Method filter) {
         filter.serializedMethodType = filter.method.ReflectedType.AssemblyQualifiedName;
         filter.serializedMethodName = filter.method.Name;
         foreach (var argument in filter.arguments) {
@@ -67,13 +67,13 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
                 argument.serializedValue = parameters.IndexOf((Parameter)argument.value).ToString();
             } else if (argument.style == Argument.Style.Filter) {
                 argument.serializedValue = serializedFilters.Count.ToString();
-                serializedFilters.Add((Filter)argument.value);
-                OnBeforeSerializeFilter((Filter)argument.value);
+                serializedFilters.Add((Method)argument.value);
+                OnBeforeSerializeFilter((Method)argument.value);
             }
         }
     }
 
-    private void OnAfterDeserializeFilter(Filter filter) {
+    private void OnAfterDeserializeFilter(Method filter) {
         filter.method = System.Type.GetType(filter.serializedMethodType).GetMethod(filter.serializedMethodName);
         var methodArguments = filter.method.GetParameters();
         for (var i = 0; i < methodArguments.Length; ++i) {
@@ -86,7 +86,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
                 argument.value = parameters[int.Parse(argument.serializedValue)];
             } else if (argument.style == Argument.Style.Filter) {
                 argument.value = serializedFilters[int.Parse(argument.serializedValue)];
-                OnAfterDeserializeFilter((Filter)argument.value);
+                OnAfterDeserializeFilter((Method)argument.value);
             }
         }
     }
