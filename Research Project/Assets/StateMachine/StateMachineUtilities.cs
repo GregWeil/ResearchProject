@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StateMachineUtilities {
 
@@ -139,6 +140,24 @@ namespace StateMachineUtilities {
 
 
     //Module definitions
+
+    public class Modules {
+
+        public static IEnumerable<System.Reflection.MethodInfo> getMethods() {
+            return System.Reflection.Assembly.GetAssembly(typeof(Module)).GetTypes()
+                .Where(type => type.IsSubclassOf(typeof(Module)))
+                .SelectMany(type => type.GetMethods())
+                .Where(method => (method.GetCustomAttributes(typeof(Method), true).Length > 0));
+        }
+
+        private static Method getMethodAttributes(System.Reflection.MethodInfo method) {
+            return (Method)method.GetCustomAttributes(typeof(Method), true)[0];
+        }
+
+        public static string getMethodName(System.Reflection.MethodInfo method) {
+            return getMethodAttributes(method).name;
+        }
+    }
 
     //Inherit from this when defining conditions and actions
     public class Module { }

@@ -456,22 +456,16 @@ public class StateMachineEditor : EditorWindow {
             values.Add(param); names.Add("Param/" + param.name);
         }
 
-        foreach (System.Reflection.MethodInfo method in
-                System.Reflection.Assembly.GetAssembly(typeof(Module)).GetTypes()
-                .Where(type => type.IsSubclassOf(typeof(Module)))
-                .SelectMany(type => type.GetMethods())) {
+        foreach (var method in Modules.getMethods()) {
             try {
                 System.Convert.ChangeType(System.Activator.CreateInstance(method.ReturnType), arg.param.ParameterType);
-            } catch {
+            } catch (System.InvalidCastException) {
                 continue;
             }
-            foreach (Method attribute in method.GetCustomAttributes(true)
-                    .Where(attribute => attribute is Method)) {
-                if ((arg.style == Argument.Style.Filter) && (((Filter)arg.value).method == method)) {
-                    currentValue = values.Count;
-                }
-                values.Add(method); names.Add(attribute.name);
+            if ((arg.style == Argument.Style.Filter) && (((Filter)arg.value).method == method)) {
+                currentValue = values.Count;
             }
+            values.Add(method); names.Add(Modules.getMethodName(method));
         }
 
         int newValue = EditorGUI.Popup(typeRect, currentValue, names.ToArray());
@@ -509,14 +503,11 @@ public class StateMachineEditor : EditorWindow {
         conditionGUI.drawElementCallback = (Rect rect, int index, bool active, bool focused) => {
             var cond = (Filter)conditionGUI.list[index];
             Undo.RecordObject(machine, "Modify Condition");
-            foreach (Method attr in cond.method.GetCustomAttributes(true)
-                    .Where(attr => attr is Method)) {
-                EditorGUI.LabelField(rect, attr.name);
-                var argRect = new Rect(rect.x + argumentIndent, rect.y + rect.height, rect.width - argumentIndent, rect.height);
-                foreach (var arg in cond.arguments) {
-                    var rows = guiArgumentDraw(argRect, arg);
-                    argRect.y += rows * argRect.height;
-                }
+            EditorGUI.LabelField(rect, Modules.getMethodName(cond.method));
+            var argRect = new Rect(rect.x + argumentIndent, rect.y + rect.height, rect.width - argumentIndent, rect.height);
+            foreach (var arg in cond.arguments) {
+                var rows = guiArgumentDraw(argRect, arg);
+                argRect.y += rows * argRect.height;
             }
         };
         conditionGUI.elementHeightCallback = (index) => {
@@ -529,20 +520,13 @@ public class StateMachineEditor : EditorWindow {
 
         conditionGUI.onAddDropdownCallback = (Rect rect, UnityEditorInternal.ReorderableList list) => {
             var menu = new GenericMenu();
-            foreach (System.Reflection.MethodInfo method in
-                    System.Reflection.Assembly.GetAssembly(typeof(Module)).GetTypes()
-                    .Where(type => type.IsSubclassOf(typeof(Module)))
-                    .SelectMany(type => type.GetMethods())
-                    .Where(method => method.ReturnType == typeof(bool))) {
-                foreach (Method attr in method.GetCustomAttributes(true)
-                        .Where(attr => attr is Method)) {
-                    var theMethod = method; //Use the right thing for the inline function when iterating
-                    menu.AddItem(new GUIContent(attr.name), false, () => {
-                        Undo.RecordObject(machine, "Add Condition");
-                        list.list.Add(new Filter(theMethod));
-                        Undo.IncrementCurrentGroup();
-                    });
-                }
+            foreach (var method in Modules.getMethods().Where(method => (method.ReturnType == typeof(bool)))) {
+                var theMethod = method; //Use the right thing for the inline function when iterating
+                menu.AddItem(new GUIContent(Modules.getMethodName(theMethod)), false, () => {
+                    Undo.RecordObject(machine, "Add Condition");
+                    list.list.Add(new Filter(theMethod));
+                    Undo.IncrementCurrentGroup();
+                });
             }
             menu.ShowAsContext();
         };
