@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System.Collections.Generic;
 using System.Linq;
 
 using StateMachineUtilities;
@@ -403,16 +404,18 @@ public class StateMachineEditor : EditorWindow {
     //Drawing conditions
     //===========================================
 
-    int guiArgumentHeight(Argument argument) {
+    int guiArgumentRows(Argument argument) {
         int rows = 1;
         if (argument.style == Argument.Style.Filter) {
-            foreach (var arg in ((Method)argument.value).arguments) {
-                rows += guiArgumentHeight(arg);
-            }
+            rows += guiArgumentsRows(((Method)argument.value).arguments);
         }
         return rows;
     }
 
+    int guiArgumentsRows(IEnumerable<Argument> arguments) {
+        return arguments.Sum(arg => guiArgumentRows(arg));
+    }
+    
     int guiArgumentDraw(Rect rect, Argument arg) {
         int rows = 1;
 
@@ -441,8 +444,8 @@ public class StateMachineEditor : EditorWindow {
         }
 
         int currentValue = -1;
-        var values = new System.Collections.Generic.List<object>();
-        var names = new System.Collections.Generic.List<string>();
+        var values = new List<object>();
+        var names = new List<string>();
 
         if (arg.style == Argument.Style.Constant) currentValue = values.Count;
         values.Add(null); names.Add(arg.param.ParameterType.Name);
@@ -476,14 +479,20 @@ public class StateMachineEditor : EditorWindow {
         }
 
         if (arg.style == Argument.Style.Filter) {
-            var argRect = new Rect(rect.x + argumentIndent, rect.y + rect.height, rect.width - argumentIndent, rect.height);
-            foreach (var argument in ((Method)arg.value).arguments) {
-                var argRows = guiArgumentDraw(argRect, argument);
-                argRect.y += argRows * argRect.height;
-                rows += argRows;
-            }
+            rows += guiArgumentsDraw(rect, ((Method)arg.value).arguments);
         }
 
+        return rows;
+    }
+
+    int guiArgumentsDraw(Rect parentRect, IEnumerable<Argument> arguments) {
+        int rows = 0;
+        var rect = new Rect(parentRect.x + argumentIndent, parentRect.y + parentRect.height, parentRect.width - argumentIndent, parentRect.height);
+        foreach (var argument in arguments) {
+            var argRows = guiArgumentDraw(rect, argument);
+            rect.y += argRows * rect.height;
+            rows += argRows;
+        }
         return rows;
     }
 
@@ -497,18 +506,10 @@ public class StateMachineEditor : EditorWindow {
             var cond = (Method)gui.list[index];
             Undo.RecordObject(machine, "Modify Condition");
             EditorGUI.LabelField(rect, Modules.getMethodName(cond.method));
-            var argRect = new Rect(rect.x + argumentIndent, rect.y + rect.height, rect.width - argumentIndent, rect.height);
-            foreach (var arg in cond.arguments) {
-                var rows = guiArgumentDraw(argRect, arg);
-                argRect.y += rows * argRect.height;
-            }
+            guiArgumentsDraw(rect, cond.arguments);
         };
         gui.elementHeightCallback = (index) => {
-            int rows = 1;
-            foreach (var arg in ((Method)gui.list[index]).arguments) {
-                rows += guiArgumentHeight(arg);
-            }
-            return rows * gui.elementHeight;
+            return (guiArgumentsRows(((Method)gui.list[index]).arguments) + 1) * gui.elementHeight;
         };
 
         gui.onAddDropdownCallback = (Rect rect, UnityEditorInternal.ReorderableList list) => {
