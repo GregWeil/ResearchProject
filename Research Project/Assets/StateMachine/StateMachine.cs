@@ -25,6 +25,10 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
 	}
 	
 
+    private void evaluateAction(Method action) {
+        action.method.Invoke(null, action.arguments.Select(arg => evaluateArgument(arg)).ToArray());
+    }
+
     private object evaluateArgument(Argument argument) {
         if (argument.style == Argument.Style.Constant) {
             return argument.value;
@@ -44,10 +48,13 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
 	// Update is called once per frame
 	void FixedUpdate () {
         if (state != null) {
-            Debug.Log(state.name);
+            foreach (var action in state.actions) {
+                evaluateAction(action);
+            }
             foreach (var transition in state.transitions) {
                 if (transition.conditions.Aggregate(true, (accumulate, cond) => ((bool)evaluateFilter(cond) && accumulate))) {
                     state = transition.to;
+                    Debug.Log(state.name);
                     break;
                 }
             }
@@ -57,10 +64,10 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
 
     // Serialization
 
-    private void OnBeforeSerializeFilter(Method filter) {
-        filter.serializedMethodType = filter.method.ReflectedType.AssemblyQualifiedName;
-        filter.serializedMethodName = filter.method.Name;
-        foreach (var argument in filter.arguments) {
+    private void OnBeforeSerializeMethod(Method method) {
+        method.serializedMethodType = method.method.ReflectedType.AssemblyQualifiedName;
+        method.serializedMethodName = method.method.Name;
+        foreach (var argument in method.arguments) {
             if (argument.style == Argument.Style.Constant) {
                 argument.serializedValue = Serialization.serializeObject(argument.value, argument.param.ParameterType);
             } else if (argument.style == Argument.Style.Parameter) {
@@ -68,25 +75,25 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
             } else if (argument.style == Argument.Style.Filter) {
                 argument.serializedValue = serializedFilters.Count.ToString();
                 serializedFilters.Add((Method)argument.value);
-                OnBeforeSerializeFilter((Method)argument.value);
+                OnBeforeSerializeMethod((Method)argument.value);
             }
         }
     }
 
-    private void OnAfterDeserializeFilter(Method filter) {
-        filter.method = System.Type.GetType(filter.serializedMethodType).GetMethod(filter.serializedMethodName);
-        var methodArguments = filter.method.GetParameters();
+    private void OnAfterDeserializeMethod(Method method) {
+        method.method = System.Type.GetType(method.serializedMethodType).GetMethod(method.serializedMethodName);
+        var methodArguments = method.method.GetParameters();
         for (var i = 0; i < methodArguments.Length; ++i) {
-            filter.arguments[i].param = methodArguments[i];
+            method.arguments[i].param = methodArguments[i];
         }
-        foreach (var argument in filter.arguments) {
+        foreach (var argument in method.arguments) {
             if (argument.style == Argument.Style.Constant) {
                 argument.value = Serialization.deserializeObject(argument.serializedValue, argument.param.ParameterType);
             } else if (argument.style == Argument.Style.Parameter) {
                 argument.value = parameters[int.Parse(argument.serializedValue)];
             } else if (argument.style == Argument.Style.Filter) {
                 argument.value = serializedFilters[int.Parse(argument.serializedValue)];
-                OnAfterDeserializeFilter((Method)argument.value);
+                OnAfterDeserializeMethod((Method)argument.value);
             }
         }
     }
@@ -98,10 +105,13 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
             param.serializedValue = Serialization.serializeObject(param.value, param.type);
         }
         foreach (var state in states) {
+            foreach (var action in state.actions) {
+                OnBeforeSerializeMethod(action);
+            }
             foreach (var transition in state.transitions) {
                 transition.serializedTo = states.IndexOf(transition.to);
                 foreach (var condition in transition.conditions) {
-                    OnBeforeSerializeFilter(condition);
+                    OnBeforeSerializeMethod(condition);
                 }
             }
         }
@@ -114,11 +124,14 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
             param.value = Serialization.deserializeObject(param.serializedValue, param.type);
         }
         foreach (var state in states) {
+            foreach (var action in state.actions) {
+                OnAfterDeserializeMethod(action);
+            }
             foreach (var transition in state.transitions) {
                 transition.to = states[transition.serializedTo];
                 transition.from = state;
                 foreach (var condition in transition.conditions) {
-                    OnAfterDeserializeFilter(condition);
+                    OnAfterDeserializeMethod(condition);
                 }
             }
         }

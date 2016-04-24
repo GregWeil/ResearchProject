@@ -36,6 +36,7 @@ namespace StateMachineUtilities {
     public class State {
         public string name = string.Empty;
         public List<Transition> transitions = new List<Transition>();
+        public List<Method> actions = new List<Method>();
         public Vector2 position = Vector2.zero;
     }
 
@@ -152,28 +153,33 @@ namespace StateMachineUtilities {
                 }
             }
 
-            bool result = true;
+            bool possible = true;
 
             if (from != to) {
                 if ((from == typeof(bool)) || (to == typeof(bool))) {
-                    result = false;
+                    possible = false;
                 }
             }
 
             try {
                 System.Convert.ChangeType(System.Activator.CreateInstance(from), to);
             } catch {
-                result = false;
+                possible = false;
+            }
+
+            if (to == typeof(object)) {
+                possible = true;
             }
 
             if (!cache.ContainsKey(from))
                 cache.Add(from, new Dictionary<System.Type, bool>());
-            cache[from].Add(to, result);
+            cache[from].Add(to, possible);
 
-            return result;
+            return possible;
         }
 
         public static object convert(object value, System.Type type) {
+            if (type == typeof(object)) return value;
             return System.Convert.ChangeType(value, type);
         }
 
@@ -193,6 +199,10 @@ namespace StateMachineUtilities {
 
         public static IEnumerable<System.Reflection.MethodInfo> getFilters(System.Type type) {
             return getMethods().Where(method => Conversion.canConvert(method.ReturnType, type));
+        }
+
+        public static IEnumerable<System.Reflection.MethodInfo> getActions() {
+            return getMethods().Where(method => (method.ReturnType == typeof(void)));
         }
 
         private static Method getMethodAttributes(System.Reflection.MethodInfo method) {

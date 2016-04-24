@@ -144,6 +144,7 @@ MonoBehaviour:
           PublicKeyToken=null
         serializedMethodName: isTrue
       serializedTo: 2
+    actions: []
     position: {x: 62, y: -133}
   - name: This is state 4
     transitions:
@@ -155,6 +156,7 @@ MonoBehaviour:
           PublicKeyToken=null
         serializedMethodName: isTrue
       serializedTo: 0
+    actions: []
     position: {x: 281, y: -10}
   - name: New State 6
     transitions:
@@ -182,6 +184,7 @@ MonoBehaviour:
           PublicKeyToken=null
         serializedMethodName: isGreaterThan
       serializedTo: 1
+    actions: []
     position: {x: 5, y: 86}
   - name: Entry point
     transitions:
@@ -219,9 +222,17 @@ MonoBehaviour:
           PublicKeyToken=null
         serializedMethodName: isGreaterThan
       serializedTo: 2
+    actions: []
     position: {x: -183, y: -124}
   - name: New State, Right?
     transitions: []
+    actions:
+    - arguments:
+      - style: 1
+        serializedValue: 3
+      serializedMethodType: GenericActions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      serializedMethodName: debugOutput
     position: {x: -289, y: 64}
   serializedInitialState: 3
   serializedFilters:
@@ -401,12 +412,15 @@ MonoBehaviour:
   states:
   - name: New State testing
     transitions: []
+    actions: []
     position: {x: -240, y: -1}
   - name: New State
     transitions: []
+    actions: []
     position: {x: -43, y: 133}
   - name: New State 12
     transitions: []
+    actions: []
     position: {x: 257, y: 75}
   - name: New State 1
     transitions:
@@ -420,6 +434,7 @@ MonoBehaviour:
           PublicKeyToken=null
         serializedMethodName: isGreaterThan
       serializedTo: 2
+    actions: []
     position: {x: 75, y: -66}
   - name: New State
     transitions:
@@ -431,6 +446,7 @@ MonoBehaviour:
           PublicKeyToken=null
         serializedMethodName: isTrue
       serializedTo: 3
+    actions: []
     position: {x: -196, y: -160}
   serializedInitialState: 1
   serializedFilters: []

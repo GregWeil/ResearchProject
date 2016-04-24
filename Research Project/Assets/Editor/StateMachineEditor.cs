@@ -24,6 +24,7 @@ public class StateMachineEditor : EditorWindow {
     void OnEnable() {
         titleContent = new GUIContent("State Machine");
         Undo.undoRedoPerformed += eventUndoRedo;
+        actionGUI = initActionGUI();
         conditionGUI = initConditionGUI();
     }
 
@@ -43,6 +44,7 @@ public class StateMachineEditor : EditorWindow {
     State _stateSelected = null;
     Transition _transitionSelected = null;
 
+    UnityEditorInternal.ReorderableList actionGUI = null;
     UnityEditorInternal.ReorderableList conditionGUI = null;
 
     //External getter/setter for selection
@@ -54,6 +56,10 @@ public class StateMachineEditor : EditorWindow {
             _stateSelected = value;
             _transitionSelected = null;
             EditorGUI.FocusTextInControl("");
+
+            if (_stateSelected != null) {
+                actionGUI.list = _stateSelected.actions;
+            }
         }
     }
     Transition transitionSelected {
@@ -385,6 +391,7 @@ public class StateMachineEditor : EditorWindow {
             }
             stateSelected.name = EditorGUILayout.TextField(stateSelected.name);
             EditorGUILayout.Space();
+            actionGUI.DoLayoutList();
         } else if (transitionSelected != null) {
             if ((Event.current.type != EventType.Layout) && (Event.current.type != EventType.Repaint)) {
                 Undo.RecordObject(machine, "Modify Transition");
@@ -401,7 +408,7 @@ public class StateMachineEditor : EditorWindow {
 
 
     //===========================================
-    //Drawing conditions
+    //Drawing actions and conditions
     //===========================================
 
     int guiArgumentRows(Argument argument) {
@@ -494,6 +501,43 @@ public class StateMachineEditor : EditorWindow {
             rows += argRows;
         }
         return rows;
+    }
+
+    UnityEditorInternal.ReorderableList initActionGUI() {
+        var gui = new UnityEditorInternal.ReorderableList(null, typeof(Method));
+        gui.drawHeaderCallback = (Rect rect) => {
+            EditorGUI.LabelField(rect, "Actions");
+        };
+
+        gui.drawElementCallback = (Rect rect, int index, bool active, bool focused) => {
+            var action = (Method)gui.list[index];
+            Undo.RecordObject(machine, "Modify Action");
+            EditorGUI.LabelField(rect, Modules.getMethodName(action.method));
+            guiArgumentsDraw(rect, action.arguments);
+        };
+        gui.elementHeightCallback = (index) => {
+            return (guiArgumentsRows(((Method)gui.list[index]).arguments) + 1) * gui.elementHeight;
+        };
+
+        gui.onAddDropdownCallback = (Rect rect, UnityEditorInternal.ReorderableList list) => {
+            var menu = new GenericMenu();
+            foreach (var method in Modules.getActions()) {
+                var theMethod = method; //Use the right thing for the inline function when iterating
+                menu.AddItem(new GUIContent(Modules.getMethodName(theMethod)), false, () => {
+                    Undo.RecordObject(machine, "Add Action");
+                    list.list.Add(new Method(theMethod));
+                    Undo.IncrementCurrentGroup();
+                });
+            }
+            menu.ShowAsContext();
+        };
+        gui.onRemoveCallback = (UnityEditorInternal.ReorderableList list) => {
+            Undo.RecordObject(machine, "Remove Action");
+            UnityEditorInternal.ReorderableList.defaultBehaviours.DoRemoveButton(list);
+            Undo.IncrementCurrentGroup();
+        };
+
+        return gui;
     }
 
     UnityEditorInternal.ReorderableList initConditionGUI() {
