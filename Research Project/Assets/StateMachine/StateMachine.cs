@@ -100,6 +100,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
 
     public void OnBeforeSerialize() {
         serializedFilters.Clear();
+        serializedInitialState = states.IndexOf(initialState);
         foreach (var param in parameters) {
             param.serializedType = param.type.AssemblyQualifiedName;
             param.serializedValue = Serialization.serializeObject(param.value, param.type);
@@ -115,10 +116,12 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
                 }
             }
         }
-        serializedInitialState = states.IndexOf(initialState);
     }
 
     public void OnAfterDeserialize() {
+        if (serializedInitialState >= 0) {
+            initialState = states[serializedInitialState];
+        }
         foreach (var param in parameters) {
             param.type = System.Type.GetType(param.serializedType);
             param.value = Serialization.deserializeObject(param.serializedValue, param.type);
@@ -134,9 +137,6 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
                     OnAfterDeserializeMethod(condition);
                 }
             }
-        }
-        if (serializedInitialState >= 0) {
-            initialState = states[serializedInitialState];
         }
     }
 }
