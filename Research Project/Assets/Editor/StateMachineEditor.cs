@@ -56,10 +56,6 @@ public class StateMachineEditor : EditorWindow {
             _stateSelected = value;
             _transitionSelected = null;
             EditorGUI.FocusTextInControl("");
-
-            if (_stateSelected != null) {
-                actionGUI.list = _stateSelected.actions;
-            }
         }
     }
     Transition transitionSelected {
@@ -68,10 +64,6 @@ public class StateMachineEditor : EditorWindow {
             _transitionSelected = value;
             _stateSelected = null;
             EditorGUI.FocusTextInControl("");
-
-            if (_transitionSelected != null) {
-                conditionGUI.list = _transitionSelected.conditions;
-            }
         }
     }
 
@@ -391,6 +383,7 @@ public class StateMachineEditor : EditorWindow {
             }
             stateSelected.name = EditorGUILayout.TextField(stateSelected.name);
             EditorGUILayout.Space();
+            actionGUI.list = stateSelected.actions;
             actionGUI.DoLayoutList();
         } else if (transitionSelected != null) {
             if ((Event.current.type != EventType.Layout) && (Event.current.type != EventType.Repaint)) {
@@ -399,6 +392,7 @@ public class StateMachineEditor : EditorWindow {
             EditorGUILayout.LabelField(transitionSelected.from.name);
             EditorGUILayout.LabelField(transitionSelected.to.name);
             EditorGUILayout.Space();
+            conditionGUI.list = transitionSelected.conditions;
             conditionGUI.DoLayoutList();
         } else {
             EditorGUILayout.LabelField("Nothing selected");
