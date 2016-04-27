@@ -140,7 +140,7 @@ MonoBehaviour:
       - arguments:
         - style: 1
           serializedValue: 0
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isTrue
       serializedTo: 2
@@ -152,7 +152,7 @@ MonoBehaviour:
       - arguments:
         - style: 1
           serializedValue: 0
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isTrue
       serializedTo: 0
@@ -164,7 +164,7 @@ MonoBehaviour:
       - arguments:
         - style: 2
           serializedValue: 0
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isTrue
       - arguments:
@@ -172,7 +172,7 @@ MonoBehaviour:
           serializedValue: 1
         - style: 1
           serializedValue: 2
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isGreaterThan
       - arguments:
@@ -180,7 +180,7 @@ MonoBehaviour:
           serializedValue: 5
         - style: 1
           serializedValue: 1
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isGreaterThan
       serializedTo: 1
@@ -192,7 +192,7 @@ MonoBehaviour:
       - arguments:
         - style: 1
           serializedValue: 0
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isTrue
       serializedTo: 2
@@ -200,27 +200,27 @@ MonoBehaviour:
       - arguments:
         - style: 0
           serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<boolean>true</boolean>"
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isTrue
       - arguments:
-        - style: 1
-          serializedValue: 1
-        - style: 0
-          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>5</float>"
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        - style: 2
+          serializedValue: 6
+        - style: 2
+          serializedValue: 7
+        serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
-        serializedMethodName: isGreaterThan
+        serializedMethodName: isGreaterThanOrEqualTo
       serializedTo: 4
     - conditions:
       - arguments:
-        - style: 0
-          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>-5</float>"
         - style: 1
           serializedValue: 1
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        - style: 0
+          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>-5</float>"
+        serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
-        serializedMethodName: isGreaterThan
+        serializedMethodName: isLessThan
       serializedTo: 2
     actions: []
     position: {x: -183, y: -124}
@@ -233,45 +233,57 @@ MonoBehaviour:
       serializedMethodType: GenericActions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       serializedMethodName: debugOutput
-    position: {x: -289, y: 64}
+    position: {x: -290, y: 65}
   serializedInitialState: 3
   serializedFilters:
   - arguments:
     - style: 2
       serializedValue: 1
-    serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     serializedMethodName: isTrue
   - arguments:
     - style: 2
       serializedValue: 2
-    serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    serializedMethodName: isTrue
+    serializedMethodName: not
   - arguments:
     - style: 2
       serializedValue: 3
-    serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    serializedMethodName: isTrue
+    serializedMethodName: not
   - arguments:
     - style: 2
       serializedValue: 4
-    serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    serializedMethodName: isTrue
+    serializedMethodName: not
   - arguments:
     - style: 1
       serializedValue: 0
-    serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    serializedMethodName: isTrue
+    serializedMethodName: not
   - arguments:
     - style: 1
       serializedValue: 4
-    serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    serializedMethodType: VectorFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     serializedMethodName: vec3Magnitude
+  - arguments:
+    - style: 1
+      serializedValue: 4
+    serializedMethodType: VectorFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: vec3Magnitude
+  - arguments:
+    - style: 1
+      serializedValue: 3
+    serializedMethodType: VectorFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: vec2Magnitude
 --- !u!4 &285233807
 Transform:
   m_ObjectHideFlags: 0
@@ -430,7 +442,7 @@ MonoBehaviour:
           serializedValue: 1
         - style: 0
           serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>5</float>"
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isGreaterThan
       serializedTo: 2
@@ -442,7 +454,7 @@ MonoBehaviour:
       - arguments:
         - style: 1
           serializedValue: 2
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isTrue
       serializedTo: 3
