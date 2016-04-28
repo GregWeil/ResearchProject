@@ -86,9 +86,16 @@ public class StateMachineInspector : Editor {
 
         EditorGUILayout.Space();
 
-        var oldIndex = machine.states.IndexOf(machine.initialState);
-        var newIndex = EditorGUILayout.Popup("Initial state", oldIndex, machine.states.Select(state => state.name).ToArray());
-        machine.initialState = machine.states[newIndex];
+        if (machine.states.Count > 0) {
+            var oldIndex = machine.states.IndexOf(machine.initialState);
+            if (oldIndex < 0) oldIndex = 0;
+            var newIndex = EditorGUILayout.Popup("Initial state", oldIndex, machine.states.Select(state => state.name).ToArray());
+            machine.initialState = machine.states[newIndex];
+        } else {
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.Popup("Initial state", 0, new string[] { "No states" });
+            EditorGUI.EndDisabledGroup();
+        }
         
         parameterGUI.DoLayoutList();
     }
