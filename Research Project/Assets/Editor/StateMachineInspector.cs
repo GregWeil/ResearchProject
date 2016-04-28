@@ -7,8 +7,8 @@ using StateMachineUtilities;
 [CustomEditor(typeof(StateMachine))]
 public class StateMachineInspector : Editor {
     
-    string[] typeNames = { "Bool", "Float", "Integer", "Vector2", "Vector3" };
-    System.Type[] typeTypes = { typeof(bool), typeof(float), typeof(int), typeof(Vector2), typeof(Vector3) };
+    string[] typeNames = { "Bool", "Float", "Integer", "Vector2", "Vector3", "Door" };
+    System.Type[] typeTypes = { typeof(bool), typeof(float), typeof(int), typeof(Vector2), typeof(Vector3), typeof(Door) };
     
     UnityEditorInternal.ReorderableList parameterGUI;
     
