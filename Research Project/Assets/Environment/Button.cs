@@ -5,21 +5,21 @@ public class Button : MonoBehaviour {
 
     int activity = 0;
 
-    Rigidbody pad = null;
+    Transform pad = null;
 
 	// Use this for initialization
 	void Start () {
-        pad = transform.Find("Pad").GetComponent<Rigidbody>();
+        pad = transform.Find("Pad").transform;
 	}
 	
 
-	void FixedUpdate () {
+    void Update () {
         Vector3 padPosition = pad.transform.localPosition;
         float padHeight = getPressed() ? -0.01f : 0f;
         float padSpeed = getPressed() ? 0.1f : 0.03f;
-        padPosition.z = Mathf.MoveTowards(padPosition.z, padHeight, (padSpeed * Time.fixedDeltaTime));
-        pad.MovePosition(pad.transform.parent.TransformPoint(padPosition));
-	}
+        padPosition.z = Mathf.MoveTowards(padPosition.z, padHeight, (padSpeed * Time.deltaTime));
+        pad.localPosition = padPosition;
+    }
 
     public bool getPressed() {
         return (activity > 0);
