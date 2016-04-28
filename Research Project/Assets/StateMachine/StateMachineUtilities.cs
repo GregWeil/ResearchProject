@@ -12,12 +12,18 @@ namespace StateMachineUtilities {
         public object value {
             get {
                 if ((internalValue == null) || (internalValue.GetType() != type)) {
-                    internalValue = System.Activator.CreateInstance(type);
+                    if (!type.IsSubclassOf(typeof(Object))) {
+                        internalValue = System.Activator.CreateInstance(type);
+                    } else {
+                        internalValue = null;
+                    }
                 }
                 return internalValue;
             }
             set {
-                if (value.GetType() == type) {
+                if ((value == null) && type.IsSubclassOf(typeof(Object))) {
+                    internalValue = null;
+                } else if (value.GetType() == type) {
                     internalValue = value;
                 } else {
                     throw new System.Exception("Invalid type for parameter");
@@ -90,7 +96,7 @@ namespace StateMachineUtilities {
                     reqType = typeof(Parameter);
                 }
                 if ((internalValue == null) || (internalValue.GetType() != reqType)) {
-                    if (style == Style.Constant) {
+                    if ((style == Style.Constant) && !reqType.IsSubclassOf(typeof(Object))) {
                         internalValue = System.Activator.CreateInstance(reqType);
                     } else {
                         internalValue = null;
@@ -105,7 +111,9 @@ namespace StateMachineUtilities {
                 } else if (style == Style.Parameter) {
                     reqType = typeof(Parameter);
                 }
-                if (value.GetType() == reqType) {
+                if ((value == null) && reqType.IsSubclassOf(typeof(Object))) {
+                    internalValue = null;
+                } else if (value.GetType() == reqType) {
                     internalValue = value;
                 } else {
                     throw new System.Exception("Invalid type for argument");
@@ -124,14 +132,25 @@ namespace StateMachineUtilities {
 
     public class Serialization {
 
-        public static string serializeObject(object value, System.Type type) {
+        public static string serializeObject(StateMachine machine, object value, System.Type type) {
+            if (value == null) return "";
+            if (type.IsSubclassOf(typeof(Object))) {
+                if (!machine.serializedObjects.Contains((Object)value)) {
+                    machine.serializedObjects.Add((Object)value);
+                }
+                return machine.serializedObjects.IndexOf((Object)value).ToString();
+            }
             var serializer = new System.Xml.Serialization.XmlSerializer(type);
             var writer = new System.IO.StringWriter();
             serializer.Serialize(writer, System.Convert.ChangeType(value, type));
             return writer.ToString();
         }
 
-        public static object deserializeObject(string value, System.Type type) {
+        public static object deserializeObject(StateMachine machine, string value, System.Type type) {
+            if (value == "") return null;
+            if (type.IsSubclassOf(typeof(Object))) {
+                return machine.serializedObjects[int.Parse(value)];
+            }
             var serializer = new System.Xml.Serialization.XmlSerializer(type);
             var reader = new System.IO.StringReader(value);
             return serializer.Deserialize(reader);
@@ -161,13 +180,19 @@ namespace StateMachineUtilities {
                 }
             }
 
-            try {
-                System.Convert.ChangeType(System.Activator.CreateInstance(from), to);
-            } catch {
+            if (from.IsSubclassOf(typeof(Object))) {
                 possible = false;
+            } else {
+                try {
+                    System.Convert.ChangeType(System.Activator.CreateInstance(from), to);
+                } catch {
+                    possible = false;
+                }
             }
-
+            
             if (to == typeof(object)) {
+                possible = true;
+            } else if (from == to) {
                 possible = true;
             }
 
@@ -179,6 +204,7 @@ namespace StateMachineUtilities {
         }
 
         public static object convert(object value, System.Type type) {
+            if (value == null) return value;
             if (type == typeof(object)) return value;
             return System.Convert.ChangeType(value, type);
         }

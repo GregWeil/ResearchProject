@@ -46,8 +46,8 @@ public class StateMachineInspector : Editor {
                 parameter.value = EditorGUI.Vector2Field(rValue, GUIContent.none, (Vector2)parameter.value);
             } else if (parameter.type == typeof(Vector3)) {
                 parameter.value = EditorGUI.Vector3Field(rValue, GUIContent.none, (Vector3)parameter.value);
-            } else if (parameter.type == typeof(GameObject)) {
-                parameter.value = EditorGUI.ObjectField(rValue, GUIContent.none, (GameObject)parameter.value, typeof(GameObject), true);
+            } else if (parameter.type.IsSubclassOf(typeof(Object))) {
+                parameter.value = EditorGUI.ObjectField(rValue, GUIContent.none, (Object)parameter.value, parameter.type, true);
             }
             EditorGUIUtility.labelWidth = 0;
         };
@@ -86,9 +86,16 @@ public class StateMachineInspector : Editor {
 
         EditorGUILayout.Space();
 
-        var oldIndex = machine.states.IndexOf(machine.initialState);
-        var newIndex = EditorGUILayout.Popup("Initial state", oldIndex, machine.states.Select(state => state.name).ToArray());
-        machine.initialState = machine.states[newIndex];
+        if (machine.states.Count > 0) {
+            var oldIndex = machine.states.IndexOf(machine.initialState);
+            if (oldIndex < 0) oldIndex = 0;
+            var newIndex = EditorGUILayout.Popup("Initial state", oldIndex, machine.states.Select(state => state.name).ToArray());
+            machine.initialState = machine.states[newIndex];
+        } else {
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.Popup("Initial state", 0, new string[] { "No states" });
+            EditorGUI.EndDisabledGroup();
+        }
         
         parameterGUI.DoLayoutList();
     }

@@ -1,25 +1,78 @@
 ﻿using UnityEngine;
 using StateMachineUtilities;
 
-public class GenericFilters : Modules.Module {
+public class BooleanFilters : Modules.Module {
 
-    [Modules.Method("is true")]
+    [Modules.Method("Boolean/is true")]
     public static bool isTrue(bool value) {
-        return value;
+        return (value == true);
     }
 
-    [Modules.Method("greater than")]
+    [Modules.Method("Boolean/is false")]
+    public static bool isFalse(bool value) {
+        return (value == false);
+    }
+
+    [Modules.Method("Boolean/not")]
+    public static bool not(bool value) {
+        return !value;
+    }
+
+    [Modules.Method("Boolean/equal")]
+    public static bool isEqual(bool a, bool b) {
+        return (a == b);
+    }
+
+    [Modules.Method("Boolean/not equal")]
+    public static bool isNotEqual(bool a, bool b) {
+        return (a != b);
+    }
+
+}
+
+public class MathFilters : Modules.Module {
+
+    [Modules.Method("Math/greater than")]
     public static bool isGreaterThan(float a, float b) {
         return (a > b);
     }
 
-    [Modules.Method("longer than")]
-    public static bool isLongerThan(Vector3 vector, float length) {
-        return (vector.magnitude > length);
+    [Modules.Method("Math/less than")]
+    public static bool isLessThan(float a, float b) {
+        return (a < b);
     }
 
-    [Modules.Method("vec3 magnitude")]
+    [Modules.Method("Math/greater than or equal")]
+    public static bool isGreaterThanOrEqualTo(float a, float b) {
+        return (a >= b);
+    }
+
+    [Modules.Method("Math/less than or equal")]
+    public static bool isLessThanOrEqualTo(float a, float b) {
+        return (a <= b);
+    }
+
+    [Modules.Method("Math/equal")]
+    public static bool isEqual(float a, float b) {
+        return (a == b);
+    }
+
+    [Modules.Method("Math/not equal")]
+    public static bool isNotEqual(float a, float b) {
+        return (a != b);
+    }
+    
+}
+
+public class VectorFilters : Modules.Module {
+
+    [Modules.Method("Vectors/vec3 magnitude")]
     public static float vec3Magnitude(Vector3 vector) {
+        return vector.magnitude;
+    }
+
+    [Modules.Method("Vectors/vec2 magnitude")]
+    public static float vec2Magnitude(Vector2 vector) {
         return vector.magnitude;
     }
 

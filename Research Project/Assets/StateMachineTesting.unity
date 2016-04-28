@@ -24,7 +24,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
@@ -36,7 +36,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
+  m_Sun: {fileID: 1736605624}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -85,6 +85,46 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &189277635
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 431384, guid: 4198e975d3bd370478a8efaae8438c7d, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 431384, guid: 4198e975d3bd370478a8efaae8438c7d, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 431384, guid: 4198e975d3bd370478a8efaae8438c7d, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 431384, guid: 4198e975d3bd370478a8efaae8438c7d, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 431384, guid: 4198e975d3bd370478a8efaae8438c7d, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 431384, guid: 4198e975d3bd370478a8efaae8438c7d, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 4198e975d3bd370478a8efaae8438c7d, type: 2}
+  m_IsPrefabParent: 0
+--- !u!114 &189277636 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11492926, guid: 4198e975d3bd370478a8efaae8438c7d,
+    type: 2}
+  m_PrefabInternal: {fileID: 189277635}
+  m_Script: {fileID: 11500000, guid: c3b50af34a4811f47911c4835491565e, type: 3}
 --- !u!1 &285233805
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,7 +180,7 @@ MonoBehaviour:
       - arguments:
         - style: 1
           serializedValue: 0
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isTrue
       serializedTo: 2
@@ -152,7 +192,7 @@ MonoBehaviour:
       - arguments:
         - style: 1
           serializedValue: 0
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isTrue
       serializedTo: 0
@@ -164,7 +204,7 @@ MonoBehaviour:
       - arguments:
         - style: 2
           serializedValue: 0
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isTrue
       - arguments:
@@ -172,7 +212,7 @@ MonoBehaviour:
           serializedValue: 1
         - style: 1
           serializedValue: 2
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isGreaterThan
       - arguments:
@@ -180,7 +220,7 @@ MonoBehaviour:
           serializedValue: 5
         - style: 1
           serializedValue: 1
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isGreaterThan
       serializedTo: 1
@@ -192,7 +232,7 @@ MonoBehaviour:
       - arguments:
         - style: 1
           serializedValue: 0
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isTrue
       serializedTo: 2
@@ -200,27 +240,27 @@ MonoBehaviour:
       - arguments:
         - style: 0
           serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<boolean>true</boolean>"
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isTrue
       - arguments:
-        - style: 1
-          serializedValue: 1
-        - style: 0
-          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>5</float>"
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        - style: 2
+          serializedValue: 6
+        - style: 2
+          serializedValue: 7
+        serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
-        serializedMethodName: isGreaterThan
+        serializedMethodName: isGreaterThanOrEqualTo
       serializedTo: 4
     - conditions:
       - arguments:
-        - style: 0
-          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>-5</float>"
         - style: 1
           serializedValue: 1
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        - style: 0
+          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>-5</float>"
+        serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
-        serializedMethodName: isGreaterThan
+        serializedMethodName: isLessThan
       serializedTo: 2
     actions: []
     position: {x: -183, y: -124}
@@ -233,45 +273,58 @@ MonoBehaviour:
       serializedMethodType: GenericActions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       serializedMethodName: debugOutput
-    position: {x: -289, y: 64}
+    position: {x: -290, y: 65}
   serializedInitialState: 3
   serializedFilters:
   - arguments:
     - style: 2
       serializedValue: 1
-    serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     serializedMethodName: isTrue
   - arguments:
     - style: 2
       serializedValue: 2
-    serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    serializedMethodName: isTrue
+    serializedMethodName: not
   - arguments:
     - style: 2
       serializedValue: 3
-    serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    serializedMethodName: isTrue
+    serializedMethodName: not
   - arguments:
     - style: 2
       serializedValue: 4
-    serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    serializedMethodName: isTrue
+    serializedMethodName: not
   - arguments:
     - style: 1
       serializedValue: 0
-    serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    serializedMethodName: isTrue
+    serializedMethodName: not
   - arguments:
     - style: 1
       serializedValue: 4
-    serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    serializedMethodType: VectorFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     serializedMethodName: vec3Magnitude
+  - arguments:
+    - style: 1
+      serializedValue: 4
+    serializedMethodType: VectorFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: vec3Magnitude
+  - arguments:
+    - style: 1
+      serializedValue: 3
+    serializedMethodType: VectorFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: vec2Magnitude
+  serializedObjects: []
 --- !u!4 &285233807
 Transform:
   m_ObjectHideFlags: 0
@@ -284,6 +337,95 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+--- !u!1 &386419148
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 386419152}
+  - 33: {fileID: 386419151}
+  - 65: {fileID: 386419150}
+  - 23: {fileID: 386419149}
+  - 114: {fileID: 386419153}
+  m_Layer: 0
+  m_Name: Floor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &386419149
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 386419148}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!65 &386419150
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 386419148}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &386419151
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 386419148}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &386419152
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 386419148}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 16, y: 1, z: 16}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+--- !u!114 &386419153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 386419148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31b01e4fa87fb9c44b835844f5855c64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 113944, guid: ffc31a108fbe3284dbcc40bf996a0685, type: 2}
+  spawnTime: 1
 --- !u!1 &565414919
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,12 +506,112 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 565414919}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.45593217, y: -0.1583469, z: 0.082804054, w: 0.871892}
+  m_LocalPosition: {x: 5.6025276, y: 14.7605095, z: -10.957842}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!1 &995663731
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 995663733}
+  - 114: {fileID: 995663732}
+  m_Layer: 0
+  m_Name: DoorStateMachine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &995663732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 995663731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7c13c3a26aab848867971803fa3c34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parameters:
+  - name: Door
+    serializedType: Door, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    serializedValue: 0
+  states:
+  - name: Locked
+    transitions: []
+    actions:
+    - arguments:
+      - style: 1
+        serializedValue: 0
+      serializedMethodType: DoorModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      serializedMethodName: lockDoor
+    position: {x: -219, y: 16}
+  - name: Unlocked
+    transitions: []
+    actions:
+    - arguments:
+      - style: 1
+        serializedValue: 0
+      serializedMethodType: DoorModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      serializedMethodName: unlockDoor
+    position: {x: 82, y: 12}
+  - name: Entry
+    transitions:
+    - conditions:
+      - arguments:
+        - style: 2
+          serializedValue: 0
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isTrue
+      serializedTo: 0
+    - conditions:
+      - arguments:
+        - style: 2
+          serializedValue: 1
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isFalse
+      serializedTo: 1
+    actions: []
+    position: {x: -81, y: -120}
+  serializedInitialState: 2
+  serializedFilters:
+  - arguments:
+    - style: 1
+      serializedValue: 0
+    serializedMethodType: DoorModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: getLocked
+  - arguments:
+    - style: 1
+      serializedValue: 0
+    serializedMethodType: DoorModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: getLocked
+  serializedObjects:
+  - {fileID: 189277636}
+--- !u!4 &995663733
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 995663731}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
 --- !u!1 &1229214325
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,7 +672,7 @@ MonoBehaviour:
           serializedValue: 1
         - style: 0
           serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>5</float>"
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isGreaterThan
       serializedTo: 2
@@ -442,7 +684,7 @@ MonoBehaviour:
       - arguments:
         - style: 1
           serializedValue: 2
-        serializedMethodType: GenericFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isTrue
       serializedTo: 3
@@ -450,6 +692,7 @@ MonoBehaviour:
     position: {x: -196, y: -160}
   serializedInitialState: 1
   serializedFilters: []
+  serializedObjects: []
 --- !u!4 &1229214327
 Transform:
   m_ObjectHideFlags: 0
