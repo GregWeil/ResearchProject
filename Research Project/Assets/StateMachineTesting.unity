@@ -119,6 +119,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4198e975d3bd370478a8efaae8438c7d, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &189277636 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11492926, guid: 4198e975d3bd370478a8efaae8438c7d,
+    type: 2}
+  m_PrefabInternal: {fileID: 189277635}
+  m_Script: {fileID: 11500000, guid: c3b50af34a4811f47911c4835491565e, type: 3}
 --- !u!1 &285233805
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,6 +324,7 @@ MonoBehaviour:
     serializedMethodType: VectorFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     serializedMethodName: vec2Magnitude
+  serializedObjects: []
 --- !u!4 &285233807
 Transform:
   m_ObjectHideFlags: 0
@@ -505,6 +512,106 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!1 &995663731
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 995663733}
+  - 114: {fileID: 995663732}
+  m_Layer: 0
+  m_Name: DoorStateMachine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &995663732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 995663731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7c13c3a26aab848867971803fa3c34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parameters:
+  - name: Door
+    serializedType: Door, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    serializedValue: 0
+  states:
+  - name: Locked
+    transitions: []
+    actions:
+    - arguments:
+      - style: 1
+        serializedValue: 0
+      serializedMethodType: DoorModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      serializedMethodName: lockDoor
+    position: {x: -219, y: 16}
+  - name: Unlocked
+    transitions: []
+    actions:
+    - arguments:
+      - style: 1
+        serializedValue: 0
+      serializedMethodType: DoorModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      serializedMethodName: unlockDoor
+    position: {x: 82, y: 12}
+  - name: Entry
+    transitions:
+    - conditions:
+      - arguments:
+        - style: 2
+          serializedValue: 0
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isTrue
+      serializedTo: 0
+    - conditions:
+      - arguments:
+        - style: 2
+          serializedValue: 1
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isFalse
+      serializedTo: 1
+    actions: []
+    position: {x: -81, y: -120}
+  serializedInitialState: 2
+  serializedFilters:
+  - arguments:
+    - style: 1
+      serializedValue: 0
+    serializedMethodType: DoorModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: getLocked
+  - arguments:
+    - style: 1
+      serializedValue: 0
+    serializedMethodType: DoorModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: getLocked
+  serializedObjects:
+  - {fileID: 189277636}
+--- !u!4 &995663733
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 995663731}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
 --- !u!1 &1229214325
 GameObject:
   m_ObjectHideFlags: 0
@@ -585,6 +692,7 @@ MonoBehaviour:
     position: {x: -196, y: -160}
   serializedInitialState: 1
   serializedFilters: []
+  serializedObjects: []
 --- !u!4 &1229214327
 Transform:
   m_ObjectHideFlags: 0

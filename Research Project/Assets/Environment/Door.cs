@@ -15,27 +15,55 @@ public class Door : MonoBehaviour {
         hinge = GetComponentInChildren<HingeJoint>();
         objLocked = transform.Find("Door").Find("Locked").gameObject;
         objUnlocked = transform.Find("Door").Find("Unlocked").gameObject;
-        setDoor(locked);
+        setLocked(locked);
     }
 
 
     public void lockDoor() {
-        setDoor(true);
+        setLocked(true);
     }
 
     public void unlockDoor() {
-        setDoor(false);
+        setLocked(false);
     }
 
-    public void setDoor(bool newLocked) {
+    public void setLocked(bool newLocked) {
         locked = newLocked;
         hinge.useSpring = locked;
         objLocked.SetActive(locked);
         objUnlocked.SetActive(!locked);
     }
 
+    public bool getLocked() {
+        return locked;
+    }
+
 
     void OnValidate() {
         Start();
     }
+}
+
+public class DoorModule : StateMachineUtilities.Modules.Module {
+
+    [StateMachineUtilities.Modules.Method("Doors/is locked")]
+    public static bool getLocked(Door door) {
+        return door.getLocked();
+    }
+
+    [StateMachineUtilities.Modules.Method("Doors/lock")]
+    public static void lockDoor(Door door) {
+        door.lockDoor();
+    }
+
+    [StateMachineUtilities.Modules.Method("Doors/unlock")]
+    public static void unlockDoor(Door door) {
+        door.unlockDoor();
+    }
+
+    [StateMachineUtilities.Modules.Method("Doors/set locked")]
+    public static void setLocked(Door door, bool locked) {
+        door.setLocked(locked);
+    }
+
 }
