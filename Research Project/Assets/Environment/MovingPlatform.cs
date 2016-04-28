@@ -19,18 +19,18 @@ public class MovingPlatform : MonoBehaviour {
         if (target != null) {
             if (target.next != null) {
                 if (transform.position == target.transform.position) {
-                    if (transform.rotation == target.transform.rotation) {
-                        target = target.next;
-                    }
+                    target = target.next;
                 }
             }
             var fromPos = transform.position;
             var toPos = target.transform.position;
             var newPos = Vector3.MoveTowards(fromPos, toPos, (speed * Time.fixedDeltaTime));
-            var prop = Vector3.Distance(fromPos, newPos) / Vector3.Distance(fromPos, toPos);
-            var newRot = Quaternion.Lerp(transform.rotation, target.transform.rotation, prop);
             body.MovePosition(newPos);
-            body.MoveRotation(newRot);
+            if (Vector3.Distance(fromPos, toPos) > 0f) {
+                var prop = (Vector3.Distance(fromPos, newPos) / Vector3.Distance(fromPos, toPos));
+                var newRot = Quaternion.Lerp(transform.rotation, target.transform.rotation, prop);
+                body.MoveRotation(newRot);
+            }
         }
     }
 }
