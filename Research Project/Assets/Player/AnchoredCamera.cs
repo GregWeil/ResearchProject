@@ -26,6 +26,12 @@ public class AnchoredCamera : MonoBehaviour {
 	void Update () {
         angle += (100 * Input.GetAxis("Camera X") * Time.deltaTime);
         distance += (25 * Input.GetAxis("Camera Y") * Time.deltaTime);
+
+        if (Input.GetMouseButton(1)) {
+            angle += (10 * Input.GetAxis("Mouse X"));
+        }
+        distance -= (10 * Input.GetAxis("Mouse ScrollWheel"));
+
         distance = Mathf.Clamp(distance, distMin, distMax);
         SetPosition();
 	}
