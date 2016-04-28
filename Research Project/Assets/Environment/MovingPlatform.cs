@@ -3,18 +3,34 @@ using System.Collections;
 
 public class MovingPlatform : MonoBehaviour {
 
+    public MovingPlatformWaypoint target = null;
+
+    float speed = 5f;
+
     Rigidbody body = null;
-    Vector3 basePos = Vector3.zero;
 
 	// Use this for initialization
 	void Start () {
         body = GetComponent<Rigidbody>();
-        basePos = transform.position;
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        body.MovePosition(basePos + 10f * Vector3.forward * Mathf.Sin(Time.time));
-        body.MoveRotation(body.rotation * Quaternion.AngleAxis(10f * Time.fixedDeltaTime, Vector3.up));
+        if (target != null) {
+            if (target.next != null) {
+                if (transform.position == target.transform.position) {
+                    if (transform.rotation == target.transform.rotation) {
+                        target = target.next;
+                    }
+                }
+            }
+            var fromPos = transform.position;
+            var toPos = target.transform.position;
+            var newPos = Vector3.MoveTowards(fromPos, toPos, (speed * Time.fixedDeltaTime));
+            var prop = Vector3.Distance(fromPos, newPos) / Vector3.Distance(fromPos, toPos);
+            var newRot = Quaternion.Lerp(transform.rotation, target.transform.rotation, prop);
+            body.MovePosition(newPos);
+            body.MoveRotation(newRot);
+        }
     }
 }

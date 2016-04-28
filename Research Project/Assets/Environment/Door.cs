@@ -51,17 +51,17 @@ public class DoorModule : StateMachineUtilities.Modules.Module {
         return door.getLocked();
     }
 
-    [StateMachineUtilities.Modules.Method("Doors/lock")]
+    [StateMachineUtilities.Modules.Method("Door/lock")]
     public static void lockDoor(Door door) {
         door.lockDoor();
     }
 
-    [StateMachineUtilities.Modules.Method("Doors/unlock")]
+    [StateMachineUtilities.Modules.Method("Door/unlock")]
     public static void unlockDoor(Door door) {
         door.unlockDoor();
     }
 
-    [StateMachineUtilities.Modules.Method("Doors/set locked")]
+    [StateMachineUtilities.Modules.Method("Door/set locked")]
     public static void setLocked(Door door, bool locked) {
         door.setLocked(locked);
     }
