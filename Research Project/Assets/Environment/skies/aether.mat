@@ -6,10 +6,10 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: sky
+  m_Name: aether
   m_Shader: {fileID: 103, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _EMISSION _SUNDISK_HIGH_QUALITY
-  m_LightmapFlags: 1
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
   m_CustomRenderQueue: 1000
   stringTagMap: {}
   m_SavedProperties:
@@ -19,7 +19,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 642979da9ab3d62418cd1a5f166de026, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -40,7 +40,7 @@ Material:
         first:
           name: _Tex
         second:
-          m_Texture: {fileID: 8900000, guid: f3a7137c6955b674bb9ea0efbc374863, type: 3}
+          m_Texture: {fileID: 8900000, guid: 36d1abf1e84408d4e9aad5011c40fee1, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -61,7 +61,7 @@ Material:
         first:
           name: _EmissionMap
         second:
-          m_Texture: {fileID: 2800000, guid: 642979da9ab3d62418cd1a5f166de026, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -85,48 +85,6 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _FrontTex
-        second:
-          m_Texture: {fileID: 2800000, guid: 1e79bbaa8d5bf1943a6333481ff318d5, type: 3}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _BackTex
-        second:
-          m_Texture: {fileID: 2800000, guid: 1e79bbaa8d5bf1943a6333481ff318d5, type: 3}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _LeftTex
-        second:
-          m_Texture: {fileID: 2800000, guid: 1e79bbaa8d5bf1943a6333481ff318d5, type: 3}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _RightTex
-        second:
-          m_Texture: {fileID: 2800000, guid: 1e79bbaa8d5bf1943a6333481ff318d5, type: 3}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _UpTex
-        second:
-          m_Texture: {fileID: 2800000, guid: 42f393c014367a344a905fc25ddbcbcb, type: 3}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _DownTex
-        second:
-          m_Texture: {fileID: 2800000, guid: aef7c7e6283b97049be390017c199fa7, type: 3}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -144,18 +102,6 @@ Material:
         first:
           name: _Exposure
         second: 1
-      data:
-        first:
-          name: _SunDisk
-        second: 2
-      data:
-        first:
-          name: _SunSize
-        second: 0.144
-      data:
-        first:
-          name: _AtmosphereThickness
-        second: 0.42
       data:
         first:
           name: _Parallax
@@ -195,25 +141,17 @@ Material:
       data:
         first:
           name: _Rotation
-        second: 125
+        second: 0
     m_Colors:
       data:
         first:
           name: _EmissionColor
-        second: {r: 0.545, g: 0.545, b: 0.545, a: 1}
+        second: {r: 0, g: 0, b: 0, a: 1}
       data:
         first:
           name: _Color
         second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
-          name: _SkyTint
-        second: {r: 0.1102941, g: 0.41095343, b: 1, a: 1}
-      data:
-        first:
-          name: _GroundColor
-        second: {r: 1, g: 1, b: 1, a: 1}
-      data:
-        first:
           name: _Tint
-        second: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0.5}
+        second: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
