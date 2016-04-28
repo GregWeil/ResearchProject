@@ -585,27 +585,34 @@ MonoBehaviour:
   - name: Door
     serializedType: Door, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     serializedValue: 0
+  - name: Button
+    serializedType: Button, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    serializedValue: 1
   states:
   - name: Locked
-    transitions: []
-    actions:
-    - arguments:
-      - style: 1
-        serializedValue: 0
-      serializedMethodType: DoorModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      serializedMethodName: lockDoor
-    position: {x: -219, y: 16}
+    transitions:
+    - conditions:
+      - arguments:
+        - style: 1
+          serializedValue: 1
+        serializedMethodType: ButtonModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: getPressed
+      serializedTo: 3
+    actions: []
+    position: {x: -285, y: 15}
   - name: Unlocked
-    transitions: []
-    actions:
-    - arguments:
-      - style: 1
-        serializedValue: 0
-      serializedMethodType: DoorModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      serializedMethodName: unlockDoor
-    position: {x: 82, y: 12}
+    transitions:
+    - conditions:
+      - arguments:
+        - style: 1
+          serializedValue: 1
+        serializedMethodType: ButtonModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: getPressed
+      serializedTo: 4
+    actions: []
+    position: {x: 170, y: 18}
   - name: Entry
     transitions:
     - conditions:
@@ -626,6 +633,42 @@ MonoBehaviour:
       serializedTo: 1
     actions: []
     position: {x: -81, y: -120}
+  - name: Unlocking
+    transitions:
+    - conditions:
+      - arguments:
+        - style: 2
+          serializedValue: 2
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: not
+      serializedTo: 1
+    actions:
+    - arguments:
+      - style: 1
+        serializedValue: 0
+      serializedMethodType: DoorModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      serializedMethodName: unlockDoor
+    position: {x: -74, y: 97}
+  - name: Locking
+    transitions:
+    - conditions:
+      - arguments:
+        - style: 2
+          serializedValue: 3
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: not
+      serializedTo: 0
+    actions:
+    - arguments:
+      - style: 1
+        serializedValue: 0
+      serializedMethodType: DoorModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      serializedMethodName: lockDoor
+    position: {x: -80, y: -3}
   serializedInitialState: 2
   serializedFilters:
   - arguments:
@@ -640,8 +683,21 @@ MonoBehaviour:
     serializedMethodType: DoorModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     serializedMethodName: getLocked
+  - arguments:
+    - style: 1
+      serializedValue: 1
+    serializedMethodType: ButtonModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: getPressed
+  - arguments:
+    - style: 1
+      serializedValue: 1
+    serializedMethodType: ButtonModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: getPressed
   serializedObjects:
   - {fileID: 189277636}
+  - {fileID: 1113207115}
 --- !u!4 &995663733
 Transform:
   m_ObjectHideFlags: 0
@@ -654,6 +710,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
+--- !u!114 &1113207115 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11449066, guid: 04634ab20d71dc1429c859cff5066215,
+    type: 2}
+  m_PrefabInternal: {fileID: 759025603}
+  m_Script: {fileID: 11500000, guid: 0d9375ee5bdaa464cbd415b149c7054b, type: 3}
 --- !u!1 &1229214325
 GameObject:
   m_ObjectHideFlags: 0

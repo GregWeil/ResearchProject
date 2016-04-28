@@ -34,3 +34,12 @@ public class Button : MonoBehaviour {
         if (col.gameObject.CompareTag("Player")) activity -= 1;
     }
 }
+
+public class ButtonModule : StateMachineUtilities.Modules.Module {
+
+    [StateMachineUtilities.Modules.Method("Buttons/is held")]
+    public static bool getPressed(Button button) {
+        return button.getPressed();
+    }
+
+}
