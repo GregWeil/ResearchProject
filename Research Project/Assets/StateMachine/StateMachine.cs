@@ -17,6 +17,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
     private State state = null;
 
     public List<Method> serializedFilters = new List<Method>();
+    public List<Object> serializedObjects = new List<Object>();
 
 
 	// Use this for initialization
@@ -69,7 +70,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
         method.serializedMethodName = method.method.Name;
         foreach (var argument in method.arguments) {
             if (argument.style == Argument.Style.Constant) {
-                argument.serializedValue = Serialization.serializeObject(argument.value, argument.param.ParameterType);
+                argument.serializedValue = Serialization.serializeObject(this, argument.value, argument.param.ParameterType);
             } else if (argument.style == Argument.Style.Parameter) {
                 argument.serializedValue = parameters.IndexOf((Parameter)argument.value).ToString();
             } else if (argument.style == Argument.Style.Filter) {
@@ -88,7 +89,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
         }
         foreach (var argument in method.arguments) {
             if (argument.style == Argument.Style.Constant) {
-                argument.value = Serialization.deserializeObject(argument.serializedValue, argument.param.ParameterType);
+                argument.value = Serialization.deserializeObject(this, argument.serializedValue, argument.param.ParameterType);
             } else if (argument.style == Argument.Style.Parameter) {
                 argument.value = parameters[int.Parse(argument.serializedValue)];
             } else if (argument.style == Argument.Style.Filter) {
@@ -103,7 +104,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
         serializedInitialState = states.IndexOf(initialState);
         foreach (var param in parameters) {
             param.serializedType = param.type.AssemblyQualifiedName;
-            param.serializedValue = Serialization.serializeObject(param.value, param.type);
+            param.serializedValue = Serialization.serializeObject(this, param.value, param.type);
         }
         foreach (var state in states) {
             foreach (var action in state.actions) {
@@ -124,7 +125,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
         }
         foreach (var param in parameters) {
             param.type = System.Type.GetType(param.serializedType);
-            param.value = Serialization.deserializeObject(param.serializedValue, param.type);
+            param.value = Serialization.deserializeObject(this, param.serializedValue, param.type);
         }
         foreach (var state in states) {
             foreach (var action in state.actions) {

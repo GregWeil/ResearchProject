@@ -132,16 +132,25 @@ namespace StateMachineUtilities {
 
     public class Serialization {
 
-        public static string serializeObject(object value, System.Type type) {
+        public static string serializeObject(StateMachine machine, object value, System.Type type) {
             if (value == null) return "";
+            if (type.IsSubclassOf(typeof(Object))) {
+                if (!machine.serializedObjects.Contains((Object)value)) {
+                    machine.serializedObjects.Add((Object)value);
+                }
+                return machine.serializedObjects.IndexOf((Object)value).ToString();
+            }
             var serializer = new System.Xml.Serialization.XmlSerializer(type);
             var writer = new System.IO.StringWriter();
             serializer.Serialize(writer, System.Convert.ChangeType(value, type));
             return writer.ToString();
         }
 
-        public static object deserializeObject(string value, System.Type type) {
+        public static object deserializeObject(StateMachine machine, string value, System.Type type) {
             if (value == "") return null;
+            if (type.IsSubclassOf(typeof(Object))) {
+                return machine.serializedObjects[int.Parse(value)];
+            }
             var serializer = new System.Xml.Serialization.XmlSerializer(type);
             var reader = new System.IO.StringReader(value);
             return serializer.Deserialize(reader);
@@ -195,6 +204,7 @@ namespace StateMachineUtilities {
         }
 
         public static object convert(object value, System.Type type) {
+            if (value == null) return value;
             if (type == typeof(object)) return value;
             return System.Convert.ChangeType(value, type);
         }

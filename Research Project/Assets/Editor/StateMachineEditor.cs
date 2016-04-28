@@ -436,8 +436,8 @@ public class StateMachineEditor : EditorWindow {
                 arg.value = EditorGUI.Vector2Field(nameRect, arg.param.Name, (Vector2)arg.value);
             } else if (arg.param.ParameterType == typeof(Vector3)) {
                 arg.value = EditorGUI.Vector3Field(nameRect, arg.param.Name, (Vector3)arg.value);
-            } else if (arg.param.ParameterType == typeof(GameObject)) {
-                arg.value = EditorGUI.ObjectField(nameRect, arg.param.Name, (GameObject)arg.value, typeof(GameObject), true);
+            } else if (arg.param.ParameterType.IsSubclassOf(typeof(Object))) {
+                arg.value = EditorGUI.ObjectField(nameRect, arg.param.Name, (Object)arg.value, arg.param.ParameterType, true);
             }
             EditorGUIUtility.labelWidth = 0;
         } else {
