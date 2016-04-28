@@ -17,7 +17,6 @@ public class Button : MonoBehaviour {
         Vector3 padPosition = pad.transform.localPosition;
         float padHeight = getPressed() ? -0.01f : 0f;
         float padSpeed = getPressed() ? 0.1f : 0.03f;
-        Debug.Log(padHeight);
         padPosition.z = Mathf.MoveTowards(padPosition.z, padHeight, (padSpeed * Time.fixedDeltaTime));
         pad.MovePosition(pad.transform.parent.TransformPoint(padPosition));
 	}
