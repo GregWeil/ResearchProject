@@ -451,7 +451,7 @@ public class StateMachineEditor : EditorWindow {
         if (arg.style == Argument.Style.Constant) currentValue = values.Count;
         values.Add(null); names.Add(arg.param.ParameterType.Name);
 
-        foreach (var param in machine.parameters.Where(param => Conversion.canConvert(param.value.GetType(), arg.param.ParameterType))) {
+        foreach (var param in machine.parameters.Where(param => Conversion.canConvert(param.type, arg.param.ParameterType))) {
             if ((arg.style == Argument.Style.Parameter) && (arg.value == param)) {
                 currentValue = values.Count;
             }

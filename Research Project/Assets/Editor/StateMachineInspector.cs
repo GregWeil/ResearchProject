@@ -46,8 +46,8 @@ public class StateMachineInspector : Editor {
                 parameter.value = EditorGUI.Vector2Field(rValue, GUIContent.none, (Vector2)parameter.value);
             } else if (parameter.type == typeof(Vector3)) {
                 parameter.value = EditorGUI.Vector3Field(rValue, GUIContent.none, (Vector3)parameter.value);
-            } else if (parameter.type == typeof(GameObject)) {
-                parameter.value = EditorGUI.ObjectField(rValue, GUIContent.none, (GameObject)parameter.value, typeof(GameObject), true);
+            } else if (parameter.type.IsSubclassOf(typeof(Object))) {
+                parameter.value = EditorGUI.ObjectField(rValue, GUIContent.none, (Object)parameter.value, parameter.type, true);
             }
             EditorGUIUtility.labelWidth = 0;
         };
