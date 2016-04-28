@@ -126,4 +126,8 @@ public class PlayerMovement : MonoBehaviour {
             anim.SetBool("Grounded", grounded);
         }
 	}
+
+    public bool getGrounded() {
+        return grounded;
+    }
 }
