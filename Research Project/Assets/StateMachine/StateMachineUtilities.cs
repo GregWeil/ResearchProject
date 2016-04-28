@@ -236,6 +236,7 @@ namespace StateMachineUtilities {
         }
 
         public static string getMethodName(System.Reflection.MethodInfo method) {
+            if (method == null) return string.Empty;
             return getMethodAttributes(method).name;
         }
 

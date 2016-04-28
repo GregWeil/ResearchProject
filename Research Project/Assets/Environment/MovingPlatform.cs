@@ -34,3 +34,12 @@ public class MovingPlatform : MonoBehaviour {
         }
     }
 }
+
+public class MovingPlatformModule : StateMachineUtilities.Modules.Module {
+
+    [StateMachineUtilities.Modules.Method("Platforms/set target")]
+    public static void setTarget(MovingPlatform platform, MovingPlatformWaypoint target) {
+        platform.target = target;
+    }
+
+}
