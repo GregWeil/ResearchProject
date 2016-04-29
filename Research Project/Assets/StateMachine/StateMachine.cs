@@ -55,7 +55,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
             foreach (var transition in state.transitions) {
                 if (transition.conditions.Aggregate(true, (accumulate, cond) => ((bool)evaluateFilter(cond) && accumulate))) {
                     state = transition.to;
-                    //Debug.Log(state.name);
+                    Debug.Log(state.name);
                     break;
                 }
             }
