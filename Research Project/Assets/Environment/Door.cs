@@ -6,6 +6,8 @@ public class Door : MonoBehaviour {
     [SerializeField]
     private bool locked = false;
 
+    private bool usedKey = false;
+
     HingeJoint hinge = null;
     GameObject objLocked = null;
     GameObject objUnlocked = null;
@@ -23,15 +25,16 @@ public class Door : MonoBehaviour {
         setLocked(true);
     }
 
-    public void unlockDoor() {
+    public void unlockDoor(bool withKey = false) {
+        usedKey = withKey;
         setLocked(false);
     }
 
     public void setLocked(bool newLocked) {
         locked = newLocked;
         hinge.useSpring = locked;
-        objLocked.SetActive(locked);
-        objUnlocked.SetActive(!locked);
+        objLocked.SetActive(locked || usedKey);
+        objUnlocked.SetActive(!locked && !usedKey);
     }
 
     public bool getLocked() {
