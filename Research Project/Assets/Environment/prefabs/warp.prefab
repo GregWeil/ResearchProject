@@ -30,7 +30,7 @@ GameObject:
   - 65: {fileID: 6565910}
   - 114: {fileID: 11483746}
   m_Layer: 0
-  m_Name: Warp
+  m_Name: warp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
