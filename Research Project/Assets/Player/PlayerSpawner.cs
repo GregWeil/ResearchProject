@@ -26,3 +26,11 @@ public class PlayerSpawner : MonoBehaviour {
         }
 	}
 }
+
+public class PlayerModule : StateMachineUtilities.Modules.Module {
+
+    [StateMachineUtilities.Modules.Method("Player/is alive")]
+    public static bool isAlive() {
+        return (GameObject.FindGameObjectWithTag("Player") != null);
+    }
+}
