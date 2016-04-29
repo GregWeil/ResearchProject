@@ -14,10 +14,15 @@ public class Key : MonoBehaviour {
     void Start () {
         targetPos = transform.localPosition;
         targetRot = transform.localRotation;
+        StartCoroutine("hover");
     }
 
 	// Update is called once per frame
 	void Update () {
+        if (!used) {
+            transform.localRotation *= Quaternion.AngleAxis((30f * Time.deltaTime), Vector3.up);
+            targetRot = transform.localRotation;
+        }
         if (targetTime > 0f) {
             var distPrev = Vector3.Distance(transform.localPosition, targetPos);
             transform.localPosition = Vector3.SmoothDamp(transform.localPosition, targetPos, ref speed, targetTime);
@@ -39,6 +44,18 @@ public class Key : MonoBehaviour {
         }
     }
 
+    IEnumerator hover() {
+        Vector3 basePos = transform.localPosition;
+        bool up = true;
+        while (!used) {
+            targetTime = 5f;
+            targetPos = basePos;
+            if (up) targetPos.y += 0.25f;
+            up = !up;
+            yield return new WaitForSeconds(5f);
+        }
+    }
+
     IEnumerator activate() {
         transform.parent = null;
         Transform doorPanel = door.transform.Find("Door").transform;
@@ -48,7 +65,7 @@ public class Key : MonoBehaviour {
         targetTime = 0.15f;
         targetPos = transform.localPosition + (1f * Vector3.up);
         yield return new WaitUntil(() => (Vector3.Distance(transform.localPosition, targetPos) < 0.1f));
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
 
         targetTime = 0.75f;
         float distance = 0.01f;
