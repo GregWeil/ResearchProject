@@ -7,7 +7,7 @@ public class CharacterHealth : MonoBehaviour {
     bool dead = false;
 
     Animator anim = null;
-    float animCooldown = 0f;
+    float stunCooldown = 0f;
 
 	// Use this for initialization
 	void Start () {
@@ -16,20 +16,20 @@ public class CharacterHealth : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        animCooldown -= Time.deltaTime;
+        stunCooldown -= Time.deltaTime;
 	    if ((health < 0.0f) && !dead) {
             dead = true;
             anim.SetTrigger("Die");
-            Destroy(gameObject, 1f);
         }
 	}
 
     public void Damage(float amount) {
         if (!dead) {
             health -= amount;
-            if (animCooldown < 0f) {
+            if (stunCooldown < 0f) {
+                SendMessage("Stun", SendMessageOptions.DontRequireReceiver);
                 anim.SetTrigger("Hurt");
-                animCooldown = 0.4f;
+                stunCooldown = 0.5f;
             }
         }
     }
@@ -43,4 +43,18 @@ public class CharacterHealth : MonoBehaviour {
     public bool Alive() {
         return !dead;
     }
+}
+
+public class CharacterHealthModule : StateMachineUtilities.Modules.Module {
+
+    [StateMachineUtilities.Modules.Method("Characters/is alive")]
+    public static bool isAlive(CharacterHealth character) {
+        return character.Alive();
+    }
+
+    [StateMachineUtilities.Modules.Method("Characters/get health")]
+    public static float getHealth(CharacterHealth character) {
+        return character.health;
+    }
+
 }

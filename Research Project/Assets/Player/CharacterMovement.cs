@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerMovement : MonoBehaviour {
+public class CharacterMovement : MonoBehaviour {
+
+    public float walkSpeed = 5.5f;
 
     //Desired velocity
     Vector3 movement = Vector3.zero;
+    bool jump = false;
 
     //Grounded
     bool grounded = false;
@@ -12,18 +15,13 @@ public class PlayerMovement : MonoBehaviour {
     Vector3 groundNormal = Vector3.up;
     float groundAngle = 0f;
     GameObject groundObject = null;
-
-    CharacterHealth health = null;
-
-    Transform cameraTransform = null;
+    
     Rigidbody body = null;
     Animator anim = null;
 
 	// Use this for initialization
 	void Start () {
-        health = GetComponent<CharacterHealth>();
         body = GetComponent<Rigidbody>();
-        cameraTransform = FindObjectOfType<Camera>().transform;
         anim = GetComponentInChildren<Animator>();
 	}
 	
@@ -41,7 +39,7 @@ public class PlayerMovement : MonoBehaviour {
         body.AddForce(60f * -groundNormal);
 
         //Jump hover
-        if (Input.GetButton("Jump") && !grounded && (body.velocity.y > -2.5f)) {
+        if (jump && !grounded && (body.velocity.y > -2.5f)) {
             body.AddForce(30.0f * Vector3.up);
         }
 
@@ -53,7 +51,7 @@ public class PlayerMovement : MonoBehaviour {
             groundVel.y = 0f;
         }
         if (grounded) {
-            Vector3 goalVel = (5.5f * movement * Mathf.Cos(groundAngle * Mathf.Deg2Rad));
+            Vector3 goalVel = (walkSpeed * movement * Mathf.Cos(groundAngle * Mathf.Deg2Rad));
             goalVel += groundVel;
             var accel = (0.5f * (goalVel - vel) / Time.fixedDeltaTime);
             body.AddForce(accel);
@@ -85,6 +83,9 @@ public class PlayerMovement : MonoBehaviour {
         anim.SetFloat("SpeedGround", (vel - groundVel).magnitude);
         anim.SetFloat("SpeedVertical", body.velocity.y);
 
+        //Reset movement
+        movement = Vector3.zero;
+
         //Reset grounded
         grounded = false;
         groundContact = Vector3.zero;
@@ -108,22 +109,6 @@ public class PlayerMovement : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        var alive = true;
-        if (health != null) alive = health.Alive();
-
-        ///Update desired movement
-        Vector3 moveBase = cameraTransform.TransformDirection(Vector3.right);
-        moveBase.y = 0;
-        moveBase.Normalize();
-        movement = (Input.GetAxis("Horizontal") * moveBase) + (Input.GetAxis("Vertical") * new Vector3(-moveBase.z, 0, moveBase.x));
-        if (movement.sqrMagnitude > 1.0f) movement.Normalize();
-        if (!alive) movement = Vector3.zero;
-        
-        if (Input.GetButtonDown("Jump") && grounded && alive) {
-            body.velocity += (15.0f * Vector3.up);
-            grounded = false;
-        }
-
         //Die if below the map
         if (transform.position.y < -25f) {
             SendMessage("Kill");
@@ -134,7 +119,29 @@ public class PlayerMovement : MonoBehaviour {
         }
 	}
 
+    public void setMovement(Vector3 move) {
+        movement = move;
+        movement.y = 0;
+    }
+
+    public void setJump(bool newJump) {
+        if (newJump && !jump && grounded) {
+            body.velocity = new Vector3(body.velocity.x, 15f, body.velocity.z);
+            grounded = false;
+        }
+        jump = newJump;
+    }
+
     public bool getGrounded() {
         return grounded;
     }
+}
+
+public class CharacterMovementModule : StateMachineUtilities.Modules.Module {
+
+    [StateMachineUtilities.Modules.Method("Characters/set movement")]
+    public static void setMovement(CharacterMovement character, Vector3 movement) {
+        character.setMovement(movement);
+    }
+
 }
