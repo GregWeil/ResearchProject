@@ -47,4 +47,9 @@ public class PlayerModule : StateMachineUtilities.Modules.Module {
         if (player == null) return false;
         return player.GetComponentInChildren<CharacterHealth>().Alive();
     }
+
+    [StateMachineUtilities.Modules.Method("Player/get player")]
+    public static GameObject getPlayerGameObject() {
+        return GameObject.FindGameObjectWithTag("Player");
+    }
 }

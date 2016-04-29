@@ -44,3 +44,17 @@ public class CharacterHealth : MonoBehaviour {
         return !dead;
     }
 }
+
+public class CharacterHealthModule : StateMachineUtilities.Modules.Module {
+
+    [StateMachineUtilities.Modules.Method("Characters/is alive")]
+    public static bool isAlive(CharacterHealth character) {
+        return character.Alive();
+    }
+
+    [StateMachineUtilities.Modules.Method("Characters/get health")]
+    public static float getHealth(CharacterHealth character) {
+        return character.health;
+    }
+
+}

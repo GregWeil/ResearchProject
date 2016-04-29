@@ -3,6 +3,8 @@ using System.Collections;
 
 public class CharacterMovement : MonoBehaviour {
 
+    public float walkSpeed = 5.5f;
+
     //Desired velocity
     Vector3 movement = Vector3.zero;
     bool jump = false;
@@ -49,7 +51,7 @@ public class CharacterMovement : MonoBehaviour {
             groundVel.y = 0f;
         }
         if (grounded) {
-            Vector3 goalVel = (5.5f * movement * Mathf.Cos(groundAngle * Mathf.Deg2Rad));
+            Vector3 goalVel = (walkSpeed * movement * Mathf.Cos(groundAngle * Mathf.Deg2Rad));
             goalVel += groundVel;
             var accel = (0.5f * (goalVel - vel) / Time.fixedDeltaTime);
             body.AddForce(accel);
@@ -133,4 +135,13 @@ public class CharacterMovement : MonoBehaviour {
     public bool getGrounded() {
         return grounded;
     }
+}
+
+public class CharacterMovementModule : StateMachineUtilities.Modules.Module {
+
+    [StateMachineUtilities.Modules.Method("Characters/set movement")]
+    public static void setMovement(CharacterMovement character, Vector3 movement) {
+        character.setMovement(movement);
+    }
+
 }

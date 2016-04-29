@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using StateMachineUtilities;
+﻿using StateMachineUtilities;
 
 public class BooleanFilters : Modules.Module {
 
@@ -62,18 +61,4 @@ public class MathFilters : Modules.Module {
         return (a != b);
     }
     
-}
-
-public class VectorFilters : Modules.Module {
-
-    [Modules.Method("Vectors/vec3 magnitude")]
-    public static float vec3Magnitude(Vector3 vector) {
-        return vector.magnitude;
-    }
-
-    [Modules.Method("Vectors/vec2 magnitude")]
-    public static float vec2Magnitude(Vector2 vector) {
-        return vector.magnitude;
-    }
-
 }
