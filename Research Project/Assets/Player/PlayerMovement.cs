@@ -13,12 +13,15 @@ public class PlayerMovement : MonoBehaviour {
     float groundAngle = 0f;
     GameObject groundObject = null;
 
+    CharacterHealth health = null;
+
     Transform cameraTransform = null;
     Rigidbody body = null;
     Animator anim = null;
 
 	// Use this for initialization
 	void Start () {
+        health = GetComponent<CharacterHealth>();
         body = GetComponent<Rigidbody>();
         cameraTransform = FindObjectOfType<Camera>().transform;
         anim = GetComponentInChildren<Animator>();
@@ -105,21 +108,25 @@ public class PlayerMovement : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        var alive = true;
+        if (health != null) alive = health.Alive();
+
         ///Update desired movement
         Vector3 moveBase = cameraTransform.TransformDirection(Vector3.right);
         moveBase.y = 0;
         moveBase.Normalize();
         movement = (Input.GetAxis("Horizontal") * moveBase) + (Input.GetAxis("Vertical") * new Vector3(-moveBase.z, 0, moveBase.x));
         if (movement.sqrMagnitude > 1.0f) movement.Normalize();
+        if (!alive) movement = Vector3.zero;
         
-        if (Input.GetButtonDown("Jump") && grounded) {
+        if (Input.GetButtonDown("Jump") && grounded && alive) {
             body.velocity += (15.0f * Vector3.up);
             grounded = false;
         }
 
         //Die if below the map
-        if (transform.position.y < 0.0f) {
-            SendMessage("Damage", Time.deltaTime);
+        if (transform.position.y < -25f) {
+            SendMessage("Kill");
         }
 
         if (grounded) {

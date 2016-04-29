@@ -16,6 +16,11 @@ public class PlayerSpawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (player != null) {
+            if (!player.GetComponentInChildren<CharacterHealth>().Alive()) {
+                player = null;
+            }
+        }
 	    if (player == null) {
             timer -= Time.deltaTime;
             if (timer < 0.0f) {
@@ -31,6 +36,8 @@ public class PlayerModule : StateMachineUtilities.Modules.Module {
 
     [StateMachineUtilities.Modules.Method("Player/is alive")]
     public static bool isAlive() {
-        return (GameObject.FindGameObjectWithTag("Player") != null);
+        var player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null) return false;
+        return player.GetComponentInChildren<CharacterHealth>().Alive();
     }
 }

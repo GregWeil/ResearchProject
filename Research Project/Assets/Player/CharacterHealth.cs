@@ -40,7 +40,7 @@ public class CharacterHealth : MonoBehaviour {
         }
     }
 
-    public bool Dead() {
-        return dead;
+    public bool Alive() {
+        return !dead;
     }
 }
