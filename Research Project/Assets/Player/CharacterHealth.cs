@@ -7,7 +7,7 @@ public class CharacterHealth : MonoBehaviour {
     bool dead = false;
 
     Animator anim = null;
-    float animCooldown = 0f;
+    float stunCooldown = 0f;
 
 	// Use this for initialization
 	void Start () {
@@ -16,7 +16,7 @@ public class CharacterHealth : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        animCooldown -= Time.deltaTime;
+        stunCooldown -= Time.deltaTime;
 	    if ((health < 0.0f) && !dead) {
             dead = true;
             anim.SetTrigger("Die");
@@ -26,9 +26,10 @@ public class CharacterHealth : MonoBehaviour {
     public void Damage(float amount) {
         if (!dead) {
             health -= amount;
-            if (animCooldown < 0f) {
+            if (stunCooldown < 0f) {
+                SendMessage("Stun");
                 anim.SetTrigger("Hurt");
-                animCooldown = 0.4f;
+                stunCooldown = 0.5f;
             }
         }
     }

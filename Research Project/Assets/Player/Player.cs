@@ -6,6 +6,8 @@ public class Player : MonoBehaviour {
     CharacterMovement movement = null;
     CharacterHealth health = null;
 
+    float stun = 0f;
+
 	// Use this for initialization
 	void Start () {
         movement = GetComponent<CharacterMovement>();
@@ -14,6 +16,7 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        stun -= Time.deltaTime;
 
         ///Update desired movement
         Vector3 move = Camera.main.transform.TransformDirection(Vector3.right);
@@ -21,14 +24,18 @@ public class Player : MonoBehaviour {
         move.Normalize();
         move = (Input.GetAxis("Horizontal") * move) + (Input.GetAxis("Vertical") * new Vector3(-move.z, 0, move.x));
         if (move.sqrMagnitude > 1.0f) move.Normalize();
-        if (!health.Alive()) move = Vector3.zero;
+        if (!health.Alive() || (stun > 0f)) move = Vector3.zero;
         movement.setMovement(move);
 
         //Try to jump
-        if (Input.GetButtonDown("Jump") && health.Alive()) {
+        if (Input.GetButtonDown("Jump") && health.Alive() && !(stun > 0f)) {
             movement.setJump();
         }
 
+    }
+
+    void Stun () {
+        stun = 0.2f;
     }
 }
 
