@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerMovement : MonoBehaviour {
+public class CharacterMovement : MonoBehaviour {
 
     //Desired velocity
     Vector3 movement = Vector3.zero;

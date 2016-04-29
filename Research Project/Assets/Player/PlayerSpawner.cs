@@ -16,14 +16,16 @@ public class PlayerSpawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        bool dead = (player == null);
         if (player != null) {
             if (!player.GetComponentInChildren<CharacterHealth>().Alive()) {
-                player = null;
+                dead = true;
             }
         }
-	    if (player == null) {
+	    if (dead) {
             timer -= Time.deltaTime;
             if (timer < 0.0f) {
+                if (player != null) Destroy(player);
                 player = (GameObject)Instantiate(prefab, transform.position, transform.rotation);
                 player.name = prefab.name;
                 timer = spawnTime;

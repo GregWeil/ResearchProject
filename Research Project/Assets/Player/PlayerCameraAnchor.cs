@@ -19,7 +19,7 @@ public class PlayerCameraAnchor : MonoBehaviour {
 	void LateUpdate () {
 	    if (player != null) {
             var position = (player.position + (1.5f * Vector3.up));
-            if (!player.GetComponentInChildren<PlayerMovement>().getGrounded()) {
+            if (!player.GetComponentInChildren<CharacterMovement>().getGrounded()) {
                 position.y = transform.position.y;
             }
             position.x = Mathf.SmoothDamp(transform.position.x, position.x, ref speed.x, hTime);

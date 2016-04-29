@@ -20,7 +20,6 @@ public class CharacterHealth : MonoBehaviour {
 	    if ((health < 0.0f) && !dead) {
             dead = true;
             anim.SetTrigger("Die");
-            Destroy(gameObject, 1f);
         }
 	}
 
