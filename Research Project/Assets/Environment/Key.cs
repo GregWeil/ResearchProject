@@ -64,6 +64,8 @@ public class Key : MonoBehaviour {
 
         targetTime = 0.15f;
         targetPos = transform.localPosition + (1f * Vector3.up);
+        targetRot = Quaternion.LookRotation(Vector3.Scale((door.transform.position - transform.position), new Vector3(1, 0, 1)));
+        targetRot *= Quaternion.AngleAxis(90f, Vector3.up);
         yield return new WaitUntil(() => (Vector3.Distance(transform.localPosition, targetPos) < 0.1f));
         yield return new WaitForSeconds(0.25f);
 
