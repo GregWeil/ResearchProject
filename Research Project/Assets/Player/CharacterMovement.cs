@@ -5,6 +5,7 @@ public class CharacterMovement : MonoBehaviour {
 
     //Desired velocity
     Vector3 movement = Vector3.zero;
+    bool jump = false;
 
     //Grounded
     bool grounded = false;
@@ -36,7 +37,7 @@ public class CharacterMovement : MonoBehaviour {
         body.AddForce(60f * -groundNormal);
 
         //Jump hover
-        if (Input.GetButton("Jump") && !grounded && (body.velocity.y > -2.5f)) {
+        if (jump && !grounded && (body.velocity.y > -2.5f)) {
             body.AddForce(30.0f * Vector3.up);
         }
 
@@ -80,6 +81,9 @@ public class CharacterMovement : MonoBehaviour {
         anim.SetFloat("SpeedGround", (vel - groundVel).magnitude);
         anim.SetFloat("SpeedVertical", body.velocity.y);
 
+        //Reset movement
+        movement = Vector3.zero;
+
         //Reset grounded
         grounded = false;
         groundContact = Vector3.zero;
@@ -115,13 +119,15 @@ public class CharacterMovement : MonoBehaviour {
 
     public void setMovement(Vector3 move) {
         movement = move;
+        movement.y = 0;
     }
 
-    public void setJump() {
-        if (grounded) {
+    public void setJump(bool newJump) {
+        if (newJump && !jump && grounded) {
             body.velocity = new Vector3(body.velocity.x, 15f, body.velocity.z);
             grounded = false;
         }
+        jump = newJump;
     }
 
     public bool getGrounded() {

@@ -28,8 +28,8 @@ public class Player : MonoBehaviour {
         movement.setMovement(move);
 
         //Try to jump
-        if (Input.GetButtonDown("Jump") && health.Alive() && !(stun > 0f)) {
-            movement.setJump();
+        if (health.Alive() && !(stun > 0f)) {
+            movement.setJump(Input.GetButton("Jump"));
         }
 
     }

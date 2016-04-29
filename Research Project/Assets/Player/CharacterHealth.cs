@@ -27,7 +27,7 @@ public class CharacterHealth : MonoBehaviour {
         if (!dead) {
             health -= amount;
             if (stunCooldown < 0f) {
-                SendMessage("Stun");
+                SendMessage("Stun", SendMessageOptions.DontRequireReceiver);
                 anim.SetTrigger("Hurt");
                 stunCooldown = 0.5f;
             }
