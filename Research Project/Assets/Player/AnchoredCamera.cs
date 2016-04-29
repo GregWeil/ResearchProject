@@ -10,11 +10,6 @@ public class AnchoredCamera : MonoBehaviour {
 
     float distance = 20f;
     float angle = 0f;
-
-	// Use this for initialization
-	void Start () {
-	    
-	}
 	
     void SetPosition() {
         transform.position = target.position;
@@ -23,7 +18,7 @@ public class AnchoredCamera : MonoBehaviour {
     }
 
 	// Update is called once per frame
-	void Update () {
+    void Update () {
         angle += (100 * Input.GetAxis("Camera X") * Time.deltaTime);
         distance += (25 * Input.GetAxis("Camera Y") * Time.deltaTime);
 
@@ -33,6 +28,13 @@ public class AnchoredCamera : MonoBehaviour {
         distance -= (10 * Input.GetAxis("Mouse ScrollWheel"));
 
         distance = Mathf.Clamp(distance, distMin, distMax);
+    }
+
+    void LateUpdate () {
+        SetPosition();
+    }
+
+	void OnPreCull () {
         SetPosition();
 	}
 
