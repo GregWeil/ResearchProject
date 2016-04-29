@@ -11,35 +11,42 @@ public class AnchoredCamera : MonoBehaviour {
     float distance = 20f;
     float angle = 0f;
 
+    float tilt = 0f;
+    float tiltSpeed = 0f;
+    float tiltNeutral = 30f;
+
     float lockTime = -1f;
-    Vector3 lockPosition = Vector3.zero;
-    Quaternion lockRotation = Quaternion.identity;
+    float lockPriority = float.MinValue;
+    float lockTilt = 0f;
+
+    void Start () {
+        tilt = tiltNeutral;
+    }
+
 	
     void SetPosition() {
-        if (lockTime < 0f) {
-            transform.position = target.position;
-            transform.eulerAngles = new Vector3(30, angle, 0);
-            transform.Translate(new Vector3(0, 0, -distance));
-        } else {
-            transform.position = lockPosition;
-            transform.rotation = lockRotation;
-        }
+        transform.position = target.position;
+        transform.eulerAngles = new Vector3(tilt, angle, 0);
+        transform.Translate(new Vector3(0, 0, -distance));
     }
 
 	// Update is called once per frame
     void Update () {
-        if (lockTime < 0f) {
-            angle += (100 * Input.GetAxis("Camera X") * Time.deltaTime);
-            distance += (25 * Input.GetAxis("Camera Y") * Time.deltaTime);
+        angle += (100 * Input.GetAxis("Camera X") * Time.deltaTime);
+        distance += (25 * Input.GetAxis("Camera Y") * Time.deltaTime);
 
-            if (Input.GetMouseButton(1)) {
-                angle += (10 * Input.GetAxis("Mouse X"));
-            }
-            distance -= (10 * Input.GetAxis("Mouse ScrollWheel"));
-
-            distance = Mathf.Clamp(distance, distMin, distMax);
+        if (Input.GetMouseButton(1)) {
+            angle += (10 * Input.GetAxis("Mouse X"));
         }
+        distance -= (10 * Input.GetAxis("Mouse ScrollWheel"));
+
+        distance = Mathf.Clamp(distance, distMin, distMax);
+
+        float tiltGoal = (lockTime > 0f) ? lockTilt : tiltNeutral;
+        tilt = Mathf.SmoothDamp(tilt, tiltGoal, ref tiltSpeed, 0.4f);
+
         lockTime -= Time.deltaTime;
+        if (lockTime < 0) lockPriority = float.MinValue;
     }
 
     void LateUpdate () {
@@ -54,9 +61,12 @@ public class AnchoredCamera : MonoBehaviour {
         SetPosition();
     }
 
-    public void lockCamera(Vector3 position, Quaternion rotation, float time = 0f) {
-        lockPosition = position;
-        lockRotation = rotation;
-        lockTime = time;
+
+    public void lockCamera(float tilt, float priority = 0f, float time = 0.1f) {
+        if (priority >= lockPriority) {
+            lockTilt = tilt;
+            lockTime = time;
+            lockPriority = priority;
+        }
     }
 }
