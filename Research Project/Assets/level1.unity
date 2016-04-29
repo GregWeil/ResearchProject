@@ -6702,6 +6702,22 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11461990, guid: 77e9c272cec97db4d8bda6397c6abac2, type: 2}
+      propertyPath: quality
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11461990, guid: 77e9c272cec97db4d8bda6397c6abac2, type: 2}
+      propertyPath: tweakMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11405650, guid: 77e9c272cec97db4d8bda6397c6abac2, type: 2}
+      propertyPath: blurType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11405650, guid: 77e9c272cec97db4d8bda6397c6abac2, type: 2}
+      propertyPath: blurSampleCount
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 77e9c272cec97db4d8bda6397c6abac2, type: 2}
   m_IsPrefabParent: 0
