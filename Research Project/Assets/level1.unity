@@ -11056,7 +11056,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 425707737}
-  - {fileID: 2142782466}
   - {fileID: 733017372}
   - {fileID: 1719039997}
   m_Father: {fileID: 0}
@@ -11083,7 +11082,13 @@ MonoBehaviour:
   states:
   - name: Activate
     transitions:
-    - conditions: []
+    - conditions:
+      - arguments:
+        - style: 2
+          serializedValue: 0
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: not
       serializedTo: 2
     actions:
     - arguments:
@@ -11094,17 +11099,23 @@ MonoBehaviour:
       serializedMethodType: MovingPlatformModule, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       serializedMethodName: setTarget
-    position: {x: -251, y: -122}
+    position: {x: -250, y: -123}
   - name: Deactivate
     transitions:
-    - conditions: []
+    - conditions:
+      - arguments:
+        - style: 2
+          serializedValue: 1
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: not
       serializedTo: 3
     actions:
     - arguments:
       - style: 1
         serializedValue: 0
       - style: 0
-        serializedValue: 3
+        serializedValue: 1
       serializedMethodType: MovingPlatformModule, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       serializedMethodName: setTarget
@@ -11113,14 +11124,28 @@ MonoBehaviour:
     transitions:
     - conditions:
       - arguments:
-        - style: 2
+        - style: 1
           serializedValue: 0
+        serializedMethodType: MovingPlatformModule, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        serializedMethodName: isIdle
+      - arguments:
+        - style: 2
+          serializedValue: 2
         serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: not
-      serializedTo: 1
+      serializedTo: 4
+    - conditions:
+      - arguments:
+        - style: 2
+          serializedValue: 3
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: not
+      serializedTo: 5
     actions: []
-    position: {x: -254, y: 15}
+    position: {x: -346, y: -24}
   - name: Inactive
     transitions:
     - conditions:
@@ -11133,6 +11158,38 @@ MonoBehaviour:
       serializedTo: 0
     actions: []
     position: {x: 133, y: -119}
+  - name: Destination
+    transitions:
+    - conditions:
+      - arguments:
+        - style: 1
+          serializedValue: 1
+        serializedMethodType: ButtonModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: getPressed
+      serializedTo: 1
+    - conditions:
+      - arguments:
+        - style: 2
+          serializedValue: 4
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: not
+      serializedTo: 1
+    actions: []
+    position: {x: -118, y: -13}
+  - name: ActiveDead
+    transitions:
+    - conditions:
+      - arguments:
+        - style: 1
+          serializedValue: 0
+        serializedMethodType: MovingPlatformModule, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        serializedMethodName: isIdle
+      serializedTo: 1
+    actions: []
+    position: {x: -135, y: 128}
   serializedInitialState: 1
   serializedFilters:
   - arguments:
@@ -11141,11 +11198,31 @@ MonoBehaviour:
     serializedMethodType: ButtonModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     serializedMethodName: getPressed
+  - arguments:
+    - style: 1
+      serializedValue: 1
+    serializedMethodType: ButtonModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: getPressed
+  - arguments:
+    - style: 1
+      serializedValue: 1
+    serializedMethodType: ButtonModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: getPressed
+  - arguments: []
+    serializedMethodType: PlayerModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: isAlive
+  - arguments: []
+    serializedMethodType: PlayerModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: isAlive
   serializedObjects:
   - {fileID: 620369933}
   - {fileID: 733017371}
   - {fileID: 425707738}
-  - {fileID: 2142782467}
+  - {fileID: 0}
   - {fileID: 1719039996}
 --- !u!1001 &341657008
 Prefab:
@@ -15048,7 +15125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97af7b01f2a2a03478ccbd4736da224a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 2142782467}
+  target: {fileID: 733017371}
 --- !u!1001 &427060061
 Prefab:
   m_ObjectHideFlags: 0
@@ -26288,7 +26365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d54fe27cd11cff4aa17608bf1daaacf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  next: {fileID: 1719039996}
+  next: {fileID: 0}
 --- !u!4 &733017372
 Transform:
   m_ObjectHideFlags: 0
@@ -26300,7 +26377,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 340723331}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!1001 &734515233
 Prefab:
   m_ObjectHideFlags: 0
@@ -61461,7 +61538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d54fe27cd11cff4aa17608bf1daaacf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  next: {fileID: 733017371}
+  next: {fileID: 0}
 --- !u!4 &1719039997
 Transform:
   m_ObjectHideFlags: 0
@@ -61473,7 +61550,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 340723331}
-  m_RootOrder: 3
+  m_RootOrder: 2
 --- !u!1001 &1720186385
 Prefab:
   m_ObjectHideFlags: 0
@@ -75861,46 +75938,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d82045208548fe847a6ef9f32a085db5, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &2142782465
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 2142782466}
-  - 114: {fileID: 2142782467}
-  m_Layer: 0
-  m_Name: waypoint_origin
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2142782466
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2142782465}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -20.249996, z: -0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 340723331}
-  m_RootOrder: 1
---- !u!114 &2142782467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2142782465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d54fe27cd11cff4aa17608bf1daaacf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  next: {fileID: 0}
 --- !u!1001 &2142926592
 Prefab:
   m_ObjectHideFlags: 0

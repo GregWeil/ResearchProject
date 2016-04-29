@@ -5,7 +5,7 @@ public class MovingPlatform : MonoBehaviour {
 
     public MovingPlatformWaypoint target = null;
 
-    float speed = 5f;
+    float speed = 3f;
 
     Rigidbody body = null;
 
@@ -40,6 +40,13 @@ public class MovingPlatformModule : StateMachineUtilities.Modules.Module {
     [StateMachineUtilities.Modules.Method("Platforms/set target")]
     public static void setTarget(MovingPlatform platform, MovingPlatformWaypoint target) {
         platform.target = target;
+    }
+
+    [StateMachineUtilities.Modules.Method("Platforms/is idle")]
+    public static bool isIdle(MovingPlatform platform) {
+        if (platform.target == null) return true;
+        if (platform.target.next != null) return false;
+        return (platform.transform.position == platform.target.transform.position);
     }
 
 }
