@@ -3,7 +3,12 @@ using System.Collections;
 
 public class Button : MonoBehaviour {
 
+    public AudioSource soundPress = null;
+    public AudioSource soundRelease = null;
+
     int activity = 0;
+
+    bool pressedLast = false;
 
     Transform pad = null;
 
@@ -14,6 +19,12 @@ public class Button : MonoBehaviour {
 	
 
     void Update () {
+        if (getPressed() != pressedLast) {
+            if (getPressed()) soundPress.Play();
+            else soundRelease.Play();
+            pressedLast = getPressed();
+        }
+
         Vector3 padPosition = pad.transform.localPosition;
         float padHeight = getPressed() ? -0.01f : 0f;
         float padSpeed = getPressed() ? 0.1f : 0.03f;
