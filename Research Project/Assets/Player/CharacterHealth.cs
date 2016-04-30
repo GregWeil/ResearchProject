@@ -3,6 +3,9 @@ using System.Collections;
 
 public class CharacterHealth : MonoBehaviour {
 
+    public AudioSource soundHurt = null;
+    public AudioSource soundDeath = null;
+
     public float health = 1.0f;
     bool dead = false;
 
@@ -19,6 +22,7 @@ public class CharacterHealth : MonoBehaviour {
         stunCooldown -= Time.deltaTime;
 	    if ((health <= 0.0f) && !dead) {
             dead = true;
+            if (soundDeath != null) soundDeath.Play();
             anim.SetBool("Dead", true);
         }
 	}
@@ -28,6 +32,7 @@ public class CharacterHealth : MonoBehaviour {
             health -= amount;
             if (stunCooldown < 0f) {
                 SendMessage("Stun", 0.2f, SendMessageOptions.DontRequireReceiver);
+                if (soundHurt != null) soundHurt.Play();
                 anim.SetTrigger("Hurt");
                 stunCooldown = 0.5f;
             }
