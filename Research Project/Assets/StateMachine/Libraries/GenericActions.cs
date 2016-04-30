@@ -13,4 +13,9 @@ public class GenericActions : Modules.Module {
         obj.SetActive(active);
     }
 
+    [Modules.Method("Audio/play sound")]
+    public static void playSound(AudioSource sound) {
+        sound.Play();
+    }
+
 }
