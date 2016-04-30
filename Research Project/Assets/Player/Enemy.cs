@@ -13,6 +13,11 @@ public class EnemyModule : Modules.Module {
         return Vector3.Scale((target - self.transform.position), new Vector3(1, 0, 1)).normalized;
     }
 
+    [Modules.Method("Enemies/movement away from")]
+    public static Vector3 movementAvoid(GameObject self, Vector3 target) {
+        return -Vector3.Scale((target - self.transform.position), new Vector3(1, 0, 1)).normalized;
+    }
+
     [Modules.Method("Enemies/attack trigger")]
     public static void animTrigger(Animator anim) {
         anim.SetTrigger("Attack");

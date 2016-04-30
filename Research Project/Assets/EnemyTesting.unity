@@ -648,14 +648,14 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       serializedMethodName: setMovement
     position: {x: -221, y: 29}
-  - name: Idle
+  - name: Avoid
     transitions:
     - conditions:
       - arguments:
         - style: 2
-          serializedValue: 8
+          serializedValue: 11
         - style: 0
-          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>4</float>"
+          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>8</float>"
         serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isGreaterThan
@@ -663,19 +663,27 @@ MonoBehaviour:
     - conditions:
       - arguments:
         - style: 2
-          serializedValue: 11
+          serializedValue: 14
         serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: not
       serializedTo: 4
-    actions: []
-    position: {x: 22, y: 32}
+    actions:
+    - arguments:
+      - style: 1
+        serializedValue: 1
+      - style: 2
+        serializedValue: 8
+      serializedMethodType: CharacterMovementModule, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      serializedMethodName: setMovement
+    position: {x: 24, y: 31}
   - name: Waiting
     transitions:
     - conditions:
       - arguments:
         - style: 2
-          serializedValue: 12
+          serializedValue: 15
         - style: 0
           serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>15</float>"
         serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
@@ -689,7 +697,7 @@ MonoBehaviour:
     - conditions:
       - arguments:
         - style: 2
-          serializedValue: 16
+          serializedValue: 19
         - style: 0
           serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>1</float>"
         serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
@@ -701,7 +709,7 @@ MonoBehaviour:
       - style: 1
         serializedValue: 1
       - style: 2
-        serializedValue: 15
+        serializedValue: 18
       serializedMethodType: CharacterMovementModule, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       serializedMethodName: setMovement
@@ -729,19 +737,19 @@ MonoBehaviour:
       serializedMethodType: EnemyModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       serializedMethodName: timerSet
-    position: {x: -314, y: 151}
+    position: {x: -243, y: 149}
   - name: Attack
     transitions:
     - conditions:
       - arguments:
         - style: 2
-          serializedValue: 17
+          serializedValue: 20
         - style: 0
           serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>0.75</float>"
         serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isGreaterThan
-      serializedTo: 1
+      serializedTo: 2
     actions:
     - arguments:
       - style: 1
@@ -751,7 +759,7 @@ MonoBehaviour:
       serializedMethodType: GenericActions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       serializedMethodName: setActive
-    position: {x: -122, y: 155}
+    position: {x: -32, y: 152}
   serializedInitialState: 0
   serializedFilters:
   - arguments: []
@@ -805,10 +813,28 @@ MonoBehaviour:
       serializedValue: 9
     serializedMethodType: EnemyModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    serializedMethodName: distanceTo
+    serializedMethodName: movementAvoid
   - arguments:
     - style: 2
       serializedValue: 10
+    serializedMethodType: GameObjectFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: position
+  - arguments: []
+    serializedMethodType: PlayerModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: getPlayerGameObject
+  - arguments:
+    - style: 1
+      serializedValue: 0
+    - style: 2
+      serializedValue: 12
+    serializedMethodType: EnemyModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: distanceTo
+  - arguments:
+    - style: 2
+      serializedValue: 13
     serializedMethodType: GameObjectFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     serializedMethodName: position
@@ -824,13 +850,13 @@ MonoBehaviour:
     - style: 1
       serializedValue: 0
     - style: 2
-      serializedValue: 13
+      serializedValue: 16
     serializedMethodType: EnemyModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     serializedMethodName: distanceTo
   - arguments:
     - style: 2
-      serializedValue: 14
+      serializedValue: 17
     serializedMethodType: GameObjectFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     serializedMethodName: position
