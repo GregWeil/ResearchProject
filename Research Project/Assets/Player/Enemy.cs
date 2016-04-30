@@ -18,4 +18,16 @@ public class EnemyModule : Modules.Module {
         anim.SetTrigger("Attack");
     }
 
+    static float timer = 0f;
+
+    [Modules.Method("Enemies/set timer")]
+    public static void timerSet() {
+        timer = Time.time;
+    }
+
+    [Modules.Method("Enemies/get timer")]
+    public static float timerGet() {
+        return (Time.time - timer);
+    }
+
 }

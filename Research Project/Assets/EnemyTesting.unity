@@ -706,7 +706,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       serializedMethodName: setMovement
     position: {x: 41, y: -74}
-  - name: Attack
+  - name: Attack start
     transitions:
     - conditions: []
       serializedTo: 6
@@ -725,11 +725,23 @@ MonoBehaviour:
       serializedMethodType: EnemyModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       serializedMethodName: animTrigger
-    position: {x: -256, y: 161}
-  - name: Attack end
+    - arguments: []
+      serializedMethodType: EnemyModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      serializedMethodName: timerSet
+    position: {x: -314, y: 151}
+  - name: Attack
     transitions:
-    - conditions: []
-      serializedTo: 2
+    - conditions:
+      - arguments:
+        - style: 2
+          serializedValue: 17
+        - style: 0
+          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>0.75</float>"
+        serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isGreaterThan
+      serializedTo: 1
     actions:
     - arguments:
       - style: 1
@@ -739,7 +751,7 @@ MonoBehaviour:
       serializedMethodType: GenericActions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       serializedMethodName: setActive
-    position: {x: -35, y: 169}
+    position: {x: -122, y: 155}
   serializedInitialState: 0
   serializedFilters:
   - arguments: []
@@ -842,6 +854,10 @@ MonoBehaviour:
     serializedMethodType: EnemyModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     serializedMethodName: distanceTo
+  - arguments: []
+    serializedMethodType: EnemyModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: timerGet
   serializedObjects:
   - {fileID: 526994470}
   - {fileID: 526994469}
