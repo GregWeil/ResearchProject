@@ -35,4 +35,10 @@ public class EnemyModule : Modules.Module {
         return (Time.time - timer);
     }
 
+    [Modules.Method("Enemies/deactivate")]
+    public static void deactivate(GameObject enemy) {
+        enemy.GetComponent<Collider>().enabled = false;
+        enemy.GetComponent<Rigidbody>().isKinematic = true;
+    }
+
 }

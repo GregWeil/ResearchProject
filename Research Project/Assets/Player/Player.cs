@@ -5,14 +5,32 @@ public class Player : MonoBehaviour {
 
     CharacterMovement movement = null;
     CharacterHealth health = null;
+    Animator anim = null;
+
+    public GameObject damageField = null;
 
     float stun = 0f;
+    bool attack = false;
 
 	// Use this for initialization
 	void Start () {
         movement = GetComponent<CharacterMovement>();
         health = GetComponent<CharacterHealth>();
+        anim = GetComponentInChildren<Animator>();
 	}
+
+    void FixedUpdate () {
+
+        ///Attack
+        damageField.SetActive(false);
+        if (attack && health.Alive() && movement.getGrounded() && !(stun > 0f)) {
+            stun = 0.5f;
+            anim.SetTrigger("Attack");
+            damageField.SetActive(true);
+        }
+        attack = false;
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -31,6 +49,8 @@ public class Player : MonoBehaviour {
         if (health.Alive() && !(stun > 0f)) {
             movement.setJump(Input.GetButton("Jump"));
         }
+
+        attack = Input.GetButtonDown("Fire1");
 
     }
 

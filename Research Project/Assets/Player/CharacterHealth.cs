@@ -17,9 +17,9 @@ public class CharacterHealth : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         stunCooldown -= Time.deltaTime;
-	    if ((health < 0.0f) && !dead) {
+	    if ((health <= 0.0f) && !dead) {
             dead = true;
-            anim.SetTrigger("Die");
+            anim.SetBool("Dead", true);
         }
 	}
 
