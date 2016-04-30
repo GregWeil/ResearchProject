@@ -55755,6 +55755,10 @@ MonoBehaviour:
         serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isLessThan
+      - arguments: []
+        serializedMethodType: PlayerModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isAlive
       serializedTo: 1
     actions:
     - arguments:
