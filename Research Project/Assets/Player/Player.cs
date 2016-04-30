@@ -7,6 +7,7 @@ public class Player : MonoBehaviour {
     CharacterHealth health = null;
     Animator anim = null;
 
+    public AudioSource soundAttack = null;
     public GameObject damageField = null;
 
     float stun = 0f;
@@ -61,6 +62,7 @@ public class Player : MonoBehaviour {
 
     IEnumerator Attack () {
         attackCanceled = false;
+        soundAttack.Play();
         yield return new WaitForSeconds(0.4f);
         if (!attackCanceled) {
             yield return new WaitForFixedUpdate();
