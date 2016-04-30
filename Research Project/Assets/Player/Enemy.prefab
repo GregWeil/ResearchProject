@@ -1369,7 +1369,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 132788}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 402556}
@@ -1722,7 +1722,10 @@ MonoBehaviour:
       PublicKeyToken=null
     serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Vector3 xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
       xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <x>0</x>\r\n  <y>0</y>\r\n
-      \ <z>5</z>\r\n</Vector3>"
+      \ <z>0</z>\r\n</Vector3>"
+  - name: Wait Distance
+    serializedType: System.Single, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+    serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>15</float>"
   states:
   - name: Entry
     transitions:
@@ -1818,8 +1821,8 @@ MonoBehaviour:
       - arguments:
         - style: 2
           serializedValue: 17
-        - style: 0
-          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>15</float>"
+        - style: 1
+          serializedValue: 5
         serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isLessThan
@@ -1935,7 +1938,7 @@ MonoBehaviour:
       serializedMethodType: EnemyModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       serializedMethodName: deactivate
-    position: {x: 273, y: 142}
+    position: {x: 261, y: 181}
   serializedInitialState: 0
   serializedFilters:
   - arguments: []
