@@ -5,14 +5,32 @@ public class Player : MonoBehaviour {
 
     CharacterMovement movement = null;
     CharacterHealth health = null;
+    Animator anim = null;
+
+    public GameObject damageField = null;
 
     float stun = 0f;
+    bool attack = false;
+    bool attackCanceled = false;
 
 	// Use this for initialization
 	void Start () {
         movement = GetComponent<CharacterMovement>();
         health = GetComponent<CharacterHealth>();
+        anim = GetComponentInChildren<Animator>();
 	}
+
+    void FixedUpdate () {
+
+        ///Attack
+        if (attack && health.Alive() && movement.getGrounded() && !(stun > 0f)) {
+            Stun(0.75f);
+            anim.SetTrigger("Attack");
+            StartCoroutine("Attack");
+        }
+        attack = false;
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -32,11 +50,26 @@ public class Player : MonoBehaviour {
             movement.setJump(Input.GetButton("Jump"));
         }
 
+        attack = Input.GetButtonDown("Fire1");
+
     }
 
-    void Stun () {
-        stun = 0.2f;
+    void Stun (float time) {
+        attackCanceled = true;
+        stun = Mathf.Max(stun, time);
     }
+
+    IEnumerator Attack () {
+        attackCanceled = false;
+        yield return new WaitForSeconds(0.4f);
+        if (!attackCanceled) {
+            yield return new WaitForFixedUpdate();
+            damageField.SetActive(true);
+            yield return new WaitForFixedUpdate();
+            damageField.SetActive(false);
+        }
+    }
+
 }
 
 public class PlayerModule : StateMachineUtilities.Modules.Module {

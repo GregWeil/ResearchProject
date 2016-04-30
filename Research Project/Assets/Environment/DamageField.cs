@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class DamageField : MonoBehaviour {
-
+    
     public float damageRate = 1.0f;
+    public bool instant = false;
 
     // Use this for initialization
     void Start() {
@@ -16,6 +17,7 @@ public class DamageField : MonoBehaviour {
     }
 
     void OnTriggerStay(Collider other) {
-        other.SendMessage("Damage", (damageRate * Time.fixedDeltaTime), SendMessageOptions.DontRequireReceiver);
+        var damage = instant ? damageRate : (damageRate * Time.fixedDeltaTime);
+        other.SendMessage("Damage", damage, SendMessageOptions.DontRequireReceiver);
     }
 }

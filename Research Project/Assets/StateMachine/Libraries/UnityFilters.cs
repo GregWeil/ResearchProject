@@ -28,6 +28,11 @@ public class VectorFilters : Modules.Module {
         return (a - b);
     }
 
+    [Modules.Method("Vectors/vec3 addition")]
+    public static Vector3 vec3Add(Vector3 a, Vector3 b) {
+        return (a + b);
+    }
+
     [Modules.Method("Vectors/vec3 normalize")]
     public static Vector3 vec3Normalize(Vector3 vector) {
         return vector.normalized;

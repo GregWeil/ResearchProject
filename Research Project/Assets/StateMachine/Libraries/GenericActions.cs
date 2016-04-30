@@ -8,4 +8,9 @@ public class GenericActions : Modules.Module {
         Debug.Log(value);
     }
 
+    [Modules.Method("GameObject/set active")]
+    public static void setActive(GameObject obj, bool active) {
+        obj.SetActive(active);
+    }
+
 }
