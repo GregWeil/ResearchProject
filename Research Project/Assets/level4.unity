@@ -15,9 +15,9 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 6
   m_Fog: 1
-  m_FogColor: {r: 0.5254902, g: 0.5529412, b: 0.34509805, a: 1}
+  m_FogColor: {r: 0.5294118, g: 0.42352942, b: 0.18039216, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.005
+  m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -13981,6 +13981,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11420052, guid: 08e3eef347923a24dbc54a25e7dd85d5, type: 2}
+      propertyPath: parameters.Array.size
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 466460, guid: 08e3eef347923a24dbc54a25e7dd85d5, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -14014,14 +14018,22 @@ Prefab:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11420052, guid: 08e3eef347923a24dbc54a25e7dd85d5, type: 2}
-      propertyPath: parameters.Array.data[4].serializedValue
-      value: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Vector3 xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
-        xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <x>0</x>\r\n  <y>4.5</y>\r\n
-        \ <z>57.5</z>\r\n</Vector3>"
+      propertyPath: states.Array.data[3].transitions.Array.data[0].conditions.Array.data[0].arguments.Array.data[1].style
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11420052, guid: 08e3eef347923a24dbc54a25e7dd85d5, type: 2}
+      propertyPath: states.Array.data[3].transitions.Array.data[0].conditions.Array.data[0].arguments.Array.data[1].serializedValue
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11420052, guid: 08e3eef347923a24dbc54a25e7dd85d5, type: 2}
       propertyPath: parameters.Array.data[5].serializedValue
       value: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>35</float>"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11420052, guid: 08e3eef347923a24dbc54a25e7dd85d5, type: 2}
+      propertyPath: parameters.Array.data[4].serializedValue
+      value: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Vector3 xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
+        xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <x>0</x>\r\n  <y>4.5</y>\r\n
+        \ <z>57.5</z>\r\n</Vector3>"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 08e3eef347923a24dbc54a25e7dd85d5, type: 2}
