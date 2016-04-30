@@ -12,6 +12,7 @@ public class AnimationSounds : MonoBehaviour {
     }
 
 	public void Footstep () {
+        source.pitch = Random.Range(0.8f, 1.2f);
         source.PlayOneShot(footstep);
     }
 }
