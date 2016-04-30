@@ -93,7 +93,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 29953754}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wrist_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 74593030}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 150722002}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 154463764}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ankle_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -203,7 +203,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 155196127}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: leftball_ik
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -230,7 +230,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 160244037}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: nurbsCircle1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -257,7 +257,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 193231336}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: toe_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -284,7 +284,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 231635642}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,6 +305,60 @@ Transform:
   - {fileID: 886389853}
   m_Father: {fileID: 1547112070}
   m_RootOrder: 0
+--- !u!1 &303657689
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 303657690}
+  - 65: {fileID: 303657691}
+  - 114: {fileID: 303657692}
+  m_Layer: 8
+  m_Name: Damage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &303657690
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 303657689}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.25, z: 1.5}
+  m_LocalScale: {x: 1, y: 2, z: 1}
+  m_Children: []
+  m_Father: {fileID: 526994472}
+  m_RootOrder: 1
+--- !u!65 &303657691
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 303657689}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &303657692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 303657689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a946faa02eaf9e44c8dbc491d653cdf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageRate: 0.3
+  instant: 1
 --- !u!1 &327342522
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,7 +367,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 327342523}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: leftleg_ik
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -340,7 +394,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 329505677}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: nurbsCircle12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -367,7 +421,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 348135416}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: nurbsCircle11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -394,7 +448,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 444462056}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: knee_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -422,7 +476,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 468007949}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: leftarm_ik
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -454,7 +508,7 @@ GameObject:
   - 114: {fileID: 526994469}
   - 54: {fileID: 526994468}
   - 136: {fileID: 526994467}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -489,7 +543,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 84
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &526994469
 MonoBehaviour:
@@ -541,6 +595,16 @@ MonoBehaviour:
     serializedType: CharacterHealth, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     serializedValue: 1
+  - name: Damage
+    serializedType: UnityEngine.GameObject, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedValue: 3
+  - name: Start Pos
+    serializedType: UnityEngine.Vector3, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Vector3 xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
+      xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <x>0</x>\r\n  <y>0</y>\r\n
+      \ <z>5</z>\r\n</Vector3>"
   states:
   - name: Entry
     transitions:
@@ -551,21 +615,29 @@ MonoBehaviour:
         serializedMethodType: GameObjectFilters, Assembly-CSharp, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         serializedMethodName: exists
-      serializedTo: 1
+      serializedTo: 3
     actions: []
-    position: {x: -9, y: -117}
+    position: {x: 17, y: -182}
   - name: Chase
     transitions:
     - conditions:
       - arguments:
         - style: 2
           serializedValue: 4
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: not
+      serializedTo: 4
+    - conditions:
+      - arguments:
+        - style: 2
+          serializedValue: 5
         - style: 0
           serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>2</float>"
         serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isLessThan
-      serializedTo: 2
+      serializedTo: 5
     actions:
     - arguments:
       - style: 1
@@ -575,21 +647,99 @@ MonoBehaviour:
       serializedMethodType: CharacterMovementModule, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       serializedMethodName: setMovement
-    position: {x: -221, y: 27}
+    position: {x: -221, y: 29}
   - name: Idle
     transitions:
     - conditions:
       - arguments:
         - style: 2
-          serializedValue: 6
+          serializedValue: 8
         - style: 0
-          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>6</float>"
+          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>4</float>"
         serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         serializedMethodName: isGreaterThan
       serializedTo: 1
+    - conditions:
+      - arguments:
+        - style: 2
+          serializedValue: 11
+        serializedMethodType: BooleanFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: not
+      serializedTo: 4
     actions: []
-    position: {x: 46, y: 53}
+    position: {x: 22, y: 32}
+  - name: Waiting
+    transitions:
+    - conditions:
+      - arguments:
+        - style: 2
+          serializedValue: 12
+        - style: 0
+          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>15</float>"
+        serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isLessThan
+      serializedTo: 1
+    actions: []
+    position: {x: -125, y: -94}
+  - name: Reset
+    transitions:
+    - conditions:
+      - arguments:
+        - style: 2
+          serializedValue: 16
+        - style: 0
+          serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>1</float>"
+        serializedMethodType: MathFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedMethodName: isLessThan
+      serializedTo: 3
+    actions:
+    - arguments:
+      - style: 1
+        serializedValue: 1
+      - style: 2
+        serializedValue: 15
+      serializedMethodType: CharacterMovementModule, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      serializedMethodName: setMovement
+    position: {x: 41, y: -74}
+  - name: Attack
+    transitions:
+    - conditions: []
+      serializedTo: 6
+    actions:
+    - arguments:
+      - style: 1
+        serializedValue: 3
+      - style: 0
+        serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<boolean>true</boolean>"
+      serializedMethodType: GenericActions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      serializedMethodName: setActive
+    - arguments:
+      - style: 0
+        serializedValue: 4
+      serializedMethodType: EnemyModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      serializedMethodName: animTrigger
+    position: {x: -256, y: 161}
+  - name: Attack end
+    transitions:
+    - conditions: []
+      serializedTo: 2
+    actions:
+    - arguments:
+      - style: 1
+        serializedValue: 3
+      - style: 0
+        serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<boolean>false</boolean>"
+      serializedMethodType: GenericActions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      serializedMethodName: setActive
+    position: {x: -35, y: 169}
   serializedInitialState: 0
   serializedFilters:
   - arguments: []
@@ -614,34 +764,90 @@ MonoBehaviour:
     serializedMethodType: PlayerModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     serializedMethodName: getPlayerGameObject
+  - arguments: []
+    serializedMethodType: PlayerModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: isAlive
   - arguments:
     - style: 1
       serializedValue: 0
     - style: 2
-      serializedValue: 5
-    serializedMethodType: GameObjectFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      serializedValue: 6
+    serializedMethodType: EnemyModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    serializedMethodName: distance
-  - arguments: []
-    serializedMethodType: PlayerModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    serializedMethodName: getPlayerGameObject
+    serializedMethodName: distanceTo
   - arguments:
-    - style: 1
-      serializedValue: 0
     - style: 2
       serializedValue: 7
     serializedMethodType: GameObjectFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    serializedMethodName: distance
+    serializedMethodName: position
   - arguments: []
     serializedMethodType: PlayerModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     serializedMethodName: getPlayerGameObject
+  - arguments:
+    - style: 1
+      serializedValue: 0
+    - style: 2
+      serializedValue: 9
+    serializedMethodType: EnemyModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: distanceTo
+  - arguments:
+    - style: 2
+      serializedValue: 10
+    serializedMethodType: GameObjectFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: position
+  - arguments: []
+    serializedMethodType: PlayerModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: getPlayerGameObject
+  - arguments: []
+    serializedMethodType: PlayerModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: isAlive
+  - arguments:
+    - style: 1
+      serializedValue: 0
+    - style: 2
+      serializedValue: 13
+    serializedMethodType: EnemyModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: distanceTo
+  - arguments:
+    - style: 2
+      serializedValue: 14
+    serializedMethodType: GameObjectFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: position
+  - arguments: []
+    serializedMethodType: PlayerModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: getPlayerGameObject
+  - arguments:
+    - style: 1
+      serializedValue: 0
+    - style: 1
+      serializedValue: 4
+    serializedMethodType: EnemyModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: movementTowards
+  - arguments:
+    - style: 1
+      serializedValue: 0
+    - style: 1
+      serializedValue: 4
+    serializedMethodType: EnemyModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: distanceTo
   serializedObjects:
   - {fileID: 526994470}
   - {fileID: 526994469}
   - {fileID: 526994466}
+  - {fileID: 303657689}
+  - {fileID: 1476562488}
 --- !u!4 &526994472
 Transform:
   m_ObjectHideFlags: 0
@@ -649,10 +855,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 526994466}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1476562487}
+  - {fileID: 303657690}
   m_Father: {fileID: 0}
   m_RootOrder: 3
 --- !u!1 &575489728
@@ -663,7 +870,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 575489729}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -692,7 +899,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 593371753}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: rightankle_ik
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -781,11 +988,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 631393483}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0}
-  m_LocalScale: {x: 25, y: 1, z: 25}
+  m_LocalPosition: {x: 0, y: -1, z: -10}
+  m_LocalScale: {x: 5, y: 1, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 5
 --- !u!1 &641201489
 GameObject:
   m_ObjectHideFlags: 0
@@ -794,7 +1001,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 641201490}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: core
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -824,7 +1031,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 653249863}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: nurbsCircle14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -851,7 +1058,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 663159940}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: leftankle_ik
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -878,7 +1085,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 705893916}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: foot_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -906,7 +1113,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 721042038}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: hoplite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -939,7 +1146,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 766855726}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: nurbsCircle15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -966,7 +1173,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 872925956}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: nurbsCircle3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -993,7 +1200,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 886389853}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: rightball_ik
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1020,7 +1227,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 939401142}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: toe_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1056,7 +1263,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 489588, guid: 77e9c272cec97db4d8bda6397c6abac2, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -10
+      value: -17.5
       objectReference: {fileID: 0}
     - target: {fileID: 489588, guid: 77e9c272cec97db4d8bda6397c6abac2, type: 2}
       propertyPath: m_LocalRotation.x
@@ -1089,7 +1296,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1076737655}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: shoulder_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1117,7 +1324,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1084613548}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: nurbsCircle6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1144,7 +1351,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1089103381}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: hip_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1172,7 +1379,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1094851929}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1200,7 +1407,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1100869252}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1228,7 +1435,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1160571244}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: elbow_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1256,7 +1463,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1184679435}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: rightarm_ik
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1283,7 +1490,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1191085870}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: nurbsCircle13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1302,6 +1509,81 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1476562487}
   m_RootOrder: 15
+--- !u!1 &1195479086
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1195479090}
+  - 33: {fileID: 1195479089}
+  - 65: {fileID: 1195479088}
+  - 23: {fileID: 1195479087}
+  m_Layer: 9
+  m_Name: Floor Enemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &1195479087
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1195479086}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!65 &1195479088
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1195479086}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &1195479089
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1195479086}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1195479090
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1195479086}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalScale: {x: 100, y: 1, z: 100}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
 --- !u!1 &1279869779
 GameObject:
   m_ObjectHideFlags: 0
@@ -1310,7 +1592,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1279869780}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1337,7 +1619,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1285387733}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: nurbsCircle10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1425,7 +1707,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1300517803}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1444,6 +1726,81 @@ Transform:
   m_Children: []
   m_Father: {fileID: 74593030}
   m_RootOrder: 0
+--- !u!1 &1381251952
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1381251956}
+  - 33: {fileID: 1381251955}
+  - 65: {fileID: 1381251954}
+  - 23: {fileID: 1381251953}
+  m_Layer: 0
+  m_Name: Entrance
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &1381251953
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1381251952}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!65 &1381251954
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1381251952}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &1381251955
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1381251952}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1381251956
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1381251952}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1, z: -17.5}
+  m_LocalScale: {x: 10, y: 1, z: 10}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
 --- !u!1 &1476562486
 GameObject:
   m_ObjectHideFlags: 0
@@ -1453,7 +1810,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1476562487}
   - 95: {fileID: 1476562488}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: hoplite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1516,7 +1873,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1532026516}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: nurbsCircle2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1543,7 +1900,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1536414293}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: nurbsCircle4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1570,7 +1927,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1547112070}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: rightfootiks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1599,7 +1956,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1566247916}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: elbow_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1627,7 +1984,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1572426923}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: hip_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1655,7 +2012,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1648954299}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: abdomen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1685,7 +2042,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1685221951}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: foot_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1713,7 +2070,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1731266893}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: nurbsCircle7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1740,7 +2097,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1745445300}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: knee_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1768,7 +2125,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1843880642}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1796,7 +2153,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1869367569}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: shoulder_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1824,7 +2181,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1873294025}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: rightleg_ik
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1851,7 +2208,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1905102767}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ankle_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1879,7 +2236,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1939509104}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: nurbsCircle8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1906,7 +2263,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1953155363}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: leftfootiks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1936,7 +2293,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 2072164662}
   - 137: {fileID: 2072164663}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: hoplite3:Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2021,7 +2378,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 2085997383}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: nurbsCircle5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2048,7 +2405,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 2111254222}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wrist_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2075,7 +2432,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 2113256348}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2103,7 +2460,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 2129155206}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: nurbsCircle9
   m_TagString: Untagged
   m_Icon: {fileID: 0}

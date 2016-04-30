@@ -22,6 +22,7 @@ public class CharacterMovement : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         body = GetComponent<Rigidbody>();
+        body.maxAngularVelocity = float.MaxValue;
         anim = GetComponentInChildren<Animator>();
 	}
 	
@@ -70,7 +71,7 @@ public class CharacterMovement : MonoBehaviour {
             rotGoal = (body.rotation * Quaternion.AngleAxis(groundBody.angularVelocity.y * Time.fixedDeltaTime * Mathf.Rad2Deg, Vector3.up));
         }
         if (movement.magnitude > 0.1f) {
-            rotGoal = (Quaternion.RotateTowards(body.rotation, Quaternion.LookRotation(movement, Vector3.up), (500.0f * Time.fixedDeltaTime)));
+            rotGoal = (Quaternion.RotateTowards(body.rotation, Quaternion.LookRotation(movement, Vector3.up), (1000.0f * Time.fixedDeltaTime)));
         }
         Vector3 rotDelta = (rotGoal * Quaternion.Inverse(body.rotation)).eulerAngles;
         if (rotDelta.x > 180f) rotDelta.x -= 360f;
