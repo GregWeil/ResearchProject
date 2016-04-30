@@ -5,6 +5,9 @@ public class CharacterMovement : MonoBehaviour {
 
     public float walkSpeed = 5.5f;
 
+    public AudioSource soundJump = null;
+    public AudioSource soundLand = null;
+
     //Desired velocity
     Vector3 movement = Vector3.zero;
     bool jump = false;
@@ -15,6 +18,7 @@ public class CharacterMovement : MonoBehaviour {
     Vector3 groundNormal = Vector3.up;
     float groundAngle = 0f;
     GameObject groundObject = null;
+    bool groundedLast = false;
     
     Rigidbody body = null;
     Animator anim = null;
@@ -34,6 +38,10 @@ public class CharacterMovement : MonoBehaviour {
             groundAngle = 0f;
         } else {
             groundBody = groundObject.GetComponent<Rigidbody>();
+        }
+
+        if (grounded && !groundedLast && !jump) {
+            if (soundLand != null) soundLand.Play();
         }
 
         //Apply gravity
@@ -88,6 +96,7 @@ public class CharacterMovement : MonoBehaviour {
         movement = Vector3.zero;
 
         //Reset grounded
+        groundedLast = grounded;
         grounded = false;
         groundContact = Vector3.zero;
         groundNormal = Vector3.up;
@@ -129,6 +138,7 @@ public class CharacterMovement : MonoBehaviour {
         if (newJump && !jump && grounded) {
             body.velocity = new Vector3(body.velocity.x, 15f, body.velocity.z);
             grounded = false;
+            if (soundJump != null) soundJump.Play();
         }
         jump = newJump;
     }
