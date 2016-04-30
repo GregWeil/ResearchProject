@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
 
     float stun = 0f;
     bool attack = false;
+    bool attackCanceled = false;
 
 	// Use this for initialization
 	void Start () {
@@ -22,11 +23,10 @@ public class Player : MonoBehaviour {
     void FixedUpdate () {
 
         ///Attack
-        damageField.SetActive(false);
         if (attack && health.Alive() && movement.getGrounded() && !(stun > 0f)) {
-            stun = 0.5f;
+            Stun(0.75f);
             anim.SetTrigger("Attack");
-            damageField.SetActive(true);
+            StartCoroutine("Attack");
         }
         attack = false;
 
@@ -54,9 +54,22 @@ public class Player : MonoBehaviour {
 
     }
 
-    void Stun () {
-        stun = 0.2f;
+    void Stun (float time) {
+        attackCanceled = true;
+        stun = Mathf.Max(stun, time);
     }
+
+    IEnumerator Attack () {
+        attackCanceled = false;
+        yield return new WaitForSeconds(0.4f);
+        if (!attackCanceled) {
+            yield return new WaitForFixedUpdate();
+            damageField.SetActive(true);
+            yield return new WaitForFixedUpdate();
+            damageField.SetActive(false);
+        }
+    }
+
 }
 
 public class PlayerModule : StateMachineUtilities.Modules.Module {

@@ -432,7 +432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a946faa02eaf9e44c8dbc491d653cdf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageRate: 0.3
+  damageRate: 0.35
   instant: 1
 --- !u!1 &327342522
 GameObject:
@@ -820,6 +820,14 @@ MonoBehaviour:
       serializedMethodType: CharacterMovementModule, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       serializedMethodName: setMovement
+    - arguments:
+      - style: 1
+        serializedValue: 2
+      - style: 0
+        serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<float>1</float>"
+      serializedMethodType: CharacterHealthModule, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      serializedMethodName: setHealth
     position: {x: 41, y: -74}
   - name: Attack start
     transitions:
