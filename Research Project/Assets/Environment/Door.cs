@@ -6,6 +6,10 @@ public class Door : MonoBehaviour {
     [SerializeField]
     private bool locked = false;
 
+    public AudioSource sound = null;
+    public AudioClip soundLock = null;
+    public AudioClip soundUnlock = null;
+
     private bool usedKey = false;
 
     HingeJoint hinge = null;
@@ -31,6 +35,10 @@ public class Door : MonoBehaviour {
     }
 
     public void setLocked(bool newLocked) {
+        if (locked != newLocked) {
+            if (newLocked) sound.PlayOneShot(soundLock);
+            else if (!newLocked) sound.PlayOneShot(soundUnlock);
+        }
         locked = newLocked;
         hinge.useSpring = locked;
         objLocked.SetActive(locked || usedKey);
