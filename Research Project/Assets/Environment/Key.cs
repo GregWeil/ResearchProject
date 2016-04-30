@@ -5,6 +5,8 @@ public class Key : MonoBehaviour {
 
     public Door door;
 
+    public AudioSource sound = null;
+
     bool used = false;
     Vector3 targetPos = Vector3.zero;
     Quaternion targetRot = Quaternion.identity;
@@ -40,6 +42,7 @@ public class Key : MonoBehaviour {
     void OnTriggerEnter(Collider col) {
         if (col.CompareTag("Player") && !used) {
             used = true;
+            sound.Play();
             StartCoroutine("activate");
         }
     }
