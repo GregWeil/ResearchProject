@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System.Collections.Generic;
 using System.Linq;
 
 using StateMachineUtilities;
@@ -7,8 +8,8 @@ using StateMachineUtilities;
 [CustomEditor(typeof(StateMachine))]
 public class StateMachineInspector : Editor {
     
-    string[] typeNames = { "Bool", "Float", "Integer", "Vector2", "Vector3", "Door", "Button" };
-    System.Type[] typeTypes = { typeof(bool), typeof(float), typeof(int), typeof(Vector2), typeof(Vector3), typeof(Door), typeof(Button) };
+    System.Type[] types = { typeof(bool), typeof(float), typeof(int), typeof(Vector3), typeof(GameObject) };
+    Dictionary<System.Type, string> typeNames = new Dictionary<System.Type, string> { { typeof(float), "Float" }, { typeof(int), "Integer" } };
     
     UnityEditorInternal.ReorderableList parameterGUI;
     
@@ -54,12 +55,13 @@ public class StateMachineInspector : Editor {
 
         parameterGUI.onAddDropdownCallback = (Rect rect, UnityEditorInternal.ReorderableList list) => {
             var menu = new GenericMenu();
-            for (var i = 0; i < Mathf.Min(typeTypes.Length, typeNames.Length); ++i) {
-                var type = typeTypes[i];
-                menu.AddItem(new GUIContent(typeNames[i]), false, () => {
+            for (var i = 0; i < types.Length; ++i) {
+                var type = types[i];
+                var name = typeNames.ContainsKey(type) ? typeNames[type] : type.Name;
+                menu.AddItem(new GUIContent(name), false, () => {
                     Undo.RecordObject(machine, "Add Parameter");
                     var param = new Parameter();
-                    param.name = "New Parameter";
+                    param.name = "New " + name + " Parameter";
                     param.type = type;
                     list.list.Add(param);
                     Undo.IncrementCurrentGroup();
