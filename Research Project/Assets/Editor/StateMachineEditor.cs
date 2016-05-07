@@ -420,6 +420,7 @@ public class StateMachineEditor : EditorWindow {
     int guiArgumentDraw(Rect rect, Argument arg) {
         int rows = 1;
 
+        //Draw an editor for the current value
         var nameRect = new Rect(rect.x, rect.y, rect.width * 1f / 3f, rect.height * 0.75f);
         var typeRect = new Rect(nameRect.xMax, rect.y, rect.xMax - nameRect.xMax, nameRect.height);
         if (arg.style == Argument.Style.Constant) {
@@ -444,13 +445,16 @@ public class StateMachineEditor : EditorWindow {
             EditorGUI.LabelField(nameRect, arg.param.Name);
         }
 
+        //Start building a list of potential new values
         int currentValue = -1;
         var values = new List<object>();
         var names = new List<string>();
 
+        //Hardcode a value in directly
         if (arg.style == Argument.Style.Constant) currentValue = values.Count;
         values.Add(null); names.Add(arg.param.ParameterType.Name);
 
+        //Pick parameters that are compatible
         foreach (var param in machine.parameters.Where(param => Conversion.canConvert(param.type, arg.param.ParameterType))) {
             if ((arg.style == Argument.Style.Parameter) && (arg.value == param)) {
                 currentValue = values.Count;
@@ -458,6 +462,12 @@ public class StateMachineEditor : EditorWindow {
             values.Add(param); names.Add("Param/" + param.name);
         }
 
+        //Create a new parameter
+        if (arg.param.ParameterType != typeof(object)) {
+            values.Add(typeof(Parameter)); names.Add("Param/Create Parameter...");
+        }
+
+        //Pick methods that have a compatible return type
         foreach (var method in Modules.getFilters(arg.param.ParameterType)) {
             if ((arg.style == Argument.Style.Filter) && (((Method)arg.value).method == method)) {
                 currentValue = values.Count;
@@ -465,6 +475,7 @@ public class StateMachineEditor : EditorWindow {
             values.Add(method); names.Add(Modules.getMethodName(method));
         }
 
+        //Get the users choice and make a change if necessary
         int newValue = EditorGUI.Popup(typeRect, currentValue, names.ToArray());
         if (newValue != currentValue) {
             if (values[newValue] == null) {
@@ -475,7 +486,13 @@ public class StateMachineEditor : EditorWindow {
             } else if (values[newValue] is System.Reflection.MethodInfo) {
                 arg.style = Argument.Style.Filter;
                 arg.value = new Method((System.Reflection.MethodInfo)values[newValue]);
-
+            } else if (values[newValue] == typeof(Parameter)) {
+                var param = new Parameter();
+                param.type = arg.param.ParameterType;
+                param.name = "New Parameter";
+                machine.parameters.Add(param);
+                arg.style = Argument.Style.Parameter;
+                arg.value = param;
             }
         }
 

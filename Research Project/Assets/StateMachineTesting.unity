@@ -181,6 +181,9 @@ MonoBehaviour:
     serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Vector3 xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
       xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <x>0</x>\r\n  <y>0</y>\r\n
       \ <z>0</z>\r\n</Vector3>"
+  - name: New Parameter
+    serializedType: Button, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    serializedValue: 0
   states:
   - name: how long can a name be?
     transitions:
@@ -281,6 +284,12 @@ MonoBehaviour:
       serializedMethodType: GenericActions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       serializedMethodName: debugOutput
+    - arguments:
+      - style: 2
+        serializedValue: 8
+      serializedMethodType: GenericActions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      serializedMethodName: debugOutput
     position: {x: -290, y: 65}
   serializedInitialState: 3
   serializedFilters:
@@ -332,7 +341,14 @@ MonoBehaviour:
     serializedMethodType: VectorFilters, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     serializedMethodName: vec2Magnitude
-  serializedObjects: []
+  - arguments:
+    - style: 1
+      serializedValue: 5
+    serializedMethodType: ButtonModule, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedMethodName: getPressed
+  serializedObjects:
+  - {fileID: 1113207115}
 --- !u!4 &285233807
 Transform:
   m_ObjectHideFlags: 0
