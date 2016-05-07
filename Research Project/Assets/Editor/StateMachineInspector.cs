@@ -25,8 +25,8 @@ public class StateMachineInspector : Editor {
         parameterGUI.drawElementCallback = (Rect rect, int index, bool active, bool focused) => {
             var parameter = (Parameter)parameterGUI.list[index];
             
-            Rect rLabel = new Rect(rect.x, rect.y, rect.width / 2, rect.height);
-            Rect rValue = new Rect(rLabel.xMax, rect.y, rect.xMax - rLabel.xMax, rect.height);
+            Rect rLabel = new Rect(rect.x, (rect.y + (rect.height / 10)), (rect.width / 2), (rect.height * 0.75f));
+            Rect rValue = new Rect(rLabel.xMax, rLabel.y, (rect.xMax - rLabel.xMax), rLabel.height);
             rLabel.width -= 8;
 
             if (active) {

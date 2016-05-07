@@ -290,7 +290,7 @@ MonoBehaviour:
       serializedMethodType: GenericActions, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       serializedMethodName: debugOutput
-    position: {x: -290, y: 65}
+    position: {x: -305, y: 53}
   serializedInitialState: 3
   serializedFilters:
   - arguments:

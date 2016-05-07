@@ -437,7 +437,7 @@ public class StateMachineEditor : EditorWindow {
 
         //Draw an editor for the current value
         var nameRect = new Rect(rect.x, rect.y, rect.width * 1f / 3f, rect.height * 0.75f);
-        var typeRect = new Rect(nameRect.xMax, rect.y, rect.xMax - nameRect.xMax, nameRect.height);
+        var typeRect = new Rect(nameRect.xMax, nameRect.y, rect.xMax - nameRect.xMax, nameRect.height);
         if (arg.style == Argument.Style.Constant) {
             nameRect = new Rect(rect.x, nameRect.y, rect.width * 3f / 4f, nameRect.height);
             typeRect = new Rect(nameRect.xMax, typeRect.y, rect.xMax - nameRect.xMax, typeRect.height);
