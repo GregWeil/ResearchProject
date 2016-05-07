@@ -272,15 +272,27 @@ public class StateMachineEditor : EditorWindow {
         if (machine == null) {
             GUILayout.Label("No state machine selected!");
         } else {
+            //Ensure that whatever is selected is legitimate
+            if ((stateSelected != null) && !machine.states.Contains(stateSelected)) {
+                stateSelected = null;
+            } else if (transitionSelected != null) {
+                if (!machine.states.SelectMany(state => state.transitions).Contains(transitionSelected)) {
+                    transitionSelected = null;
+                }
+            }
+
+            //Draw main view content
             DrawTransitionLines();
             DrawStateWindows();
             
+            //Draw the side panel
             GUILayout.BeginArea(new Rect(0, 0, panelWidth, position.height), GUI.skin.box);
             if ((Event.current.type != EventType.Used) && (Event.current.type != EventType.Ignore)) {
                 DrawPanelContent();
             }
             GUILayout.EndArea();
 
+            //Process the event
             eventWindow(Event.current);
             if (Event.current.type == EventType.MouseDown) {
                 Repaint();
