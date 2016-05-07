@@ -70,7 +70,7 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
         method.serializedMethodName = method.method.Name;
         foreach (var argument in method.arguments) {
             if (argument.style == Argument.Style.Constant) {
-                argument.serializedValue = Serialization.serializeObject(this, argument.value, argument.param.ParameterType);
+                argument.serializedValue = Serialization.serializeObject(this, argument.value, argument.type);
             } else if (argument.style == Argument.Style.Parameter) {
                 argument.serializedValue = parameters.IndexOf((Parameter)argument.value).ToString();
             } else if (argument.style == Argument.Style.Filter) {
@@ -85,11 +85,12 @@ public class StateMachine : MonoBehaviour, ISerializationCallbackReceiver {
         method.method = System.Type.GetType(method.serializedMethodType).GetMethod(method.serializedMethodName);
         var methodArguments = method.method.GetParameters();
         for (var i = 0; i < methodArguments.Length; ++i) {
-            method.arguments[i].param = methodArguments[i];
+            method.arguments[i].name = methodArguments[i].Name;
+            method.arguments[i].type = methodArguments[i].ParameterType;
         }
         foreach (var argument in method.arguments) {
             if (argument.style == Argument.Style.Constant) {
-                argument.value = Serialization.deserializeObject(this, argument.serializedValue, argument.param.ParameterType);
+                argument.value = Serialization.deserializeObject(this, argument.serializedValue, argument.type);
             } else if (argument.style == Argument.Style.Parameter) {
                 argument.value = parameters[int.Parse(argument.serializedValue)];
             } else if (argument.style == Argument.Style.Filter) {

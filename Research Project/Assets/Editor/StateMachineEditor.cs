@@ -439,22 +439,22 @@ public class StateMachineEditor : EditorWindow {
             nameRect = new Rect(rect.x, nameRect.y, rect.width * 3f / 4f, nameRect.height);
             typeRect = new Rect(nameRect.xMax, typeRect.y, rect.xMax - nameRect.xMax, typeRect.height);
             EditorGUIUtility.labelWidth = nameRect.width * (1f / 3f) / (3f / 4f);
-            if (arg.param.ParameterType == typeof(bool)) {
-                arg.value = EditorGUI.Toggle(nameRect, arg.param.Name, (bool)arg.value);
-            } else if (arg.param.ParameterType == typeof(float)) {
-                arg.value = EditorGUI.FloatField(nameRect, arg.param.Name, (float)arg.value);
-            } else if (arg.param.ParameterType == typeof(int)) {
-                arg.value = EditorGUI.IntField(nameRect, arg.param.Name, (int)arg.value);
-            } else if (arg.param.ParameterType == typeof(Vector2)) {
-                arg.value = EditorGUI.Vector2Field(nameRect, arg.param.Name, (Vector2)arg.value);
-            } else if (arg.param.ParameterType == typeof(Vector3)) {
-                arg.value = EditorGUI.Vector3Field(nameRect, arg.param.Name, (Vector3)arg.value);
-            } else if (arg.param.ParameterType.IsSubclassOf(typeof(Object))) {
-                arg.value = EditorGUI.ObjectField(nameRect, arg.param.Name, (Object)arg.value, arg.param.ParameterType, true);
+            if (arg.type == typeof(bool)) {
+                arg.value = EditorGUI.Toggle(nameRect, arg.name, (bool)arg.value);
+            } else if (arg.type == typeof(float)) {
+                arg.value = EditorGUI.FloatField(nameRect, arg.name, (float)arg.value);
+            } else if (arg.type == typeof(int)) {
+                arg.value = EditorGUI.IntField(nameRect, arg.name, (int)arg.value);
+            } else if (arg.type == typeof(Vector2)) {
+                arg.value = EditorGUI.Vector2Field(nameRect, arg.name, (Vector2)arg.value);
+            } else if (arg.type == typeof(Vector3)) {
+                arg.value = EditorGUI.Vector3Field(nameRect, arg.name, (Vector3)arg.value);
+            } else if (arg.type.IsSubclassOf(typeof(Object))) {
+                arg.value = EditorGUI.ObjectField(nameRect, arg.name, (Object)arg.value, arg.type, true);
             }
             EditorGUIUtility.labelWidth = 0;
         } else {
-            EditorGUI.LabelField(nameRect, arg.param.Name);
+            EditorGUI.LabelField(nameRect, arg.name);
         }
 
         //Start building a list of potential new values
@@ -464,10 +464,10 @@ public class StateMachineEditor : EditorWindow {
 
         //Hardcode a value in directly
         if (arg.style == Argument.Style.Constant) currentValue = values.Count;
-        values.Add(null); names.Add(arg.param.ParameterType.Name);
+        values.Add(null); names.Add(arg.type.Name);
 
         //Pick parameters that are compatible
-        foreach (var param in machine.parameters.Where(param => Conversion.canConvert(param.type, arg.param.ParameterType))) {
+        foreach (var param in machine.parameters.Where(param => Conversion.canConvert(param.type, arg.type))) {
             if ((arg.style == Argument.Style.Parameter) && (arg.value == param)) {
                 currentValue = values.Count;
             }
@@ -475,12 +475,12 @@ public class StateMachineEditor : EditorWindow {
         }
 
         //Create a new parameter
-        if (arg.param.ParameterType != typeof(object)) {
+        if (arg.type != typeof(object)) {
             values.Add(typeof(Parameter)); names.Add("Param/Create Parameter...");
         }
 
         //Pick methods that have a compatible return type
-        foreach (var method in Modules.getFilters(arg.param.ParameterType)) {
+        foreach (var method in Modules.getFilters(arg.type)) {
             if ((arg.style == Argument.Style.Filter) && (((Method)arg.value).method == method)) {
                 currentValue = values.Count;
             }
@@ -500,7 +500,7 @@ public class StateMachineEditor : EditorWindow {
                 arg.value = new Method((System.Reflection.MethodInfo)values[newValue]);
             } else if (values[newValue] == typeof(Parameter)) {
                 var param = new Parameter();
-                param.type = arg.param.ParameterType;
+                param.type = arg.type;
                 param.name = "New Parameter";
                 machine.parameters.Add(param);
                 arg.style = Argument.Style.Parameter;

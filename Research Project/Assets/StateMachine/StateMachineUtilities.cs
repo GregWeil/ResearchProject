@@ -66,7 +66,8 @@ namespace StateMachineUtilities {
             arguments = new Argument[methodArguments.Length];
             for (var i = 0; i < methodArguments.Length; ++i) {
                 arguments[i] = new Argument();
-                arguments[i].param = methodArguments[i];
+                arguments[i].name = methodArguments[i].Name;
+                arguments[i].type = methodArguments[i].ParameterType;
             }
         }
 
@@ -86,10 +87,12 @@ namespace StateMachineUtilities {
 
         public Style style = Style.Constant;
         [System.NonSerialized]
-        public System.Reflection.ParameterInfo param = null;
+        public string name = string.Empty;
+        [System.NonSerialized]
+        public System.Type type = typeof(object);
         public object value {
             get {
-                System.Type reqType = param.ParameterType;
+                System.Type reqType = type;
                 if (style == Style.Filter) {
                     reqType = typeof(Method);
                 } else if (style == Style.Parameter) {
@@ -105,7 +108,7 @@ namespace StateMachineUtilities {
                 return internalValue;
             }
             set {
-                System.Type reqType = param.ParameterType;
+                System.Type reqType = type;
                 if (style == Style.Filter) {
                     reqType = typeof(Method);
                 } else if (style == Style.Parameter) {
