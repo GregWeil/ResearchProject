@@ -24,33 +24,43 @@ public class StateMachineInspector : Editor {
 
         parameterGUI.drawElementCallback = (Rect rect, int index, bool active, bool focused) => {
             var parameter = (Parameter)parameterGUI.list[index];
-            Undo.RecordObject(machine, "Modify Parameter");
             
             Rect rLabel = new Rect(rect.x, rect.y, rect.width / 2, rect.height);
             Rect rValue = new Rect(rLabel.xMax, rect.y, rect.xMax - rLabel.xMax, rect.height);
             rLabel.width -= 8;
 
             if (active) {
-                parameter.name = EditorGUI.TextField(rLabel, parameter.name);
+                EditorGUI.BeginChangeCheck();
+                string name = EditorGUI.TextField(rLabel, parameter.name);
+                if (EditorGUI.EndChangeCheck()) {
+                    Undo.RecordObject(machine, "Rename Parameter");
+                    parameter.name = name;
+                }
             } else {
                 EditorGUI.LabelField(rLabel, parameter.name);
             }
 
+            EditorGUI.BeginChangeCheck();
+            object value = parameter.value;
             EditorGUIUtility.labelWidth = 36;
             if (parameter.type == typeof(bool)) {
-                parameter.value = EditorGUI.Toggle(rValue, "Bool", (bool)parameter.value);
+                value = EditorGUI.Toggle(rValue, "Bool", (bool)value);
             } else if (parameter.type == typeof(float)) {
-                parameter.value = EditorGUI.FloatField(rValue, "Float", (float)parameter.value);
+                value = EditorGUI.FloatField(rValue, "Float", (float)value);
             } else if (parameter.type == typeof(int)) {
-                parameter.value = EditorGUI.IntField(rValue, "Int", (int)parameter.value);
+                value = EditorGUI.IntField(rValue, "Int", (int)value);
             } else if (parameter.type == typeof(Vector2)) {
-                parameter.value = EditorGUI.Vector2Field(rValue, GUIContent.none, (Vector2)parameter.value);
+                value = EditorGUI.Vector2Field(rValue, GUIContent.none, (Vector2)value);
             } else if (parameter.type == typeof(Vector3)) {
-                parameter.value = EditorGUI.Vector3Field(rValue, GUIContent.none, (Vector3)parameter.value);
+                value = EditorGUI.Vector3Field(rValue, GUIContent.none, (Vector3)value);
             } else if (parameter.type.IsSubclassOf(typeof(Object))) {
-                parameter.value = EditorGUI.ObjectField(rValue, GUIContent.none, (Object)parameter.value, parameter.type, true);
+                value = EditorGUI.ObjectField(rValue, GUIContent.none, (Object)value, parameter.type, true);
             }
             EditorGUIUtility.labelWidth = 0;
+            if (EditorGUI.EndChangeCheck()) {
+                Undo.RecordObject(machine, "Modify Parameter");
+                parameter.value = value;
+            }
         };
 
         parameterGUI.onAddDropdownCallback = (Rect rect, UnityEditorInternal.ReorderableList list) => {

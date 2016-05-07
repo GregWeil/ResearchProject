@@ -390,19 +390,22 @@ public class StateMachineEditor : EditorWindow {
 
         EditorGUILayout.BeginVertical(GUI.skin.box);
         if (stateSelected != null) {
-            if ((Event.current.type != EventType.Layout) && (Event.current.type != EventType.Repaint)) {
+            EditorGUI.BeginChangeCheck();
+            var name = EditorGUILayout.TextField(stateSelected.name);
+            if (EditorGUI.EndChangeCheck()) {
                 Undo.RecordObject(machine, "Modify State");
+                stateSelected.name = name;
             }
-            stateSelected.name = EditorGUILayout.TextField(stateSelected.name);
             EditorGUILayout.Space();
             actionGUI.list = stateSelected.actions;
             actionGUI.DoLayoutList();
         } else if (transitionSelected != null) {
-            if ((Event.current.type != EventType.Layout) && (Event.current.type != EventType.Repaint)) {
-                Undo.RecordObject(machine, "Modify Transition");
-            }
+            EditorGUI.BeginChangeCheck();
             EditorGUILayout.LabelField(transitionSelected.from.name);
             EditorGUILayout.LabelField(transitionSelected.to.name);
+            if (EditorGUI.EndChangeCheck()) {
+                Undo.RecordObject(machine, "Modify Transition");
+            }
             EditorGUILayout.Space();
             conditionGUI.list = transitionSelected.conditions;
             conditionGUI.DoLayoutList();
@@ -438,21 +441,27 @@ public class StateMachineEditor : EditorWindow {
         if (arg.style == Argument.Style.Constant) {
             nameRect = new Rect(rect.x, nameRect.y, rect.width * 3f / 4f, nameRect.height);
             typeRect = new Rect(nameRect.xMax, typeRect.y, rect.xMax - nameRect.xMax, typeRect.height);
+            EditorGUI.BeginChangeCheck();
+            object value = arg.value;
             EditorGUIUtility.labelWidth = nameRect.width * (1f / 3f) / (3f / 4f);
             if (arg.type == typeof(bool)) {
-                arg.value = EditorGUI.Toggle(nameRect, arg.name, (bool)arg.value);
+                value = EditorGUI.Toggle(nameRect, arg.name, (bool)value);
             } else if (arg.type == typeof(float)) {
-                arg.value = EditorGUI.FloatField(nameRect, arg.name, (float)arg.value);
+                value = EditorGUI.FloatField(nameRect, arg.name, (float)value);
             } else if (arg.type == typeof(int)) {
-                arg.value = EditorGUI.IntField(nameRect, arg.name, (int)arg.value);
+                value = EditorGUI.IntField(nameRect, arg.name, (int)value);
             } else if (arg.type == typeof(Vector2)) {
-                arg.value = EditorGUI.Vector2Field(nameRect, arg.name, (Vector2)arg.value);
+                value = EditorGUI.Vector2Field(nameRect, arg.name, (Vector2)value);
             } else if (arg.type == typeof(Vector3)) {
-                arg.value = EditorGUI.Vector3Field(nameRect, arg.name, (Vector3)arg.value);
+                value = EditorGUI.Vector3Field(nameRect, arg.name, (Vector3)value);
             } else if (arg.type.IsSubclassOf(typeof(Object))) {
-                arg.value = EditorGUI.ObjectField(nameRect, arg.name, (Object)arg.value, arg.type, true);
+                value = EditorGUI.ObjectField(nameRect, arg.name, (Object)value, arg.type, true);
             }
             EditorGUIUtility.labelWidth = 0;
+            if (EditorGUI.EndChangeCheck()) {
+                Undo.RecordObject(machine, "Modify Argument");
+                arg.value = value;
+            }
         } else {
             EditorGUI.LabelField(nameRect, arg.name);
         }
@@ -490,6 +499,7 @@ public class StateMachineEditor : EditorWindow {
         //Get the users choice and make a change if necessary
         int newValue = EditorGUI.Popup(typeRect, currentValue, names.ToArray());
         if (newValue != currentValue) {
+            Undo.RecordObject(machine, "Change Argument");
             if (values[newValue] == null) {
                 arg.style = Argument.Style.Constant;
             } else if (values[newValue] is Parameter) {
@@ -506,6 +516,7 @@ public class StateMachineEditor : EditorWindow {
                 arg.style = Argument.Style.Parameter;
                 arg.value = param;
             }
+            Undo.IncrementCurrentGroup();
         }
 
         if (arg.style == Argument.Style.Filter) {
@@ -534,7 +545,6 @@ public class StateMachineEditor : EditorWindow {
 
         gui.drawElementCallback = (Rect rect, int index, bool active, bool focused) => {
             var action = (Method)gui.list[index];
-            Undo.RecordObject(machine, "Modify Action");
             EditorGUI.LabelField(rect, Modules.getMethodName(action.method));
             guiArgumentsDraw(rect, action.arguments);
         };
@@ -571,7 +581,6 @@ public class StateMachineEditor : EditorWindow {
 
         gui.drawElementCallback = (Rect rect, int index, bool active, bool focused) => {
             var cond = (Method)gui.list[index];
-            Undo.RecordObject(machine, "Modify Condition");
             EditorGUI.LabelField(rect, Modules.getMethodName(cond.method));
             guiArgumentsDraw(rect, cond.arguments);
         };
