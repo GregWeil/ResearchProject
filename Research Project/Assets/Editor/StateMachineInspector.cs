@@ -70,6 +70,42 @@ public class StateMachineInspector : Editor {
             menu.ShowAsContext();
         };
         parameterGUI.onRemoveCallback = (UnityEditorInternal.ReorderableList list) => {
+            //Keep a list of everywhere the parameter is used
+            List<Argument> uses = new List<Argument>();
+
+            //Build the list of parameter uses
+            List<Method> methods = new List<Method>();
+            methods.AddRange(machine.states.SelectMany(state => state.actions));
+            methods.AddRange(machine.states.SelectMany(state => state.transitions).SelectMany(transition => transition.conditions));
+            while (methods.Count > 0) {
+                Method method = methods[0];
+                foreach (var argument in method.arguments) {
+                    if (argument.style == Argument.Style.Parameter) {
+                        if (argument.value == list.list[list.index]) {
+                            uses.Add(argument);
+                        }
+                    } else if (argument.style == Argument.Style.Filter) {
+                        methods.Add((Method)argument.value);
+                    }
+                }
+                methods.RemoveAt(0);
+            }
+
+            //If it is being used, confirm with the user
+            if (uses.Count > 0) {
+                if (!EditorUtility.DisplayDialog("Delete Parameter?", "The parameter '" + ((Parameter)list.list[list.index]).name +
+                    "' is referenced in " + uses.Count + " " + (uses.Count > 1 ? "places" : "place") + ". Are you sure?", "Yes", "Cancel"))
+                {
+                    return;
+                }
+            }
+
+            //Clear any references to the parameter
+            foreach (var argument in uses) {
+                argument.style = Argument.Style.Constant;
+            }
+
+            //Actually remove the parameter
             Undo.RecordObject(machine, "Remove Parameter");
             UnityEditorInternal.ReorderableList.defaultBehaviours.DoRemoveButton(list);
             Undo.IncrementCurrentGroup();

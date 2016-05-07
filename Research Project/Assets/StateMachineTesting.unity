@@ -181,7 +181,7 @@ MonoBehaviour:
     serializedValue: "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<Vector3 xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
       xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <x>0</x>\r\n  <y>0</y>\r\n
       \ <z>0</z>\r\n</Vector3>"
-  - name: New Parameter
+  - name: Button
     serializedType: Button, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     serializedValue: 0
   states:
