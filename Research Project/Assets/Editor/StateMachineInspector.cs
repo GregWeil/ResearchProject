@@ -100,13 +100,10 @@ public class StateMachineInspector : Editor {
                 }
             }
 
-            //Clear any references to the parameter
+            Undo.RecordObject(machine, "Remove Parameter");
             foreach (var argument in uses) {
                 argument.style = Argument.Style.Constant;
             }
-
-            //Actually remove the parameter
-            Undo.RecordObject(machine, "Remove Parameter");
             UnityEditorInternal.ReorderableList.defaultBehaviours.DoRemoveButton(list);
             Undo.IncrementCurrentGroup();
         };
